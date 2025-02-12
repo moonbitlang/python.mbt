@@ -40,20 +40,20 @@ fn PyInteger::get_obj(self: PyInteger) -> @cpython.PyObjectRef {
 
 pub fn PyInteger::new(value: Int64) -> PyInteger {
   PyInteger::{
-    obj: PyObject::create(@cpython.pylong_from_long(value))
+    obj: PyObject::create(@cpython.py_long_from_long(value))
   }
 }
 
 pub fn PyInteger::to_int64(self: PyInteger) -> Int64 {
-  @cpython.pylong_as_long(self.get_obj())
+  @cpython.py_long_as_long(self.get_obj())
 }
 
 pub fn PyInteger::to_double(self: PyInteger) -> Double {
-  @cpython.pylong_as_double(self.get_obj())
+  @cpython.py_long_as_double(self.get_obj())
 }
 
 // ========================================
-// PyList
+// py_list
 // ========================================
 pub struct PyList {
   priv obj: PyObject
@@ -71,7 +71,7 @@ pub fn PyList::new(size~:Int = 0) -> PyList {
   }
 
   PyList::{
-    obj: @cpython.pylist_new(size.to_uint64()) |> PyObject::create
+    obj: @cpython.py_list_new(size.to_uint64()) |> PyObject::create
   }
 }
 
@@ -83,20 +83,20 @@ pub fn PyList::create(obj: @cpython.PyObjectRef) -> PyList {
 }
 
 pub fn PyList::len(self: PyList) -> Int {
-  @cpython.pylist_size(self.get_obj()).to_int()
+  @cpython.py_list_size(self.get_obj()).to_int()
 }
 
 // REVIEW: the return value may have special meaning.
 pub fn PyList::append[T: IsPyObject](self: PyList, item: T) -> Unit {
-  let _ = @cpython.pylist_append(self.get_obj(), item.get_obj())
+  let _ = @cpython.py_list_append(self.get_obj(), item.get_obj())
 }
 
 pub fn PyList::sort(self: PyList) -> Unit {
-  let _ = @cpython.pylist_sort(self.get_obj())
+  let _ = @cpython.py_list_sort(self.get_obj())
 }
 
 pub fn PyList::reverse(self: PyList) -> Unit {
-  let _ = @cpython.pylist_reverse(self.get_obj())
+  let _ = @cpython.py_list_reverse(self.get_obj())
 }
 
 // ========================================
@@ -147,23 +147,23 @@ fn PyDict::get_obj(self: PyDict) -> @cpython.PyObjectRef {
 
 pub fn PyDict::new() -> PyDict {
   PyDict::{
-    obj: @cpython.pydict_new()
+    obj: @cpython.py_dict_new()
   }
 }
 
 pub fn PyDict::len(self: PyDict) -> Int {
-  @cpython.pydict_size(self.obj).to_int()
+  @cpython.py_dict_size(self.obj).to_int()
 }
 
 // TODO: Seems that it is incorrect.
 pub fn PyDict::keys(self: PyDict) -> PyList {
-  PyList::create(@cpython.pydict_keys(self.obj))
+  PyList::create(@cpython.py_dict_keys(self.obj))
 }
 
 pub fn PyDict::values(self: PyDict) -> PyList {
-  PyList::create(@cpython.pydict_values(self.obj))
+  PyList::create(@cpython.py_dict_values(self.obj))
 }
 
 pub fn PyDict::items(self: PyDict) -> PyList {
-  PyList::create(@cpython.pydict_items(self.obj))
+  PyList::create(@cpython.py_dict_items(self.obj))
 }

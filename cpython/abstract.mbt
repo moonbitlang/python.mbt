@@ -7,7 +7,7 @@
 ///
 /// This is the equivalent of the Python expression:
 /// callable(*args, **kwargs).
-pub extern "C" fn pyobject_call(
+pub extern "C" fn py_object_call(
   callable: PyObjectRef,
   args: PyObjectRef,
   kwargs: PyObjectRef
@@ -20,7 +20,7 @@ pub extern "C" fn pyobject_call(
 ///
 /// This is the equivalent of the Python expression:
 /// callable(*args).
-pub extern "C" fn pyobject_call_object(
+pub extern "C" fn py_object_call_object(
   callable: PyObjectRef,
   args: PyObjectRef
 ) -> PyObjectRef = "PyObject_CallObject"
@@ -31,7 +31,7 @@ pub extern "C" fn pyobject_call_object(
 /// 'o'. On failure, returns NULL.
 ///
 /// This is equivalent to the Python expression: type(o)
-pub extern "C" fn pyobject_type(obj: PyObjectRef) -> PyObjectRef = "PyObject_Type"
+pub extern "C" fn py_object_type(obj: PyObjectRef) -> PyObjectRef = "PyObject_Type"
 
 /// Return the size of object 'o'.  If the object 'o' provides both sequence and
 /// mapping protocols, the sequence size is returned.
@@ -39,36 +39,36 @@ pub extern "C" fn pyobject_type(obj: PyObjectRef) -> PyObjectRef = "PyObject_Typ
 /// On error, -1 is returned.
 ///
 /// This is the equivalent to the Python expression: len(o) */
-pub extern "C" fn pyobject_size(obj: PyObjectRef) -> UInt64 = "PyObject_Size"
+pub extern "C" fn py_object_size(obj: PyObjectRef) -> UInt64 = "PyObject_Size"
 
 /// Return element of 'o' corresponding to the object 'key'. Return NULL
 /// on failure.
 ///
 /// This is the equivalent of the Python expression: o[key] */
-pub extern "C" fn pyobject_get_item(obj: PyObjectRef, key: PyObjectRef) -> PyObjectRef = "PyObject_GetItem"
+pub extern "C" fn py_object_get_item(obj: PyObjectRef, key: PyObjectRef) -> PyObjectRef = "PyObject_GetItem"
 
 /// Map the object 'key' to the value 'v' into 'o'.
 ///
 /// Raise an exception and return -1 on failure; return 0 on success.
 ///
 /// This is the equivalent of the Python statement: o[key]=v. */
-pub extern "C" fn pyobject_set_item(
+pub extern "C" fn py_object_set_item(
   obj: PyObjectRef,
   key: PyObjectRef,
   value: PyObjectRef
-) -> Int = "PyObject_SetItem"
+) -> Int = "py_object_SetItem"
 
 /// Remove the mapping for the string 'key' from the object 'o'.
 /// Returns -1 on failure.
 ///
 /// This is equivalent to the Python statement: del o[key].
-pub extern "C" fn pyobject_del_item_string(obj: PyObjectRef, key: CStr) -> Int = "PyObject_DelItemString"
+pub extern "C" fn py_object_del_item_string(obj: PyObjectRef, key: CStr) -> Int = "PyObject_DelItemString"
 
 /// Delete the mapping for the object 'key' from the object 'o'.
 /// Returns -1 on failure.
 ///
 /// This is the equivalent of the Python statement: del o[key].
-pub extern "C" fn pyobject_del_item(obj: PyObjectRef, key: PyObjectRef) -> Int = "PyObject_DelItem"
+pub extern "C" fn py_object_del_item(obj: PyObjectRef, key: PyObjectRef) -> Int = "PyObject_DelItem"
 
 
 /// Takes an arbitrary object and returns the result of calling
@@ -81,7 +81,7 @@ pub extern "C" fn pyobkect_format(
 /// Takes an object and returns an iterator for it.
 /// This is typically a new iterator but if the argument is an iterator, this
 /// returns itself. */
-pub extern "C" fn pyobject_get_iter(obj: PyObjectRef) -> PyObjectRef = "PyObject_GetIter"
+pub extern "C" fn py_object_get_iter(obj: PyObjectRef) -> PyObjectRef = "PyObject_GetIter"
 
 /// Returns 1 if the object 'obj' provides iterator protocols, and 0 otherwise.
 ///
@@ -482,7 +482,7 @@ pub extern "C" fn pysequence_list(obj: PyObjectRef) -> PyObjectRef = "PySequence
 /// TypeError exception with 'm' as the message text. */
 pub extern "C" fn pysequence_fast(obj: PyObjectRef, msg: CStr) -> PyObjectRef = "PySequence_Fast"
 
-// PyAPI_FUNC(Py_ssize_t) PySequence_Count(PyObject *o, PyObject *value);
+// PyAPI_FUNC(Py_ssize_t) PySequence_Count(py_object *o, PyObject *value);
 pub extern "C" fn pysequence_count(obj: PyObjectRef, value: PyObjectRef) -> Int = "PySequence_Count"
 
 /// Return 1 if 'ob' is in the sequence 'seq'; 0 if 'ob' is not in the sequence
@@ -491,7 +491,7 @@ pub extern "C" fn pysequence_count(obj: PyObjectRef, value: PyObjectRef) -> Int 
 /// Use __contains__ if possible, else _PySequence_IterSearch().
 pub extern "C" fn pysequence_contains(seq: PyObjectRef, ob: PyObjectRef) -> Int = "PySequence_Contains"
 
-// PyAPI_FUNC(Py_ssize_t) PySequence_Index(PyObject *o, PyObject *value);
+// PyAPI_FUNC(Py_ssize_t) PySequence_Index(py_object *o, PyObject *value);
 pub extern "C" fn pysequence_index(obj: PyObjectRef, value: PyObjectRef) -> Int = "PySequence_Index"
 
 ///  Append sequence 'o2' to sequence 'o1', in-place when possible. Return the
@@ -557,6 +557,6 @@ pub extern "C" fn pymapping_set_item_string(
   value: PyObjectRef
 ) -> Int = "PyMapping_SetItemString"
 
-pub extern "C" fn pyobject_is_instance(obj: PyObjectRef, typeorclass: PyObjectRef) -> Int = "PyObject_IsInstance"
+pub extern "C" fn py_object_is_instance(obj: PyObjectRef, typeorclass: PyObjectRef) -> Int = "PyObject_IsInstance"
 
-pub extern "C" fn pyobject_is_subclass(obj: PyObjectRef, typeorclass: PyObjectRef) -> Int = "PyObject_IsSubclass"
+pub extern "C" fn py_object_is_subclass(obj: PyObjectRef, typeorclass: PyObjectRef) -> Int = "PyObject_IsSubclass"

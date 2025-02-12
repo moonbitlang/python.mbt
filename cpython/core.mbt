@@ -2,6 +2,9 @@
 type CStr  // const char*
 type CWStr // const wchar_t*
 type PyObjectRef // PyObject*
+type PyThreadStateRef // PyThreadState*
+type PyCodeObjectRef // PyCodeObject*
+type ArrayPyObjectRef // PyObject*[]
 
 extern "C" fn moonbit_str_to_c_str(
   s: String
