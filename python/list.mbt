@@ -2,12 +2,72 @@ trait IsPyObject {
   get_obj(Self) -> @cpython.PyObjectRef;
 }
 
-impl IsPyObject for PyInteger with get_obj(self) -> @cpython.PyObjectRef {
+pub impl IsPyObject for PyInteger with get_obj(self) -> @cpython.PyObjectRef {
   self.obj.get_obj()
 }
 
-impl IsPyObject for PyList with get_obj(self) -> @cpython.PyObjectRef {
+pub impl IsPyObject for PyList with get_obj(self) -> @cpython.PyObjectRef {
   self.get_obj()
+}
+
+pub impl IsPyObject for PyTuple with get_obj(self) -> @cpython.PyObjectRef {
+  self.get_obj()
+}
+
+pub impl IsPyObject for PyDict with get_obj(self) -> @cpython.PyObjectRef {
+  self.get_obj()
+}
+
+pub impl IsPyObject for PyString with get_obj(self) -> @cpython.PyObjectRef {
+  self.get_obj()
+}
+
+pub impl IsPyObject for PyFunc with get_obj(self) -> @cpython.PyObjectRef {
+  self.get_obj()
+}
+
+pub impl IsPyObject for PyModule with get_obj(self) -> @cpython.PyObjectRef {
+  self.get_obj()
+} 
+
+trait CanBePyObject {
+  to_pyobject(Self) -> PyObject;
+}
+
+pub impl CanBePyObject for Int with to_pyobject(self) -> PyObject {
+  PyObject::create(@cpython.py_long_from_long(self.to_int64()))
+}
+
+pub impl CanBePyObject for Double with to_pyobject(self) -> PyObject {
+  PyObject::create(@cpython.py_float_from_double(self))
+}
+
+pub impl CanBePyObject for String with to_pyobject(self) -> PyObject {
+  PyObject::create(@cpython.py_unicode_from_string(self))
+}
+
+pub impl CanBePyObject for PyObject with to_pyobject(self) -> PyObject {
+  self
+}
+
+pub impl CanBePyObject for PyInteger with to_pyobject(self) -> PyObject {
+  PyObject::create(self.get_obj())
+}
+
+pub impl CanBePyObject for PyList with to_pyobject(self) -> PyObject {
+  PyObject::create(self.get_obj())
+}
+
+pub impl CanBePyObject for PyTuple with to_pyobject(self) -> PyObject {
+  PyObject::create(self.get_obj())
+}
+
+pub impl CanBePyObject for PyDict with to_pyobject(self) -> PyObject {
+  PyObject::create(self.get_obj())
+}
+
+pub impl CanBePyObject for PyString with to_pyobject(self) -> PyObject {
+  PyObject::create(self.get_obj())
 }
 
 // --------
@@ -23,6 +83,10 @@ pub fn PyObject::create(obj: @cpython.PyObjectRef) -> PyObject {
   PyObject::{
     obj: obj
   }
+}
+
+pub fn PyObject::drop(self: PyObject) -> Unit {
+  @cpython.py_decref(self.get_obj())
 }
 
 // ========================================
@@ -87,9 +151,10 @@ pub fn PyList::len(self: PyList) -> Int {
 }
 
 // REVIEW: the return value may have special meaning.
-pub fn PyList::append[T: IsPyObject](self: PyList, item: T) -> Unit {
-  let _ = @cpython.py_list_append(self.get_obj(), item.get_obj())
+pub fn PyList::append[T: CanBePyObject](self: PyList, item: T) -> Unit {
+  let _ = @cpython.py_list_append(self.get_obj(), item.to_pyobject().get_obj())
 }
+
 
 pub fn PyList::sort(self: PyList) -> Unit {
   let _ = @cpython.py_list_sort(self.get_obj())
@@ -98,6 +163,34 @@ pub fn PyList::sort(self: PyList) -> Unit {
 pub fn PyList::reverse(self: PyList) -> Unit {
   let _ = @cpython.py_list_reverse(self.get_obj())
 }
+
+pub fn PyList::from[T: CanBePyObject](items: Array[T]) -> PyList {
+  let pylist = PyList::new()
+  items.each(fn (item) { pylist.append(item) })
+  pylist
+}
+
+// pub fn PyList::get(self: PyList, idx: Int) -> PyObject {
+//   PyObject::create(@cpython.py_list_get_item(self.get_obj(), idx.to_uint64()))
+// }
+//
+// pub fn PyList::op_get(self: PyList, idx: Int) -> PyObject {
+//   self.get(idx)
+// }
+
+pub fn PyList::set[T: CanBePyObject](self: PyList, idx: Int, item: T) -> Unit {
+  let _ = @cpython.py_list_set_item(self.get_obj(), idx.to_uint64(), item.to_pyobject().get_obj())
+}
+
+pub fn PyList::op_set[T: CanBePyObject](self: PyList, idx: Int, item: T) -> Unit {
+  self.set(idx, item)
+}
+
+
+pub fn PyList::drop(self: PyList) -> Unit {
+  self.obj.drop()
+}
+
 
 // ========================================
 // Tuple
@@ -110,7 +203,7 @@ fn PyTuple::get_obj(self: PyTuple) -> @cpython.PyObjectRef {
   self.obj.get_obj()
 }
 
-pub fn PyTuple::new(size~:Int = 0) -> PyTuple {
+pub fn PyTuple::new(size : Int) -> PyTuple {
   let size = if size < 0 {
     0
   } else {
@@ -126,49 +219,66 @@ pub fn PyTuple::len(self: PyTuple) -> Int {
   @cpython.pytuple_size(self.get_obj()).to_int()
 }
 
-fn PyTuple::get_item(self: PyTuple, idx: Int) -> PyObject {
+pub fn PyTuple::get(self: PyTuple, idx: Int) -> PyObject {
   PyObject::create(@cpython.pytuple_get_item(self.get_obj(), idx.to_uint64()))
 }
 
 pub fn PyTuple::op_get(self: PyTuple, idx: Int) -> PyObject {
-  self.get_item(idx)
+  self.get(idx)
 }
+
+pub fn PyTuple::set[T: CanBePyObject](self: PyTuple, idx: Int, item: T) -> Unit {
+  let _ = @cpython.pytuple_set_item(self.get_obj(), idx.to_uint64(), item.to_pyobject().get_obj())
+}
+
+pub fn PyTuple::op_set[T: CanBePyObject](self: PyTuple, idx: Int, item: T) -> Unit {
+  self.set(idx, item)
+}
+
+pub fn PyTuple::drop(self: PyTuple) -> Unit {
+  self.obj.drop()
+} 
 
 // ========================================
 // Dict
 // ========================================
 pub struct PyDict {
-  priv obj:@cpython.PyObjectRef
+  priv obj: PyObject
 }
 
 fn PyDict::get_obj(self: PyDict) -> @cpython.PyObjectRef {
-  self.obj
+  self.obj.get_obj()
 }
 
 pub fn PyDict::new() -> PyDict {
   PyDict::{
-    obj: @cpython.py_dict_new()
+    obj: PyObject::create(@cpython.py_dict_new())
   }
 }
 
 pub fn PyDict::len(self: PyDict) -> Int {
-  @cpython.py_dict_size(self.obj).to_int()
+  @cpython.py_dict_size(self.get_obj()).to_int()
 }
 
 // TODO: Seems that it is incorrect.
 pub fn PyDict::keys(self: PyDict) -> PyList {
-  PyList::create(@cpython.py_dict_keys(self.obj))
+  PyList::create(@cpython.py_dict_keys(self.get_obj()))
 }
 
 pub fn PyDict::values(self: PyDict) -> PyList {
-  PyList::create(@cpython.py_dict_values(self.obj))
+  PyList::create(@cpython.py_dict_values(self.get_obj()))
 }
 
 pub fn PyDict::items(self: PyDict) -> PyList {
-  PyList::create(@cpython.py_dict_items(self.obj))
+  PyList::create(@cpython.py_dict_items(self.get_obj()))
 }
+
+pub fn PyDict::drop(self: PyDict) -> Unit {
+  self.obj.drop()
+}
+
 // ========================================
-// Import
+// PyString
 // ========================================
 pub struct PyString {
   priv obj: PyObject
@@ -185,9 +295,12 @@ pub fn PyString::get_obj(self: PyString) -> @cpython.PyObjectRef {
 }
 
 pub fn PyString::drop(self: PyString) -> Unit {
-  @cpython.py_decref(self.get_obj())
+  self.obj.drop()
 }
 
+// ========================================
+// Function
+// ========================================
 pub struct PyFunc {
   priv obj: PyObject
 }
@@ -198,6 +311,13 @@ pub fn PyFunc::create(obj: @cpython.PyObjectRef) -> PyFunc {
   }
 }
 
+pub fn PyFunc::call(self: PyFunc, args: PyTuple) -> PyObject {
+  PyObject::create(@cpython.py_object_call_object(self.get_obj(), args.get_obj()))
+}
+
+// ========================================
+// Import
+// ========================================
 pub struct PyModule {
   name: String
   priv obj: PyObject
