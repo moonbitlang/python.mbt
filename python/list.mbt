@@ -167,3 +167,79 @@ pub fn PyDict::values(self: PyDict) -> PyList {
 pub fn PyDict::items(self: PyDict) -> PyList {
   PyList::create(@cpython.py_dict_items(self.obj))
 }
+// ========================================
+// Import
+// ========================================
+pub struct PyString {
+  priv obj: PyObject
+}
+
+pub fn PyString::from(s: String) -> PyString {
+  PyString::{
+    obj: PyObject::create(@cpython.py_unicode_from_string(s))
+  }
+}
+
+pub fn PyString::get_obj(self: PyString) -> @cpython.PyObjectRef {
+  self.obj.get_obj()
+}
+
+pub fn PyString::drop(self: PyString) -> Unit {
+  @cpython.py_decref(self.get_obj())
+}
+
+pub struct PyFunc {
+  priv obj: PyObject
+}
+
+pub fn PyFunc::create(obj: @cpython.PyObjectRef) -> PyFunc {
+  PyFunc::{
+    obj: PyObject::create(obj)
+  }
+}
+
+pub struct PyModule {
+  name: String
+  priv obj: PyObject
+}
+
+pub fn PyModule::get_obj(self: PyModule) -> @cpython.PyObjectRef {
+  self.obj.get_obj()
+}
+
+pub fn PyModule::get_name(self: PyModule) -> String {
+  self.name
+}
+
+pub fn pyimport(name: String) -> PyModule? {
+  let py_str = PyString::from(name);
+
+  let obj = @cpython.py_import_import(py_str.get_obj());
+
+  let r = if obj.is_null() {
+    None
+  } else {
+    let m = PyModule::{
+      name,
+      obj: PyObject::create(obj)
+    }
+    Some(m)
+  }
+
+  py_str.drop()
+  r
+}
+
+pub fn PyModule::get_func(self: PyModule, fname: String) -> PyFunc? {
+  let f = @cpython.py_object_get_attr_string(self.get_obj(), fname)
+
+  if f.is_null() {
+    return None
+  }
+
+  if @cpython.py_function_check(f) {
+    Some(PyFunc::create(f))
+  } else {
+    None
+  }
+}

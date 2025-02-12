@@ -1,4 +1,9 @@
 // Func Object
+extern "C" fn __py_function_check(f: PyObjectRef) -> Int = "Moonbit_PyFunction_Check"
+pub fn py_function_check(f: PyObjectRef) -> Bool {
+  __py_function_check(f) != 0
+}
+
 pub extern "C" fn py_function_new(a: PyObjectRef, b: PyObjectRef) -> PyObjectRef = "PyFunction_New"
 pub extern "C" fn py_function_new_with_qual_name(a: PyObjectRef, b: PyObjectRef, c: PyObjectRef) -> PyObjectRef = "PyFunction_NewWithQualName"
 pub extern "C" fn py_function_get_code(a: PyObjectRef) -> PyObjectRef = "PyFunction_GetCode"

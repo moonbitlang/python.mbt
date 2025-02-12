@@ -52,6 +52,12 @@ fn CWStr::to_string_with_length(self: CWStr, len: UInt) -> String {
   cw_str_to_moonbit_str_with_length(self, len)
 }
 
+extern "C" fn py_object_is_null(obj: PyObjectRef) -> Int = "Moonbit_PyObjectRef_is_null"
+
+pub fn PyObjectRef::is_null(self: PyObjectRef) -> Bool {
+  py_object_is_null(self) != 0
+}
+
 pub extern "C" fn print_pyobject(obj: PyObjectRef) = "print_pyobject"
 
 pub extern "C" fn py_incref(obj: PyObjectRef) = "py_incref"
