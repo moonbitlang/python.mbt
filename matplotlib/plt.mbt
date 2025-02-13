@@ -161,6 +161,49 @@ pub fn plot(
   plot_args.drop()
 }
 
+pub fn xlim(left: Double, right: Double) -> Unit {
+  let lib = singleton()
+  let func = lib.funcs["xlim"].unwrap()
+
+  let list = @python.PyList::from([left, right])
+  let args = @python.PyTuple::new(1)
+  args[0] = list
+
+  let _ = func.invoke(args)
+
+  args.drop()
+}
+
+pub fn ylim(left: Double, right: Double) -> Unit {
+  let lib = singleton()
+  let func = lib.funcs["ylim"].unwrap()
+
+  let list = @python.PyList::from([left, right])
+  let args = @python.PyTuple::new(1)
+  args[0] = list
+
+  let _ = func.invoke(args)
+
+  args.drop()
+}
+
+pub fn title(
+  title_str: String,
+  // keywords~: Map[String, String] = Map::new()
+) -> Unit {
+  let lib = singleton()
+  let func = lib.funcs["title"].unwrap()
+  let py_str = @python.PyString::from(title_str)
+
+  let args = @python.PyTuple::new(1)
+  args[0] = py_str
+
+  let _ = func.invoke(args)
+
+  args.drop()
+}
+
+
 pub fn show() -> Unit {
   let lib = singleton()
   let func = lib.funcs["show"].unwrap()
@@ -194,4 +237,5 @@ pub fn save(
   kwargs.drop()
   res.drop()
 }
+
 
