@@ -1,9 +1,9 @@
 {
   "name": "Kaida-Amethyst/python",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "readme": "README.md",
   "repository": "",
   "license": "Apache-2.0",
-  "keywords": ["python", "c-binding"],
+  "keywords": ["python", "c-binding", "plot"],
   "description": "Allow you use python utilities in Moonbit",
 }

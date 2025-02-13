@@ -510,11 +510,17 @@ pub fn PyModule::get_func(self: PyModule, fname: String) -> PyFunc? {
 }
 
 // -----------------------
-fn init {
-  @cpython.py_init()
-
+pub fn init_py() -> Unit {
   if (not(@cpython.py_is_initialized())) {
-    println("Python initialization failed")
-    return 
+    @cpython.py_init()
+
+    if (not(@cpython.py_is_initialized())) {
+      println("Python initialization failed")
+      return 
+    }
   }
+}
+
+fn init {
+  init_py()
 }

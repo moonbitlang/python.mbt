@@ -125,15 +125,29 @@ pub fn new() -> Matplotlib!Error {
   }
 }
 
-pub fn Matplotlib::plot(
-  self: Matplotlib,
-  xs: Array[Double],
-  ys: Array[Double],
+let singleton : () -> Matplotlib = get_lib()
+
+fn get_lib() -> () -> Matplotlib {
+  @python.init_py()
+ 
+  let mlib = match new?() {
+    Ok(mlib) => mlib
+    Err(e) => {
+      println(e)
+      panic()
+    }
+  }
+
+  fn () {mlib}
+}
+
+pub fn plot(
+  xs: @python.PyList,
+  ys: @python.PyList,
   format~: String = "r"
 ) -> Unit {
-  let func = self.funcs["plot"].unwrap()
-  let xs = @python.PyList::from(xs)
-  let ys = @python.PyList::from(ys)
+  let lib = singleton()
+  let func = lib.funcs["plot"].unwrap()
   let format = @python.PyString::from(format)
 
   let plot_args = @python.PyTuple::new(3)
@@ -147,16 +161,17 @@ pub fn Matplotlib::plot(
   plot_args.drop()
 }
 
-pub fn Matplotlib::show(self: Matplotlib) -> Unit {
-  let func = self.funcs["show"].unwrap()
+pub fn show() -> Unit {
+  let lib = singleton()
+  let func = lib.funcs["show"].unwrap()
   let _ = func.invoke(PyTuple::new(0))
 }
 
-pub fn Matplotlib::save(
-  self: Matplotlib,
+pub fn save(
   filename: String,
   dpi~: Int = 0
 ) -> Unit!Error {
+  let lib = singleton()
   let py_str = PyString::from(filename)
 
   let args = PyTuple::new(1)
@@ -168,7 +183,7 @@ pub fn Matplotlib::save(
     kwargs.set("dpi", dpi)
   }
 
-  let func = self.funcs["save"].unwrap()
+  let func = lib.funcs["save"].unwrap()
   let res = func.invoke(args, kwargs = kwargs)
 
   if res.is_null() {
@@ -179,3 +194,4 @@ pub fn Matplotlib::save(
   kwargs.drop()
   res.drop()
 }
+

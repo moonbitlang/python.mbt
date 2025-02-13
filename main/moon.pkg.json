@@ -3,11 +3,14 @@
   "import": [
     "Kaida-Amethyst/python/cpython",
     "Kaida-Amethyst/python/python",
-    "Kaida-Amethyst/python/matplotlib"
+    {
+      "path": "Kaida-Amethyst/python/matplotlib",
+      "alias": "plt"
+    }
   ],
   "link" : {
     "native" : {
-      "cc-flags" : "./CWarp/core.c -I/usr/include/python3.8 -lpython3.8"
+      "cc-flags" : "./CWarp/core.c -I/usr/include/python3.8 -lpython3.8 -g"
     }
   }
 }
