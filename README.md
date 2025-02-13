@@ -86,7 +86,7 @@ We welcome developers to contribute to the project and help improve the function
 
 ## 项目简介
 
-Moonbit-Python 是一个基于 CPython 的桥接工具，使开发者能够在 Moonbit 项目中直接操作 Python 对象，并充分利用 Python 生态系统的丰富资源，包括但不限于 NumPy、Matplotlib 等知名库。
+Moonbit-Python 是一个基于 CPython 的工具，使开发者能够在 Moonbit 语言中直接操作 Python 对象，并充分利用 Python 生态系统的丰富资源，包括但不限于 NumPy、Matplotlib 等知名库。
 
 ## 快速开始
 
@@ -126,7 +126,7 @@ moon run main/main.mbt --target native
 moon add Kaida-Amethyst/python
 ```
 
-2. 确认本地 Python 版本（例如 `python3.13`），根据python版本填写下方的链接选项。
+2. 确认本地 Python 版本（例如 `python3.13`），需要根据python版本填写下方的链接选项。
 
 3. 下载必要的 C 文件：
    - 文件位置：[CWarp 目录](https://github.com/Kaida-Amethyst/moonbit-python/tree/master/CWarp)
