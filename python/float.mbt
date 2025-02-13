@@ -2,8 +2,8 @@ pub struct PyFloat {
   priv obj: PyObject
 }
 
-fn PyFloat::get_obj(self: PyFloat) -> @cpython.PyObjectRef {
-  self.obj.get_obj()
+fn PyFloat::obj_ref(self: PyFloat) -> @cpython.PyObjectRef {
+  self.obj.obj_ref()
 }
 
 pub fn PyFloat::new(value: Double) -> PyFloat {
@@ -13,11 +13,11 @@ pub fn PyFloat::new(value: Double) -> PyFloat {
 }
 
 pub fn PyFloat::to_double(self: PyFloat) -> Double {
-  @cpython.py_float_as_double(self.get_obj())
+  @cpython.py_float_as_double(self.obj_ref())
 }
 
 pub fn PyFloat::to_string(self: PyFloat) -> String {
-  @cpython.py_object_moonbit_repr(self.get_obj())
+  @cpython.py_object_moonbit_repr(self.obj_ref())
 }
 
 pub fn PyFloat::dump(self: PyFloat) -> Unit {

@@ -11,20 +11,20 @@ pub fn PyFunc::create(obj: @cpython.PyObjectRef) -> PyFunc {
   }
 }
 
-pub fn PyFunc::get_obj(self: PyFunc) -> @cpython.PyObjectRef {
-  self.obj.get_obj()
+pub fn PyFunc::obj_ref(self: PyFunc) -> @cpython.PyObjectRef {
+  self.obj.obj_ref()
 }
 
 pub fn PyFunc::invoke(self: PyFunc, args: PyTuple, kwargs~: PyDict = PyDict::new()) -> PyObject {
   if kwargs.len() > 0 {
-    PyObject::create(@cpython.py_object_call(self.get_obj(), args.get_obj(), kwargs.get_obj()))
+    PyObject::create(@cpython.py_object_call(self.obj_ref(), args.obj_ref(), kwargs.obj_ref()))
   } else {
-    PyObject::create(@cpython.py_object_call_object(self.get_obj(), args.get_obj()))
+    PyObject::create(@cpython.py_object_call_object(self.obj_ref(), args.obj_ref()))
   }
 }
 
 
-pub impl IsPyObject for PyFunc with get_obj(self) -> @cpython.PyObjectRef {
-  self.get_obj()
+pub impl IsPyObject for PyFunc with obj_ref(self) -> @cpython.PyObjectRef {
+  self.obj_ref()
 }
 

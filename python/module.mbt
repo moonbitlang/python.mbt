@@ -6,8 +6,8 @@ pub struct PyModule {
   priv obj: PyObject
 }
 
-pub fn PyModule::get_obj(self: PyModule) -> @cpython.PyObjectRef {
-  self.obj.get_obj()
+pub fn PyModule::obj_ref(self: PyModule) -> @cpython.PyObjectRef {
+  self.obj.obj_ref()
 }
 
 pub fn PyModule::get_name(self: PyModule) -> String {
@@ -17,7 +17,7 @@ pub fn PyModule::get_name(self: PyModule) -> String {
 pub fn pyimport(name: String) -> PyModule? {
   let py_str = PyString::from(name);
 
-  let obj = @cpython.py_import_import(py_str.get_obj());
+  let obj = @cpython.py_import_import(py_str.obj_ref());
 
   let r = if obj.is_null() {
     None
@@ -34,7 +34,7 @@ pub fn pyimport(name: String) -> PyModule? {
 }
 
 pub fn PyModule::get_func(self: PyModule, fname: String) -> PyFunc? {
-  let f = @cpython.py_object_get_attr_string(self.get_obj(), fname)
+  let f = @cpython.py_object_get_attr_string(self.obj_ref(), fname)
 
   if f.is_null() {
     return None
@@ -47,7 +47,7 @@ pub fn PyModule::get_func(self: PyModule, fname: String) -> PyFunc? {
   }
 }
 
-pub impl IsPyObject for PyModule with get_obj(self) -> @cpython.PyObjectRef {
-  self.get_obj()
+pub impl IsPyObject for PyModule with obj_ref(self) -> @cpython.PyObjectRef {
+  self.obj_ref()
 } 
 

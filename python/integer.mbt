@@ -6,8 +6,8 @@ pub struct PyInteger {
   priv obj: PyObject
 }
 
-fn PyInteger::get_obj(self: PyInteger) -> @cpython.PyObjectRef {
-  self.obj.get_obj()
+fn PyInteger::obj_ref(self: PyInteger) -> @cpython.PyObjectRef {
+  self.obj.obj_ref()
 }
 
 pub fn PyInteger::new(value: Int64) -> PyInteger {
@@ -17,15 +17,15 @@ pub fn PyInteger::new(value: Int64) -> PyInteger {
 }
 
 pub fn PyInteger::to_int64(self: PyInteger) -> Int64 {
-  @cpython.py_long_as_long(self.get_obj())
+  @cpython.py_long_as_long(self.obj_ref())
 }
 
 pub fn PyInteger::to_double(self: PyInteger) -> Double {
-  @cpython.py_long_as_double(self.get_obj())
+  @cpython.py_long_as_double(self.obj_ref())
 }
 
 pub fn PyInteger::to_string(self: PyInteger) -> String {
-  @cpython.py_object_moonbit_repr(self.get_obj())
+  @cpython.py_object_moonbit_repr(self.obj_ref())
 }
 
 pub fn PyInteger::dump(self: PyInteger) -> Unit {
@@ -38,12 +38,12 @@ pub fn PyInteger::drop(self: PyInteger) -> Unit {
 
 
 // ======== Implement Traits ==========
-pub impl IsPyObject for PyInteger with get_obj(self) -> @cpython.PyObjectRef {
-  self.get_obj()
+pub impl IsPyObject for PyInteger with obj_ref(self) -> @cpython.PyObjectRef {
+  self.obj_ref()
 }
 
 pub impl PyAble for PyInteger with to_pyobject(self) -> PyObject {
-  PyObject::create(self.get_obj())
+  PyObject::create(self.obj_ref())
 }
 
 pub impl Show for PyInteger with to_string(self) -> String {

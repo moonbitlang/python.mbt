@@ -5,8 +5,8 @@ pub struct PyDict {
   priv obj: PyObject
 }
 
-fn PyDict::get_obj(self: PyDict) -> @cpython.PyObjectRef {
-  self.obj.get_obj()
+fn PyDict::obj_ref(self: PyDict) -> @cpython.PyObjectRef {
+  self.obj.obj_ref()
 }
 
 pub fn PyDict::new() -> PyDict {
@@ -16,12 +16,12 @@ pub fn PyDict::new() -> PyDict {
 }
 
 pub fn PyDict::len(self: PyDict) -> Int {
-  @cpython.py_dict_size(self.get_obj()).to_int()
+  @cpython.py_dict_size(self.obj_ref()).to_int()
 }
 
 pub fn PyDict::get[T: PyAble](self: PyDict, key: T) -> PyObject {
-  let dict = self.get_obj()
-  let key = key.to_pyobject().get_obj()
+  let dict = self.obj_ref()
+  let key = key.to_pyobject().obj_ref()
   let obj = @cpython.py_dict_get_item(dict, key)
   PyObject::create(obj)
 }
@@ -31,9 +31,9 @@ pub fn PyDict::op_get[T: PyAble](self: PyDict, key: T) -> PyObject {
 }
 
 pub fn PyDict::set[K: PyAble, V: PyAble](self: PyDict, key: K, val: V) -> Unit {
-  let dict = self.get_obj()
-  let key = key.to_pyobject().get_obj()
-  let val = val.to_pyobject().get_obj()
+  let dict = self.obj_ref()
+  let key = key.to_pyobject().obj_ref()
+  let val = val.to_pyobject().obj_ref()
   let _ = @cpython.py_dict_set_item(dict, key, val)
 }
 
@@ -43,15 +43,15 @@ pub fn PyDict::op_set[K: PyAble, V: PyAble](self: PyDict, key: K, val: V) -> Uni
 
 // TODO: Seems that it is incorrect.
 pub fn PyDict::keys(self: PyDict) -> PyList {
-  PyList::create(@cpython.py_dict_keys(self.get_obj()))
+  PyList::create(@cpython.py_dict_keys(self.obj_ref()))
 }
 
 pub fn PyDict::values(self: PyDict) -> PyList {
-  PyList::create(@cpython.py_dict_values(self.get_obj()))
+  PyList::create(@cpython.py_dict_values(self.obj_ref()))
 }
 
 pub fn PyDict::items(self: PyDict) -> PyList {
-  PyList::create(@cpython.py_dict_items(self.get_obj()))
+  PyList::create(@cpython.py_dict_items(self.obj_ref()))
 }
 
 pub fn PyDict::to_string(self: PyDict) -> String {
@@ -67,13 +67,13 @@ pub fn PyDict::drop(self: PyDict) -> Unit {
 }
 
 
-pub impl IsPyObject for PyDict with get_obj(self) -> @cpython.PyObjectRef {
-  self.get_obj()
+pub impl IsPyObject for PyDict with obj_ref(self) -> @cpython.PyObjectRef {
+  self.obj_ref()
 }
 
 
 pub impl PyAble for PyDict with to_pyobject(self) -> PyObject {
-  PyObject::create(self.get_obj())
+  PyObject::create(self.obj_ref())
 }
 
 

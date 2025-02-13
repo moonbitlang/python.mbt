@@ -2,7 +2,7 @@ pub struct PyObject {
   priv obj: @cpython.PyObjectRef
 }
 
-fn PyObject::get_obj(self: PyObject) -> @cpython.PyObjectRef {
+fn PyObject::obj_ref(self: PyObject) -> @cpython.PyObjectRef {
   self.obj
 }
 
@@ -21,11 +21,11 @@ pub fn PyObject::to_string(self: PyObject) -> String {
 }
 
 pub fn PyObject::dump(self: PyObject) -> Unit {
-  @cpython.print_pyobject(self.get_obj())
+  @cpython.print_pyobject(self.obj_ref())
 }
 
 pub fn PyObject::drop(self: PyObject) -> Unit {
-  @cpython.py_decref(self.get_obj())
+  @cpython.py_decref(self.obj_ref())
 }
 
 

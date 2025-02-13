@@ -1,5 +1,5 @@
 trait IsPyObject {
-  get_obj(Self) -> @cpython.PyObjectRef;
+  obj_ref(Self) -> @cpython.PyObjectRef;
 }
 
 trait PyAble {
