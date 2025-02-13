@@ -4,7 +4,7 @@
   ],
   "link" : {
     "native" : {
-      "cc-flags" : "./CWarp/core.c -I/usr/include/python3.8 -lpython3.8"
+      "cc-flags" : "-shared -fPIC -o libmoonbitplot.so ./CWarp/core.c -I/usr/include/python3.8 -lpython3.8"
     }
   }
 }

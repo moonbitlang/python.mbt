@@ -2,6 +2,7 @@
   "is-main": true,
   "import": [
     "Kaida-Amethyst/python/cpython",
+    "Kaida-Amethyst/python/python",
     "Kaida-Amethyst/python/matplotlib"
   ],
   "link" : {

@@ -1,3 +1,7 @@
+typealias PyString = @python.PyString
+typealias PyInteger = @python.PyInteger
+typealias PyTuple = @python.PyTuple
+typealias PyDict = @python.PyDict
 
 type! MatplotlibError {
   LoadMatplotlibError
@@ -5,7 +9,8 @@ type! MatplotlibError {
   LoadColorMapError
   LoadPylabError
   LoadFuncError(String)
-}
+  CallFuncError(String)
+} derive(Show)
 
 pub struct Matplotlib {
   priv matplotlib: @python.PyModule 
@@ -17,6 +22,11 @@ pub struct Matplotlib {
 
 pub fn new() -> Matplotlib!Error {
   let matplotlib = @python.pyimport("matplotlib")
+
+  // @cpython.py_object_call_method(
+  //   matplotlib.get_obj(), "use", "s"
+  // )
+
   let pyplot = @python.pyimport("matplotlib.pyplot")
   let color_map = @python.pyimport("matplotlib.cm")
   let pylab = @python.pyimport("pylab")
@@ -55,7 +65,6 @@ pub fn new() -> Matplotlib!Error {
   pyplot.get_func("close") |> unwrap_pyfunc!("close")
   pyplot.get_func("draw") |> unwrap_pyfunc!("draw") 
   pyplot.get_func("pause") |> unwrap_pyfunc!("pause") 
-  pyplot.get_func("save") |> unwrap_pyfunc!("save") 
   pyplot.get_func("figure") |> unwrap_pyfunc!("figure") 
   pyplot.get_func("fignum_exists") |> unwrap_pyfunc!("fignum_exists") 
   pyplot.get_func("plot") |> unwrap_pyfunc!("plot") 
@@ -95,8 +104,6 @@ pub fn new() -> Matplotlib!Error {
   pyplot.get_func("errorbar") |> unwrap_pyfunc!("errorbar") 
   pyplot.get_func("annotate") |> unwrap_pyfunc!("annotate") 
   pyplot.get_func("tight_layout") |> unwrap_pyfunc!("tight_layout") 
-  pyplot.get_func("colormap") |> unwrap_pyfunc!("colormap") 
-  pyplot.get_func("empty_tuple") |> unwrap_pyfunc!("empty_tuple") 
   pyplot.get_func("stem") |> unwrap_pyfunc!("stem") 
   pyplot.get_func("xkcd") |> unwrap_pyfunc!("xkcd") 
   pyplot.get_func("text") |> unwrap_pyfunc!("text") 
@@ -105,8 +112,9 @@ pub fn new() -> Matplotlib!Error {
   pyplot.get_func("barh") |> unwrap_pyfunc!("barh") 
   pyplot.get_func("colorbar") |> unwrap_pyfunc!("colorbar") 
   pyplot.get_func("subplots_adjust") |> unwrap_pyfunc!("subplots_adjust") 
-  pyplot.get_func("rcparams") |> unwrap_pyfunc!("rcparams") 
   pyplot.get_func("spy") |> unwrap_pyfunc!("spy") 
+
+  pylab.get_func("save") |> unwrap_pyfunc!("save") 
 
   Matplotlib::{
     matplotlib,
@@ -133,7 +141,7 @@ pub fn Matplotlib::plot(
   plot_args[1] = ys
   plot_args[2] = format
 
-  let _ = func.call(plot_args)
+  let _ = func.invoke(plot_args)
 
   // TODO: Eliminate this when we can do gc
   plot_args.drop()
@@ -141,5 +149,33 @@ pub fn Matplotlib::plot(
 
 pub fn Matplotlib::show(self: Matplotlib) -> Unit {
   let func = self.funcs["show"].unwrap()
-  let _ = func.call(@python.PyTuple::new(0))
+  let _ = func.invoke(PyTuple::new(0))
+}
+
+pub fn Matplotlib::save(
+  self: Matplotlib,
+  filename: String,
+  dpi~: Int = 0
+) -> Unit!Error {
+  let py_str = PyString::from(filename)
+
+  let args = PyTuple::new(1)
+  args[0] = py_str
+
+  let kwargs = PyDict::new()
+
+  if dpi > 0 {
+    kwargs.set("dpi", dpi)
+  }
+
+  let func = self.funcs["save"].unwrap()
+  let res = func.invoke(args, kwargs = kwargs)
+
+  if res.is_null() {
+    raise CallFuncError("Call to save() failed")
+  }
+
+  args.drop()
+  kwargs.drop()
+  res.drop()
 }

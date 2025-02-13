@@ -560,3 +560,15 @@ pub extern "C" fn pymapping_set_item_string(
 pub extern "C" fn py_object_is_instance(obj: PyObjectRef, typeorclass: PyObjectRef) -> Int = "PyObject_IsInstance"
 
 pub extern "C" fn py_object_is_subclass(obj: PyObjectRef, typeorclass: PyObjectRef) -> Int = "PyObject_IsSubclass"
+
+///| PyObject repr to string
+pub fn py_object_moonbit_repr(obj: PyObjectRef) -> String {
+  let repr = py_object_repr(obj)
+  py_unicode_as_utf8(repr)
+}
+
+///| PyObject str to string
+pub fn py_object_moonbit_str(obj: PyObjectRef) -> String {
+  let repr = py_object_str(obj)
+  py_unicode_as_utf8(repr)
+}

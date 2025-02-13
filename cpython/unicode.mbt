@@ -8,3 +8,10 @@ pub fn py_unicode_from_string(s: String) -> PyObjectRef {
   __py_unicode_from_string(u)
 }
 
+// PyAPI_FUNC(const char *) PyUnicode_AsUTF8(PyObject *unicode);
+extern "C" fn __py_unicode_as_utf8(u: PyObjectRef) -> CStr = "PyUnicode_AsUTF8"
+pub fn py_unicode_as_utf8(u: PyObjectRef) -> String {
+  let cstr = __py_unicode_as_utf8(u)
+  cstr.to_string()
+}
+

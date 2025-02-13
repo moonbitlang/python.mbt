@@ -3,7 +3,7 @@ trait IsPyObject {
 }
 
 pub impl IsPyObject for PyInteger with get_obj(self) -> @cpython.PyObjectRef {
-  self.obj.get_obj()
+  self.get_obj()
 }
 
 pub impl IsPyObject for PyList with get_obj(self) -> @cpython.PyObjectRef {
@@ -30,44 +30,105 @@ pub impl IsPyObject for PyModule with get_obj(self) -> @cpython.PyObjectRef {
   self.get_obj()
 } 
 
-trait CanBePyObject {
+trait PyAble {
   to_pyobject(Self) -> PyObject;
 }
 
-pub impl CanBePyObject for Int with to_pyobject(self) -> PyObject {
+pub impl PyAble for Int with to_pyobject(self) -> PyObject {
   PyObject::create(@cpython.py_long_from_long(self.to_int64()))
 }
 
-pub impl CanBePyObject for Double with to_pyobject(self) -> PyObject {
+pub impl PyAble for Double with to_pyobject(self) -> PyObject {
   PyObject::create(@cpython.py_float_from_double(self))
 }
 
-pub impl CanBePyObject for String with to_pyobject(self) -> PyObject {
+pub impl PyAble for String with to_pyobject(self) -> PyObject {
   PyObject::create(@cpython.py_unicode_from_string(self))
 }
 
-pub impl CanBePyObject for PyObject with to_pyobject(self) -> PyObject {
+pub impl PyAble for PyObject with to_pyobject(self) -> PyObject {
   self
 }
 
-pub impl CanBePyObject for PyInteger with to_pyobject(self) -> PyObject {
+pub impl PyAble for PyInteger with to_pyobject(self) -> PyObject {
   PyObject::create(self.get_obj())
 }
 
-pub impl CanBePyObject for PyList with to_pyobject(self) -> PyObject {
+pub impl PyAble for PyList with to_pyobject(self) -> PyObject {
   PyObject::create(self.get_obj())
 }
 
-pub impl CanBePyObject for PyTuple with to_pyobject(self) -> PyObject {
+pub impl PyAble for PyTuple with to_pyobject(self) -> PyObject {
   PyObject::create(self.get_obj())
 }
 
-pub impl CanBePyObject for PyDict with to_pyobject(self) -> PyObject {
+pub impl PyAble for PyDict with to_pyobject(self) -> PyObject {
   PyObject::create(self.get_obj())
 }
 
-pub impl CanBePyObject for PyString with to_pyobject(self) -> PyObject {
+pub impl PyAble for PyString with to_pyobject(self) -> PyObject {
   PyObject::create(self.get_obj())
+}
+
+// --------
+pub impl Show for PyObject with to_string(self) -> String {
+  PyObject::to_string(self)
+}
+
+pub impl Show for PyObject with output(
+  self:PyObject, logger: &Logger
+) -> Unit {
+  logger.write_string(self.to_string())
+}
+
+pub impl Show for PyInteger with to_string(self) -> String {
+  PyInteger::to_string(self)
+}
+
+pub impl Show for PyInteger with output(
+  self:PyInteger, logger: &Logger
+) -> Unit {
+  logger.write_string(self.to_string())
+}
+
+pub impl Show for PyList with to_string(self) -> String {
+  PyList::to_string(self)
+}
+
+pub impl Show for PyList with output(
+  self:PyList, logger: &Logger
+) -> Unit {
+  logger.write_string(self.to_string())
+}
+
+pub impl Show for PyTuple with to_string(self) -> String {
+  PyTuple::to_string(self)
+}
+
+pub impl Show for PyTuple with output(
+  self:PyTuple, logger: &Logger
+) -> Unit {
+  logger.write_string(self.to_string())
+}
+
+pub impl Show for PyDict with to_string(self) -> String {
+  PyDict::to_string(self)
+}
+
+pub impl Show for PyDict with output(
+  self:PyDict, logger: &Logger
+) -> Unit {
+  logger.write_string(self.to_string())
+}
+
+pub impl Show for PyString with to_string(self) -> String {
+  PyString::to_string(self)
+}
+
+pub impl Show for PyString with output(
+  self:PyString, logger: &Logger
+) -> Unit {
+  logger.write_string(self.to_string())
 }
 
 // --------
@@ -83,6 +144,18 @@ pub fn PyObject::create(obj: @cpython.PyObjectRef) -> PyObject {
   PyObject::{
     obj: obj
   }
+}
+
+pub fn PyObject::is_null(self: PyObject) -> Bool {
+  self.obj.is_null()
+}
+
+pub fn PyObject::to_string(self: PyObject) -> String {
+  @cpython.py_object_moonbit_repr(self.obj)
+}
+
+pub fn PyObject::dump(self: PyObject) -> Unit {
+  @cpython.print_pyobject(self.get_obj())
 }
 
 pub fn PyObject::drop(self: PyObject) -> Unit {
@@ -116,6 +189,18 @@ pub fn PyInteger::to_double(self: PyInteger) -> Double {
   @cpython.py_long_as_double(self.get_obj())
 }
 
+pub fn PyInteger::to_string(self: PyInteger) -> String {
+  @cpython.py_object_moonbit_repr(self.get_obj())
+}
+
+pub fn PyInteger::dump(self: PyInteger) -> Unit {
+  PyObject::dump(self.obj)
+}
+
+pub fn PyInteger::drop(self: PyInteger) -> Unit {
+  self.obj.drop()
+}
+
 // ========================================
 // py_list
 // ========================================
@@ -127,7 +212,7 @@ fn PyList::get_obj(self: PyList) -> @cpython.PyObjectRef {
   self.obj.get_obj()
 }
 
-pub fn PyList::new(size~:Int = 0) -> PyList {
+pub fn PyList::new(size~ : Int = 0) -> PyList {
   let size = if size < 0 {
     0
   } else {
@@ -151,7 +236,7 @@ pub fn PyList::len(self: PyList) -> Int {
 }
 
 // REVIEW: the return value may have special meaning.
-pub fn PyList::append[T: CanBePyObject](self: PyList, item: T) -> Unit {
+pub fn PyList::append[T: PyAble](self: PyList, item: T) -> Unit {
   let _ = @cpython.py_list_append(self.get_obj(), item.to_pyobject().get_obj())
 }
 
@@ -164,7 +249,7 @@ pub fn PyList::reverse(self: PyList) -> Unit {
   let _ = @cpython.py_list_reverse(self.get_obj())
 }
 
-pub fn PyList::from[T: CanBePyObject](items: Array[T]) -> PyList {
+pub fn PyList::from[T: PyAble](items: Array[T]) -> PyList {
   let pylist = PyList::new()
   items.each(fn (item) { pylist.append(item) })
   pylist
@@ -178,19 +263,25 @@ pub fn PyList::from[T: CanBePyObject](items: Array[T]) -> PyList {
 //   self.get(idx)
 // }
 
-pub fn PyList::set[T: CanBePyObject](self: PyList, idx: Int, item: T) -> Unit {
+pub fn PyList::set[T: PyAble](self: PyList, idx: Int, item: T) -> Unit {
   let _ = @cpython.py_list_set_item(self.get_obj(), idx.to_uint64(), item.to_pyobject().get_obj())
 }
 
-pub fn PyList::op_set[T: CanBePyObject](self: PyList, idx: Int, item: T) -> Unit {
+pub fn PyList::op_set[T: PyAble](self: PyList, idx: Int, item: T) -> Unit {
   self.set(idx, item)
 }
 
+pub fn PyList::to_string(self: PyList) -> String {
+  PyObject::to_string(self.obj)
+}
+
+pub fn PyList::dump(self: PyList) -> Unit {
+  PyObject::dump(self.obj)
+}
 
 pub fn PyList::drop(self: PyList) -> Unit {
   self.obj.drop()
 }
-
 
 // ========================================
 // Tuple
@@ -227,12 +318,20 @@ pub fn PyTuple::op_get(self: PyTuple, idx: Int) -> PyObject {
   self.get(idx)
 }
 
-pub fn PyTuple::set[T: CanBePyObject](self: PyTuple, idx: Int, item: T) -> Unit {
+pub fn PyTuple::set[T: PyAble](self: PyTuple, idx: Int, item: T) -> Unit {
   let _ = @cpython.pytuple_set_item(self.get_obj(), idx.to_uint64(), item.to_pyobject().get_obj())
 }
 
-pub fn PyTuple::op_set[T: CanBePyObject](self: PyTuple, idx: Int, item: T) -> Unit {
+pub fn PyTuple::op_set[T: PyAble](self: PyTuple, idx: Int, item: T) -> Unit {
   self.set(idx, item)
+}
+
+pub fn PyTuple::to_string(self: PyTuple) -> String {
+  PyObject::to_string(self.obj)
+}
+
+pub fn PyTuple::dump(self: PyTuple) -> Unit {
+  PyObject::dump(self.obj)
 }
 
 pub fn PyTuple::drop(self: PyTuple) -> Unit {
@@ -260,6 +359,28 @@ pub fn PyDict::len(self: PyDict) -> Int {
   @cpython.py_dict_size(self.get_obj()).to_int()
 }
 
+pub fn PyDict::get[T: PyAble](self: PyDict, key: T) -> PyObject {
+  let dict = self.get_obj()
+  let key = key.to_pyobject().get_obj()
+  let obj = @cpython.py_dict_get_item(dict, key)
+  PyObject::create(obj)
+}
+
+pub fn PyDict::op_get[T: PyAble](self: PyDict, key: T) -> PyObject {
+  self.get(key)
+}
+
+pub fn PyDict::set[K: PyAble, V: PyAble](self: PyDict, key: K, val: V) -> Unit {
+  let dict = self.get_obj()
+  let key = key.to_pyobject().get_obj()
+  let val = val.to_pyobject().get_obj()
+  let _ = @cpython.py_dict_set_item(dict, key, val)
+}
+
+pub fn PyDict::op_set[K: PyAble, V: PyAble](self: PyDict, key: K, val: V) -> Unit {
+  self.set(key, val)
+}
+
 // TODO: Seems that it is incorrect.
 pub fn PyDict::keys(self: PyDict) -> PyList {
   PyList::create(@cpython.py_dict_keys(self.get_obj()))
@@ -271,6 +392,14 @@ pub fn PyDict::values(self: PyDict) -> PyList {
 
 pub fn PyDict::items(self: PyDict) -> PyList {
   PyList::create(@cpython.py_dict_items(self.get_obj()))
+}
+
+pub fn PyDict::to_string(self: PyDict) -> String {
+  PyObject::to_string(self.obj)
+}
+
+pub fn PyDict::dump(self: PyDict) -> Unit {
+  PyObject::dump(self.obj)
 }
 
 pub fn PyDict::drop(self: PyDict) -> Unit {
@@ -294,6 +423,14 @@ pub fn PyString::get_obj(self: PyString) -> @cpython.PyObjectRef {
   self.obj.get_obj()
 }
 
+pub fn PyString::to_string(self: PyString) -> String {
+  PyObject::to_string(self.obj)
+}
+
+pub fn PyString::dump(self: PyString) -> Unit {
+  PyObject::dump(self.obj)
+}
+
 pub fn PyString::drop(self: PyString) -> Unit {
   self.obj.drop()
 }
@@ -311,8 +448,16 @@ pub fn PyFunc::create(obj: @cpython.PyObjectRef) -> PyFunc {
   }
 }
 
-pub fn PyFunc::call(self: PyFunc, args: PyTuple) -> PyObject {
-  PyObject::create(@cpython.py_object_call_object(self.get_obj(), args.get_obj()))
+pub fn PyFunc::get_obj(self: PyFunc) -> @cpython.PyObjectRef {
+  self.obj.get_obj()
+}
+
+pub fn PyFunc::invoke(self: PyFunc, args: PyTuple, kwargs~: PyDict = PyDict::new()) -> PyObject {
+  if kwargs.len() > 0 {
+    PyObject::create(@cpython.py_object_call(self.get_obj(), args.get_obj(), kwargs.get_obj()))
+  } else {
+    PyObject::create(@cpython.py_object_call_object(self.get_obj(), args.get_obj()))
+  }
 }
 
 // ========================================
@@ -361,5 +506,15 @@ pub fn PyModule::get_func(self: PyModule, fname: String) -> PyFunc? {
     Some(PyFunc::create(f))
   } else {
     None
+  }
+}
+
+// -----------------------
+fn init {
+  @cpython.py_init()
+
+  if (not(@cpython.py_is_initialized())) {
+    println("Python initialization failed")
+    return 
   }
 }
