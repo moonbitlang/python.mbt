@@ -1,5 +1,5 @@
 typealias PyString = @python.PyString
-typealias PyInteger = @python.PyInteger
+// typealias PyInteger = @python.PyInteger
 typealias PyTuple = @python.PyTuple
 typealias PyDict = @python.PyDict
 
@@ -13,10 +13,10 @@ type! MatplotlibError {
 } derive(Show)
 
 pub struct Matplotlib {
-  priv matplotlib: @python.PyModule 
-  priv pyplot: @python.PyModule
-  priv color_map: @python.PyModule
-  priv pylab: @python.PyModule
+  // priv matplotlib: @python.PyModule 
+  // priv pyplot: @python.PyModule
+  // priv color_map: @python.PyModule
+  // priv pylab: @python.PyModule
   priv funcs: Map[String, @python.PyFunc]
 }
 
@@ -31,7 +31,7 @@ pub fn new() -> Matplotlib!Error {
   let color_map = @python.pyimport("matplotlib.cm")
   let pylab = @python.pyimport("pylab")
 
-  let matplotlib = match matplotlib {
+  let _ = match matplotlib {
     Some(m) => m
     None => raise LoadMatplotlibError
   }
@@ -41,7 +41,7 @@ pub fn new() -> Matplotlib!Error {
     None => raise LoadPyPlotError
   }
 
-  let color_map = match color_map {
+  let _ = match color_map {
     Some(m) => m
     None => raise LoadColorMapError
   }
@@ -117,10 +117,10 @@ pub fn new() -> Matplotlib!Error {
   pylab.get_func("save") |> unwrap_pyfunc!("save") 
 
   Matplotlib::{
-    matplotlib,
-    pyplot,
-    color_map,
-    pylab,
+    // matplotlib,
+    // pyplot,
+    // color_map,
+    // pylab,
     funcs
   }
 }
