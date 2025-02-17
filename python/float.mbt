@@ -2,8 +2,8 @@ pub struct PyFloat {
   priv obj: PyObject
 }
 
-fn PyFloat::obj_ref(self: PyFloat) -> @cpython.PyObjectRef {
-  self.obj.obj_ref()
+fn PyFloat::obj(self: PyFloat) -> PyObject {
+  self.obj
 }
 
 pub fn PyFloat::new(value: Double) -> PyFloat {
@@ -26,4 +26,12 @@ pub fn PyFloat::dump(self: PyFloat) -> Unit {
 
 pub fn PyFloat::drop(self: PyFloat) -> Unit {
   self.obj.drop()
+}
+
+pub fn PyFloat::type_name(self: PyFloat) -> String {
+  self.obj.type_name()
+}
+
+impl IsPyObject for PyFloat with obj(self) {
+  self.obj()
 }

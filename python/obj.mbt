@@ -28,6 +28,12 @@ pub fn PyObject::drop(self: PyObject) -> Unit {
   @cpython.py_decref(self.obj_ref())
 }
 
+pub fn PyObject::type_name(self: PyObject) -> String {
+  let ty = @cpython.py_type(self.obj_ref())
+  let tyname = @cpython.py_type_name(ty)
+  tyname
+}
+
 
 pub impl PyAble for PyObject with to_pyobject(self) -> PyObject {
   self

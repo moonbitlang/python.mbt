@@ -5,8 +5,8 @@ pub struct PyDict {
   priv obj: PyObject
 }
 
-fn PyDict::obj_ref(self: PyDict) -> @cpython.PyObjectRef {
-  self.obj.obj_ref()
+fn PyDict::obj(self: PyDict) -> PyObject {
+  self.obj
 }
 
 pub fn PyDict::new() -> PyDict {
@@ -43,15 +43,15 @@ pub fn PyDict::op_set[K: PyAble, V: PyAble](self: PyDict, key: K, val: V) -> Uni
 
 // TODO: Seems that it is incorrect.
 pub fn PyDict::keys(self: PyDict) -> PyList {
-  PyList::create(@cpython.py_dict_keys(self.obj_ref()))
+  PyList::create_by_ref(@cpython.py_dict_keys(self.obj_ref()))
 }
 
 pub fn PyDict::values(self: PyDict) -> PyList {
-  PyList::create(@cpython.py_dict_values(self.obj_ref()))
+  PyList::create_by_ref(@cpython.py_dict_values(self.obj_ref()))
 }
 
 pub fn PyDict::items(self: PyDict) -> PyList {
-  PyList::create(@cpython.py_dict_items(self.obj_ref()))
+  PyList::create_by_ref(@cpython.py_dict_items(self.obj_ref()))
 }
 
 pub fn PyDict::to_string(self: PyDict) -> String {
@@ -66,16 +66,17 @@ pub fn PyDict::drop(self: PyDict) -> Unit {
   self.obj.drop()
 }
 
-
-pub impl IsPyObject for PyDict with obj_ref(self) -> @cpython.PyObjectRef {
-  self.obj_ref()
+pub fn PyDict::type_name(self: PyDict) -> String {
+  self.obj.type_name()
 }
 
+pub impl IsPyObject for PyDict with obj(self) {
+  self.obj()
+}
 
 pub impl PyAble for PyDict with to_pyobject(self) -> PyObject {
   PyObject::create(self.obj_ref())
 }
-
 
 pub impl Show for PyDict with to_string(self) -> String {
   PyDict::to_string(self)

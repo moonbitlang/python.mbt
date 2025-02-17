@@ -11,8 +11,8 @@ pub fn PyString::from(s: String) -> PyString {
   }
 }
 
-pub fn PyString::obj_ref(self: PyString) -> @cpython.PyObjectRef {
-  self.obj.obj_ref()
+pub fn PyString::obj(self: PyString) -> PyObject {
+  self.obj
 }
 
 pub fn PyString::to_string(self: PyString) -> String {
@@ -27,8 +27,8 @@ pub fn PyString::drop(self: PyString) -> Unit {
   self.obj.drop()
 }
 
-pub impl IsPyObject for PyString with obj_ref(self) -> @cpython.PyObjectRef {
-  self.obj_ref()
+pub impl IsPyObject for PyString with obj(self) {
+  self.obj()
 }
 
 pub impl PyAble for PyString with to_pyobject(self) -> PyObject {

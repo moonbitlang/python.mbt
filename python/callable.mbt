@@ -5,14 +5,20 @@ pub struct PyFunc {
   priv obj: PyObject
 }
 
-pub fn PyFunc::create(obj: @cpython.PyObjectRef) -> PyFunc {
+pub fn PyFunc::create(obj: PyObject) -> PyFunc {
+  PyFunc::{
+    obj: obj
+  }
+}
+
+pub fn PyFunc::create_by_ref(obj: @cpython.PyObjectRef) -> PyFunc {
   PyFunc::{
     obj: PyObject::create(obj)
   }
 }
 
-pub fn PyFunc::obj_ref(self: PyFunc) -> @cpython.PyObjectRef {
-  self.obj.obj_ref()
+pub fn PyFunc::obj(self: PyFunc) -> PyObject {
+  self.obj
 }
 
 pub fn PyFunc::invoke(self: PyFunc, args: PyTuple, kwargs~: PyDict = PyDict::new()) -> PyObject {
@@ -23,8 +29,7 @@ pub fn PyFunc::invoke(self: PyFunc, args: PyTuple, kwargs~: PyDict = PyDict::new
   }
 }
 
-
-pub impl IsPyObject for PyFunc with obj_ref(self) -> @cpython.PyObjectRef {
-  self.obj_ref()
+pub impl IsPyObject for PyFunc with obj(self) -> PyObject {
+  self.obj
 }
 

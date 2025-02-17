@@ -5,8 +5,8 @@ pub struct PyList {
   priv obj: PyObject
 }
 
-fn PyList::obj_ref(self: PyList) -> @cpython.PyObjectRef {
-  self.obj.obj_ref()
+fn PyList::obj(self: PyList) -> PyObject {
+  self.obj
 }
 
 pub fn PyList::new(size~ : Int = 0) -> PyList {
@@ -21,7 +21,13 @@ pub fn PyList::new(size~ : Int = 0) -> PyList {
   }
 }
 
-pub fn PyList::create(obj: @cpython.PyObjectRef) -> PyList {
+pub fn PyList::create(obj: PyObject) -> PyList {
+  PyList::{
+    obj
+  }
+}
+
+pub fn PyList::create_by_ref(obj: @cpython.PyObjectRef) -> PyList {
   // TODO: Need to check if it is really list object firstly.
   PyList::{
     obj: PyObject::create(obj)
@@ -83,8 +89,12 @@ pub fn PyList::drop(self: PyList) -> Unit {
   self.obj.drop()
 }
 
-pub impl IsPyObject for PyList with obj_ref(self) -> @cpython.PyObjectRef {
-  self.obj_ref()
+pub fn PyList::type_name(self: PyList) -> String {
+  self.obj.type_name()
+}
+
+pub impl IsPyObject for PyList with obj(self) {
+  self.obj()
 }
 
 pub impl PyAble for PyList with to_pyobject(self) -> PyObject {

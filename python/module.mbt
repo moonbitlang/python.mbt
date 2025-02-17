@@ -6,8 +6,8 @@ pub struct PyModule {
   priv obj: PyObject
 }
 
-pub fn PyModule::obj_ref(self: PyModule) -> @cpython.PyObjectRef {
-  self.obj.obj_ref()
+pub fn PyModule::obj(self: PyModule) -> PyObject {
+  self.obj
 }
 
 pub fn PyModule::get_name(self: PyModule) -> String {
@@ -41,13 +41,13 @@ pub fn PyModule::get_func(self: PyModule, fname: String) -> PyFunc? {
   }
 
   if @cpython.py_function_check(f) {
-    Some(PyFunc::create(f))
+    Some(PyFunc::create_by_ref(f))
   } else {
     None
   }
 }
 
-pub impl IsPyObject for PyModule with obj_ref(self) -> @cpython.PyObjectRef {
-  self.obj_ref()
+pub impl IsPyObject for PyModule with obj(self) {
+  self.obj()
 } 
 

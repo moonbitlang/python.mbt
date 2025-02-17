@@ -47,3 +47,35 @@ void py_decref(PyObject *obj) { Py_DECREF(obj); }
 int Moonbit_PyObjectRef_is_null(PyObject *obj) { return obj == NULL; }
 
 int Moonbit_PyFunction_Check(PyObject *obj) { PyFunction_Check(obj); }
+
+PyTypeObject *py_type(PyObject *obj) { return obj->ob_type; }
+
+int py_tuple_check(PyObject *obj) { return PyTuple_Check(obj); }
+
+int py_list_check(PyObject *obj) { return PyList_Check(obj); }
+
+int py_dict_check(PyObject *obj) { return PyDict_Check(obj); }
+
+int py_set_check(PyObject *obj) { return PySet_Check(obj); }
+
+int py_string_check(PyObject *obj) { return PyUnicode_Check(obj); }
+
+int py_int_check(PyObject *obj) { return PyLong_Check(obj); }
+
+int py_float_check(PyObject *obj) { return PyFloat_Check(obj); }
+
+int py_bool_check(PyObject *obj) { return PyBool_Check(obj); }
+
+int py_none_check(PyObject *obj) { return Py_None == obj; }
+
+int py_callable_check(PyObject *obj) { return PyCallable_Check(obj); }
+
+int py_iter_check(PyObject *obj) { return PyIter_Check(obj); }
+
+int py_module_check(PyObject *obj) { return PyModule_Check(obj); }
+
+int py_type_check(PyObject *obj) { return PyType_Check(obj); }
+
+int py_function_check(PyObject *obj) { return PyFunction_Check(obj); }
+
+int py_method_check(PyObject *obj) { return PyMethod_Check(obj); }

@@ -123,23 +123,17 @@ pub fn plot(xs: PyList, ys: PyList, format~: String = "r") -> Unit{
   let func = pyplot_get_func?("plot") |> unwrap_func
   let format = @python.PyString::from(format)
 
-  let plot_args = @python.PyTuple::new(3)
-  plot_args[0] = xs
-  plot_args[1] = ys
-  plot_args[2] = format
-
+  let plot_args = PyTuple::from((xs, ys, format))
   let _ = func.invoke(plot_args)
 
-  // TODO: Eliminate this when we can do gc
   plot_args.drop()
 }
 
 pub fn xlim(left: Double, right: Double) -> Unit{
   let func = pyplot_get_func?("xlim") |> unwrap_func
 
-  let list = @python.PyList::from([left, right])
-  let args = @python.PyTuple::new(1)
-  args[0] = list
+  let list = PyList::from([left, right])
+  let args = PyTuple::new(1) .. set(0, list)
 
   let _ = func.invoke(args)
 
@@ -150,8 +144,7 @@ pub fn ylim(left: Double, right: Double) -> Unit {
   let func = pyplot_get_func?("ylim") |> unwrap_func
 
   let list = @python.PyList::from([left, right])
-  let args = @python.PyTuple::new(1)
-  args[0] = list
+  let args = @python.PyTuple::new(1) .. set(0, list)
 
   let _ = func.invoke(args)
 
@@ -163,10 +156,9 @@ pub fn title(
   // keywords~: Map[String, String] = Map::new()
 ) -> Unit {
   let func = pyplot_get_func?("title") |> unwrap_func
-  let py_str = @python.PyString::from(title_str)
+  let py_str = PyString::from(title_str)
 
-  let args = @python.PyTuple::new(1)
-  args[0] = py_str
+  let args = PyTuple::new(1) .. set(0, py_str)
 
   let _ = func.invoke(args)
 
@@ -186,9 +178,7 @@ pub fn save(
   let func = pylab_get_func?("save") |> unwrap_func
   let py_str = PyString::from(filename)
 
-  let args = PyTuple::new(1)
-  args[0] = py_str
-
+  let args = PyTuple::new(1) .. set(0, py_str)
   let kwargs = PyDict::new()
 
   if dpi > 0 {

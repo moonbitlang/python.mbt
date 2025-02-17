@@ -5,6 +5,7 @@ type PyObjectRef // PyObject*
 type PyThreadStateRef // PyThreadState*
 type PyCodeObjectRef // PyCodeObject*
 type ArrayPyObjectRef // PyObject*[]
+type PyTypeObjectRef
 
 extern "C" fn moonbit_str_to_c_str(
   s: String

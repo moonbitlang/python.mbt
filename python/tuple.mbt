@@ -5,8 +5,8 @@ pub struct PyTuple {
   priv obj: PyObject
 }
 
-fn PyTuple::obj_ref(self: PyTuple) -> @cpython.PyObjectRef {
-  self.obj.obj_ref()
+fn PyTuple::obj(self: PyTuple) -> PyObject {
+  self.obj
 }
 
 pub fn PyTuple::new(size : Int) -> PyTuple {
@@ -18,6 +18,18 @@ pub fn PyTuple::new(size : Int) -> PyTuple {
 
   PyTuple::{
     obj: @cpython.pytuple_new(size.to_uint64()) |> PyObject::create
+  }
+}
+
+pub fn PyTuple::create(obj: PyObject) -> PyTuple {
+  PyTuple::{
+    obj
+  }
+}
+
+pub fn PyTuple::create_by_ref(obj_ref: @cpython.PyObjectRef) -> PyTuple {
+  PyTuple::{
+    obj: PyObject::create(obj_ref)
   }
 }
 
@@ -41,6 +53,10 @@ pub fn PyTuple::op_set[T: PyAble](self: PyTuple, idx: Int, item: T) -> Unit {
   self.set(idx, item)
 }
 
+pub fn PyTuple::from[T: PyAble](self: T) -> PyTuple {
+  self.to_pytuple()
+}
+
 pub fn PyTuple::to_string(self: PyTuple) -> String {
   PyObject::to_string(self.obj)
 }
@@ -53,8 +69,12 @@ pub fn PyTuple::drop(self: PyTuple) -> Unit {
   self.obj.drop()
 } 
 
-pub impl IsPyObject for PyTuple with obj_ref(self) -> @cpython.PyObjectRef {
-  self.obj_ref()
+pub fn PyTuple::type_name(self: PyTuple) -> String {
+  self.obj.type_name()
+}
+
+pub impl IsPyObject for PyTuple with obj(self) -> PyObject {
+  self.obj()
 }
 
 pub impl PyAble for PyTuple with to_pyobject(self) -> PyObject {
@@ -70,4 +90,3 @@ pub impl Show for PyTuple with output(
 ) -> Unit {
   logger.write_string(self.to_string())
 }
-
