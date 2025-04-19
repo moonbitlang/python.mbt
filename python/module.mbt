@@ -40,7 +40,7 @@ pub fn PyModule::get_func(self: PyModule, fname: String) -> PyFunc? {
     return None
   }
 
-  if @cpython.py_function_check(f) {
+  if @cpython.py_callable_check(f) {
     Some(PyFunc::create_by_ref(f))
   } else {
     None

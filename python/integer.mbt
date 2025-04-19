@@ -10,6 +10,12 @@ fn PyInteger::obj(self: PyInteger) -> PyObject {
   self.obj
 }
 
+pub fn PyInteger::create(obj: PyObject) -> PyInteger {
+  PyInteger::{
+    obj: obj
+  }
+}
+
 pub fn PyInteger::new(value: Int64) -> PyInteger {
   PyInteger::{
     obj: PyObject::create(@cpython.py_long_from_long(value))

@@ -33,7 +33,10 @@ pub extern "C" fn py_object_generic_set_attr(a: PyObjectRef, b: PyObjectRef, c: 
 // pub extern "C" fn py_object_hash_not_implemented(a: PyObjectRef) -> Py_hash_t = "PyObject_HashNotImplemented"
 pub extern "C" fn py_object_is_true(a: PyObjectRef) -> Int = "PyObject_IsTrue"
 pub extern "C" fn py_object_not(a: PyObjectRef) -> Int = "PyObject_Not"
-pub extern "C" fn py_callable_check(a: PyObjectRef) -> Int = "PyCallable_Check"
+pub extern "C" fn __py_callable_check(a: PyObjectRef) -> Int = "PyCallable_Check"
+pub fn py_callable_check(a: PyObjectRef) -> Bool {
+  __py_callable_check(a) != 0
+}
 pub extern "C" fn py_object_clear_weak_refs(a: PyObjectRef) = "PyObject_ClearWeakRefs"
 pub extern "C" fn py_object_dir(a: PyObjectRef) -> PyObjectRef = "PyObject_Dir"
 pub extern "C" fn py_repr_enter(a: PyObjectRef) -> Int = "Py_ReprEnter"

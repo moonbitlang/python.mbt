@@ -5,11 +5,17 @@
     {
       "path": "Kaida-Amethyst/python/matplotlib",
       "alias": "plt"
+    },
+    {
+      "path": "Kaida-Amethyst/python/PyQt5",
+      "alias": "qt"
     }
   ],
   "link" : {
     "native" : {
-      "cc-flags" : "./CWarp/core.c -I/usr/include/python3.8 -lpython3.8 -g"
+      "cc" : "$CC",
+      "cc-flags": "$CC_FLAGS",
+      "cc-link-flags" : "$CC_LINK_FLAGS"
     }
   }
 }
