@@ -27,6 +27,12 @@ pub fn PyObjectEnum::create(obj: PyObject) -> PyObjectEnum {
   }
 }
 
+pub fn PyObjectEnum::create_by_ref(obj_ref: @cpython.PyObjectRef) -> PyObjectEnum {
+  let obj = PyObject::create(obj_ref);
+
+  PyObjectEnum::create(obj)
+}
+
 pub fn PyObjectEnum::into_integer(self: PyObjectEnum) -> PyInteger!PyRuntimeError {
   guard self is PyInteger(i) else {
     raise TypeMisMatchError

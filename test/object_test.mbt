@@ -4,6 +4,7 @@ typealias PyString = @python.PyString;
 typealias PyList = @python.PyList;
 typealias PyTuple = @python.PyTuple;
 typealias PyBool = @python.PyBool;
+typealias PyDict = @python.PyDict;
 
 
 test "PyInteger Test" {
@@ -39,6 +40,9 @@ test "PyString Test" {
   let s = PyString::from("hello");
   inspect!(s, content="\'hello\'")
   inspect!(s.type_name(), content="str")
+
+  inspect!(PyString::from("one"), content="\'one\'")
+  inspect!(PyString::from("two"), content="\'two\'")
 }
 
 test "PyList Test" {
@@ -98,4 +102,32 @@ test "PyTuple Test" {
 
   tuple[0] = PyInteger::from(42);
   inspect!(tuple, content="(42, 2.0, \'three\')")
+}
+
+test "PyDict Test" {
+
+  let dict = PyDict::new()
+           ..set("one", PyInteger::from(1))
+           ..set("two", PyFloat::from(2.0))
+           ..set("three", PyString::from("three"));
+
+  println(dict.get("one"))
+  println(dict.get("two"))
+  println(dict.get("three"))
+
+  inspect!(dict.type_name(), content="dict")
+  assert_eq!(dict.len(), 3);
+  inspect!(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': \'three\'}")
+
+  inspect!(dict.get("one").unwrap(), content="PyInteger(1)")
+  inspect!(dict.get("two"), content="Some(PyFloat(2.0))")
+  inspect!(dict.get("four"), content="None")
+
+  inspect!(dict["one"], content="PyInteger(1)")
+  inspect!(dict["two"], content="PyFloat(2.0)")
+  inspect!(dict["three"], content="PyString(\'three\')")
+
+  //inspect!(dict.keys(), content="[\'one\', \'xwo\', \'three\']")
+  inspect!(dict.values(), content="[1, 2.0, \'three\']")
+  println(dict.items())
 }

@@ -22,7 +22,11 @@ pub extern "C" fn py_dict_size(dict: PyObjectRef) -> UInt64 = "PyDict_Size"
 
 pub extern "C" fn py_dict_copy(dict: PyObjectRef) -> PyObjectRef = "PyDict_Copy"
 
-pub extern "C" fn py_dict_contains(dict: PyObjectRef, key: PyObjectRef) -> Int = "PyDict_Contains"
+pub extern "C" fn __py_dict_contains(dict: PyObjectRef, key: PyObjectRef) -> Int = "PyDict_Contains"
+
+pub fn py_dict_contains(dict: PyObjectRef, key: PyObjectRef) -> Bool {
+  __py_dict_contains(dict, key) != 0
+}
 
 pub extern "C" fn py_dict_update(dict: PyObjectRef, other: PyObjectRef) -> Int = "PyDict_Update"
 

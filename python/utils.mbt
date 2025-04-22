@@ -12,4 +12,3 @@ pub fn init_py() -> Unit {
 fn init {
   init_py()
 }
-

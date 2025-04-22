@@ -61,5 +61,9 @@ pub fn PyObjectRef::is_null(self: PyObjectRef) -> Bool {
 
 pub extern "C" fn print_pyobject(obj: PyObjectRef) = "print_pyobject"
 
+pub fn PyObjectRef::dump(self: PyObjectRef) -> Unit {
+  print_pyobject(self)
+}
+
 pub extern "C" fn py_incref(obj: PyObjectRef) = "py_incref"
 pub extern "C" fn py_decref(obj: PyObjectRef) = "py_decref"
