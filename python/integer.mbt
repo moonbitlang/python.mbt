@@ -119,16 +119,10 @@ pub impl IsPyObject for PyInteger with obj(self) {
   self.obj()
 }
 
-pub impl PyAble for PyInteger with to_pyobject(self) -> PyObject {
-  PyObject::create(self.obj_ref())
-}
-
 pub impl Show for PyInteger with to_string(self) -> String {
   @cpython.py_object_moonbit_repr(self.obj_ref())
 }
 
-pub impl Show for PyInteger with output(
-  self:PyInteger, logger: &Logger
-) -> Unit {
+pub impl Show for PyInteger with output(self, logger) -> Unit {
   logger.write_string(self.to_string())
 }

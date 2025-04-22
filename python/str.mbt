@@ -21,8 +21,6 @@ fn PyString::create_unchecked(obj: PyObject) -> PyString {
   }
 }
 
-
-
 ///| Create a PyString from a string
 ///
 /// ## Example
@@ -81,10 +79,6 @@ pub impl IsPyObject for PyString with type_name(self) {
 
 pub impl IsPyObject for PyString with obj(self) {
   self.obj()
-}
-
-pub impl PyAble for PyString with to_pyobject(self) -> PyObject {
-  PyObject::create(self.obj_ref())
 }
 
 pub impl Show for PyString with to_string(self) {

@@ -16,8 +16,8 @@ pub fn PyObject::is_null(self: PyObject) -> Bool {
   self.obj.is_null()
 }
 
-pub fn PyObject::is_list(self: PyObject) -> Bool {
-  @cpython.py_object_is_list(self.obj_ref())
+pub fn PyObject::is_bool(self: PyObject) -> Bool {
+  @cpython.py_object_is_bool(self.obj_ref())
 }
 
 pub fn PyObject::is_int(self: PyObject) -> Bool {
@@ -30,6 +30,18 @@ pub fn PyObject::is_float(self: PyObject) -> Bool {
 
 pub fn PyObject::is_string(self: PyObject) -> Bool {
   @cpython.py_object_is_string(self.obj_ref())
+}
+
+pub fn PyObject::is_list(self: PyObject) -> Bool {
+  @cpython.py_object_is_list(self.obj_ref())
+}
+
+pub fn PyObject::is_tuple(self: PyObject) -> Bool {
+  @cpython.py_object_is_tuple(self.obj_ref())
+}
+
+pub fn PyObject::is_dict(self: PyObject) -> Bool {
+  @cpython.py_object_is_dict(self.obj_ref())
 }
 
 pub fn PyObject::dump(self: PyObject) -> Unit {
@@ -72,10 +84,6 @@ pub fn PyObject::get_method(self: PyObject, method_name: String) -> PyFunc? {
     println("\{method_name} is not callable")
     None
   }
-}
-
-pub impl PyAble for PyObject with to_pyobject(self) -> PyObject {
-  self
 }
 
 pub impl Show for PyObject with to_string(self: PyObject) -> String {

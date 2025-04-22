@@ -31,7 +31,10 @@ pub extern "C" fn py_object_generic_get_attr(a: PyObjectRef, b: PyObjectRef) -> 
 pub extern "C" fn py_object_generic_set_attr(a: PyObjectRef, b: PyObjectRef, c: PyObjectRef) -> Int = "PyObject_GenericSetAttr"
 // pub extern "C" fn py_object_hash(a: PyObjectRef) -> Py_hash_t = "PyObject_Hash"
 // pub extern "C" fn py_object_hash_not_implemented(a: PyObjectRef) -> Py_hash_t = "PyObject_HashNotImplemented"
-pub extern "C" fn py_object_is_true(a: PyObjectRef) -> Int = "PyObject_IsTrue"
+extern "C" fn __py_object_is_true(a: PyObjectRef) -> Int = "PyObject_IsTrue"
+pub fn py_object_is_true(a: PyObjectRef) -> Bool {
+  __py_object_is_true(a) != 0
+}
 pub extern "C" fn py_object_not(a: PyObjectRef) -> Int = "PyObject_Not"
 pub extern "C" fn __py_callable_check(a: PyObjectRef) -> Int = "PyCallable_Check"
 pub fn py_callable_check(a: PyObjectRef) -> Bool {
@@ -84,4 +87,9 @@ pub fn py_object_is_float(obj: PyObjectRef) -> Bool {
 extern "C" fn __py_object_is_string(obj: PyObjectRef) -> Int = "py_string_check"
 pub fn py_object_is_string(obj: PyObjectRef) -> Bool {
   __py_object_is_string(obj) != 0
+}
+
+extern "C" fn __py_object_is_bool(obj: PyObjectRef) -> Int = "py_bool_check"
+pub fn py_object_is_bool(obj: PyObjectRef) -> Bool {
+  __py_object_is_bool(obj) != 0
 }

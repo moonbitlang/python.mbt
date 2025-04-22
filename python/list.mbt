@@ -171,7 +171,7 @@ pub fn PyList::from[T: IsPyObject](items: Array[T]) -> PyList {
 ///| Get the item at the specified index.
 ///
 /// **Notes**: Although python support negative index, the moonbit api does not
-/// support it. which means code like `list.get(-1)` will raise `IndexOutOfBoundsError`.
+/// support it. Code like `list.get(-1)` will return `None`.
 ///
 /// ## Example
 ///
@@ -182,21 +182,21 @@ pub fn PyList::from[T: IsPyObject](items: Array[T]) -> PyList {
 ///   list.append(@python.PyFloat::from(2.0));
 ///   list.append(@python.PyString::from("hello"));
 ///
-///   inspect!(list.get!(0), content="PyInteger(1)")
-///   inspect!(list.get?(1), content="Ok(PyFloat(2.0))")
-///   inspect!(list.get?(3), content="Err(IndexOutOfBoundsError)")
-///   inspect!(list.get?(-1), content="Err(IndexOutOfBoundsError)")
+///   inspect!(list.get(0).unwrap(), content="PyInteger(1)")
+///   inspect!(list.get(1), content="Some(PyFloat(2.0))")
+///   inspect!(list.get(3), content="None")
+///   inspect!(list.get(-1), content="None")
 /// }
 /// ```
-pub fn PyList::get(self: PyList, idx: Int) -> PyObjectEnum!PyRuntimeError {
-  let obj_ref = @cpython.py_list_get_item(self.obj_ref(), idx.to_int64())
-
-  if obj_ref.is_null() {
-    raise IndexOutOfBoundsError
-  }
-
-  obj_ref |> PyObject::create
-  |> PyObjectEnum::create
+pub fn PyList::get(self: PyList, idx: Int) -> PyObjectEnum? {
+  @option.when(
+    idx >= 0 && idx < self.len(),
+    fn () {
+      @cpython.py_list_get_item(self.obj_ref(), idx.to_int64())
+      |> PyObject::create
+      |> PyObjectEnum::create
+    }
+  )
 }
 
 ///| Get the item at the specified index.
@@ -219,8 +219,7 @@ pub fn PyList::get(self: PyList, idx: Int) -> PyObjectEnum!PyRuntimeError {
 /// }
 /// ```
 pub fn PyList::op_get(self: PyList, idx: Int) -> PyObjectEnum {
-  guard self.get?(idx) is Ok(e)
-  e
+    self.get(idx).unwrap()
 }
 
 ///| Set the item at the specified index.
@@ -307,10 +306,6 @@ pub impl IsPyObject for PyList with type_name(self: PyList) -> String {
 ///|
 pub impl IsPyObject for PyList with obj(self) {
   self.obj()
-}
-
-pub impl PyAble for PyList with to_pyobject(self) -> PyObject {
-  PyObject::create(self.obj_ref())
 }
 
 pub impl Show for PyList with to_string(self) -> String {

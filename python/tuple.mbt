@@ -9,22 +9,40 @@ fn PyTuple::obj(self: PyTuple) -> PyObject {
   self.obj
 }
 
+///| Create a PyTuple object.
+///
+/// **Notes**: Tuple type must know the size of the tuple.
+///
+/// ## Example:
+///
+/// ```moonbit
+/// test "PyTuple::new" {
+///   let tuple = PyTuple::new(3)
+///             ..set!(0, PyInteger::from(1))
+///             ..set!(1, PyFloat::from(2.0))
+///             ..set!(2, PyString::from("three"));
+///
+///   inspect!(tuple, content="(1, 2.0, \'three\')")
+/// }
+/// ```
 pub fn PyTuple::new(size : UInt64) -> PyTuple {
   PyTuple::{
     obj: @cpython.pytuple_new(size) |> PyObject::create
   }
 }
 
-pub fn PyTuple::create(obj: PyObject) -> PyTuple {
-  PyTuple::{
-    obj
+///| Create a PyTuple object from a python object.
+pub fn PyTuple::create(obj: PyObject) -> PyTuple!PyRuntimeError {
+  guard obj.is_tuple() else {
+    raise TypeMisMatchError
   }
+
+  PyTuple::{ obj }
 }
 
+///|
 fn PyTuple::create_unchecked(obj: PyObject) -> PyTuple {
-  PyTuple::{
-    obj
-  }
+  PyTuple::{ obj }
 }
 
 pub fn PyTuple::create_by_ref(obj_ref: @cpython.PyObjectRef) -> PyTuple {
@@ -39,32 +57,129 @@ fn PyTuple::create_by_ref_unchecked(obj_ref: @cpython.PyObjectRef) -> PyTuple {
   }
 }
 
+///| Return the size of the tuple.
+///
+/// ## Example:
+///
+/// ```moonbit
+/// test "PyTuple::len" {
+///   let tuple = PyTuple::new(3)
+///
+///   assert_eq!(tuple.len(), 3);
+/// }
+/// ```
 pub fn PyTuple::len(self: PyTuple) -> Int {
   @cpython.pytuple_size(self.obj_ref()).to_int()
 }
 
-pub fn PyTuple::get(self: PyTuple, idx: Int) -> PyObject {
-  PyObject::create(@cpython.pytuple_get_item(self.obj_ref(), idx.to_uint64()))
+///| Get the item at the given index.
+///
+/// **Notes**: Although python supports negative index, in moonbit, we don't have plan to
+/// support it. Code like `tuple.get(-1)` will return `None`.
+///
+/// ## Example:
+///
+/// ```moonbit
+/// test "PyTuple::get" {
+///   let tuple = PyTuple::new(3)
+///             ..set!(0, PyInteger::from(1))
+///             ..set!(1, PyFloat::from(2.0))
+///             ..set!(2, PyString::from("three"));
+///
+///   inspect!(tuple, content="(1, 2.0, \'three\')")
+///   inspect!(tuple.get(0).unwrap(), content="PyInteger(1)")
+///   inspect!(tuple.get(1).unwrap(), content="PyFloat(2.0)")
+///   inspect!(tuple.get(2).unwrap(), content="PyString(\'three\')")
+///   inspect!(tuple.get(3), content="None")
+/// }
+/// ```
+///
+/// The above code is equivalent the following python code:
+///
+/// ```python
+/// tuple = (1, 2.0, "three")
+///
+/// print(tuple) # Output: (1, 2.0, 'three')
+/// print(tuple[0]) # Output: 1
+/// print(tuple[1]) # Output: 2.0
+/// print(tuple[2]) # Output: three
+pub fn PyTuple::get(self: PyTuple, idx: Int) -> PyObjectEnum? {
+  @option.when(
+    idx >= 0 && idx < self.len(),
+    fn () {
+      @cpython.pytuple_get_item(self.obj_ref(), idx.to_uint64())
+      |> PyObject::create
+      |> PyObjectEnum::create
+    }
+  )
 }
 
-pub fn PyTuple::op_get(self: PyTuple, idx: Int) -> PyObject {
-  self.get(idx)
+///| Get the item at the given index.
+///
+/// **Notes**: Although python supports negative index, in moonbit, we don't have plan to
+/// support it. Code like `tuple[-1]` will return `None`.
+///
+/// ## Example:
+///
+/// ```moonbit
+/// test "PyTuple::op_get" {
+///    let tuple = PyTuple::new(3)
+///              ..set!(0, PyInteger::from(1))
+///              ..set!(1, PyFloat::from(2.0))
+///              ..set!(2, PyString::from("three"));
+///
+///   inspect!(tuple[0], content="PyInteger(1)")
+///   inspect!(tuple[1], content="PyFloat(2.0)")
+///   inspect!(tuple[2], content="PyString(\'three\')")
+/// }
+/// ```
+pub fn PyTuple::op_get(self: PyTuple, idx: Int) -> PyObjectEnum {
+  self.get(idx).unwrap()
 }
 
-pub fn PyTuple::set[T: PyAble](self: PyTuple, idx: Int, item: T) -> Unit {
-  let _ = @cpython.pytuple_set_item(self.obj_ref(), idx.to_uint64(), item.to_pyobject().obj_ref())
+///| Set the item at the given index.
+///
+/// **Notes**: Although python supports negative index, in moonbit, we don't have plan to
+/// support it. Code like `tuple.set(-1, item)` will raise `IndexOutOfBoundError`.
+///
+/// ## Example:
+///
+/// ```moonbit
+/// test "PyTuple::set" {
+///   let tuple = PyTuple::new(3)
+///             ..set!(0, PyInteger::from(1))
+///             ..set!(1, PyFloat::from(2.0))
+///             ..set!(2, PyString::from("three"));
+///
+///   inspect!(tuple, content="(10, 2.0, \'three\')")
+/// }
+pub fn PyTuple::set[T: IsPyObject](self: PyTuple, idx: Int, item: T) -> Unit!PyRuntimeError {
+  guard idx >= 0 && idx < self.len() else {
+    raise IndexOutOfBoundsError
+  }
+
+  let _ = @cpython.pytuple_set_item(self.obj_ref(), idx.to_uint64(), item.obj_ref())
 }
 
-pub fn PyTuple::op_set[T: PyAble](self: PyTuple, idx: Int, item: T) -> Unit {
-  self.set(idx, item)
-}
-
-pub fn PyTuple::from[T: PyAble](self: T) -> PyTuple {
-  self.to_pytuple()
-}
-
-pub fn PyTuple::to_string(self: PyTuple) -> String {
-  PyObject::to_string(self.obj)
+///| Set the item at the given index.
+///
+/// **Notes**: Although python supports negative index, in moonbit, we don't have plan to
+/// support it. Code like `tuple[-1] = item` will raise `IndexOutOfBoundError`.
+///
+/// ## Example:
+///
+/// ```moonbit
+/// test "PyTuple::op_set" {
+///   let tuple = PyTuple::new(3)
+///             ..set!(0, PyInteger::from(1))
+///             ..set!(1, PyFloat::from(2.0))
+///             ..set!(2, PyString::from("three"));
+///
+///   inspect!(tuple, content="(1, 2.0, \'three\')")
+/// }
+/// ```
+pub fn PyTuple::op_set[T: IsPyObject](self: PyTuple, idx: Int, item: T) -> Unit {
+  self.set?(idx, item).unwrap()
 }
 
 pub fn PyTuple::dump(self: PyTuple) -> Unit {
@@ -75,7 +190,20 @@ pub fn PyTuple::drop(self: PyTuple) -> Unit {
   self.obj.drop()
 } 
 
-pub fn PyTuple::type_name(self: PyTuple) -> String {
+///| Return the name of the type.
+///
+/// **Notes**: Always return `tuple`, if no error occurs.
+///
+/// ## Example:
+///
+/// ```moonbit
+/// test "PyTuple::type_name" {
+///   let tuple = PyTuple::new(3);
+///
+///   inspect!(tuple.type_name(), content="tuple")
+/// }
+/// ```
+pub impl IsPyObject for PyTuple with type_name(self: PyTuple) -> String {
   self.obj.type_name()
 }
 
@@ -83,12 +211,8 @@ pub impl IsPyObject for PyTuple with obj(self) -> PyObject {
   self.obj()
 }
 
-pub impl PyAble for PyTuple with to_pyobject(self) -> PyObject {
-  PyObject::create(self.obj_ref())
-}
-
 pub impl Show for PyTuple with to_string(self) -> String {
-  PyTuple::to_string(self)
+  self.obj.to_string()
 }
 
 pub impl Show for PyTuple with output(

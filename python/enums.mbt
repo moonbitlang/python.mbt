@@ -1,10 +1,11 @@
 
-
 pub(all) enum PyObjectEnum {
   PyInteger(PyInteger)
   PyFloat(PyFloat)
+  PyBool(PyBool)
   PyString(PyString)
   PyList(PyList)
+  PyDict(PyDict)
   Custom(PyObject)
 } derive(Show)
 
@@ -17,6 +18,10 @@ pub fn PyObjectEnum::create(obj: PyObject) -> PyObjectEnum {
     PyObjectEnum::PyString(PyString::create_unchecked(obj))
   } else if obj.is_list() {
     PyObjectEnum::PyList(PyList::create_unchecked(obj))
+  } else if obj.is_dict() {
+    PyObjectEnum::PyDict(PyDict::create_unchecked(obj))
+  } else if obj.is_bool() {
+    PyObjectEnum::PyBool(PyBool::create_unchecked(obj))
   } else {
     PyObjectEnum::Custom(obj)
   }
@@ -38,6 +43,14 @@ pub fn PyObjectEnum::into_float(self: PyObjectEnum) -> PyFloat!PyRuntimeError {
   f
 }
 
+pub fn PyObjectEnum::into_bool(self: PyObjectEnum) -> PyBool!PyRuntimeError {
+  guard self is PyBool(b) else {
+    raise TypeMisMatchError
+  }
+
+  b
+}
+
 pub fn PyObjectEnum::into_string(self: PyObjectEnum) -> PyString!PyRuntimeError {
   guard self is PyString(s) else {
     raise TypeMisMatchError
@@ -52,4 +65,12 @@ pub fn PyObjectEnum::into_list(self: PyObjectEnum) -> PyList!PyRuntimeError {
   }
 
   l
+}
+
+pub fn PyObjectEnum::into_dict(self: PyObjectEnum) -> PyDict!PyRuntimeError {
+  guard self is PyDict(d) else {
+    raise TypeMisMatchError
+  }
+
+  d
 }

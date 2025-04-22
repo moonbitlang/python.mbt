@@ -79,3 +79,7 @@ int py_type_check(PyObject *obj) { return PyType_Check(obj); }
 int py_function_check(PyObject *obj) { return PyFunction_Check(obj); }
 
 int py_method_check(PyObject *obj) { return PyMethod_Check(obj); }
+
+int py_is_true(PyObject *obj) { return 0 != Py_IsTrue(obj); };
+
+int py_is_false(PyObject *obj) { return 0 == Py_IsTrue(obj); }

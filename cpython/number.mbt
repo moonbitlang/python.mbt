@@ -27,3 +27,5 @@ pub extern "C" fn py_complex_from_doubles(real: Double, imag: Double) -> PyObjec
 pub extern "C" fn py_complex_real_as_double(op: PyObjectRef) -> Double = "PyComplex_RealAsDouble"
 pub extern "C" fn py_complex_imag_as_double(op: PyObjectRef) -> Double = "PyComplex_ImagAsDouble"
 
+// Bool
+pub extern "C" fn py_bool_from_long(value: Int64) -> PyObjectRef = "PyBool_FromLong"
