@@ -1,5 +1,3 @@
-typealias PyList = @python.PyList
-
 //fn main {
 //  let x = Array::makei(100, fn (i) { i.to_double() })
 //  let y = x.map(@math.ln)
@@ -11,21 +9,11 @@ typealias PyList = @python.PyList
 //  @plt.show()
 //}
 
-typealias QApplication = @qt.QApplication
-typealias QMainWindow = @qt.QMainWindow
-typealias QLabel = @qt.QLabel
-
 fn main {
-  let app = QApplication::new()
-  let window = QMainWindow::new()
-  window.setWindowTitle("Hello World")
-  window.setGeometry(100, 100, 400, 300)
+  let f = @python.PyFloat::new(3.5);
 
-  let label = QLabel::new("Hello, World!", window)
+  println(f)
+  println(f.type_name())
+  println(f.to_double())
 
-  label.moveTo(100, 50)
-  label.setStyleSheet("font-size: 20px;")
-
-  window.show()
-  let _ = app.exec()
 }

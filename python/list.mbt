@@ -9,15 +9,9 @@ fn PyList::obj(self: PyList) -> PyObject {
   self.obj
 }
 
-pub fn PyList::new(size~ : Int = 0) -> PyList {
-  let size = if size < 0 {
-    0
-  } else {
-    size
-  }
-
+pub fn PyList::new() -> PyList {
   PyList::{
-    obj: @cpython.py_list_new(size.to_int64()) |> PyObject::create
+    obj: @cpython.py_list_new(0) |> PyObject::create
   }
 }
 
@@ -39,13 +33,13 @@ pub fn PyList::len(self: PyList) -> Int {
 }
 
 // REVIEW: the return value may have special meaning.
-pub fn PyList::append[T: PyAble](self: PyList, item: T) -> Unit {
-  let _ = @cpython.py_list_append(self.obj_ref(), item.to_pyobject().obj_ref())
+pub fn PyList::append[T: IsPyObject](self: PyList, item: T) -> Unit {
+  let _ = @cpython.py_list_append(self.obj_ref(), item.obj_ref())
 }
 
-// pub fn PyList::pop(self: PyList) -> PyObject {
-//   PyObject::create(@cpython.py_list_pop(self.obj_ref()))
-// }
+ //pub fn PyList::pop(self: PyList) -> PyObject {
+ //  PyObject::create(@cpython.py_list_pop(self.obj_ref()))
+ //}
 
 pub fn PyList::sort(self: PyList) -> Unit {
   let _ = @cpython.py_list_sort(self.obj_ref())
@@ -55,7 +49,7 @@ pub fn PyList::reverse(self: PyList) -> Unit {
   let _ = @cpython.py_list_reverse(self.obj_ref())
 }
 
-pub fn PyList::from[T: PyAble](items: Array[T]) -> PyList {
+pub fn PyList::from[T: IsPyObject](items: Array[T]) -> PyList {
   let pylist = PyList::new()
   items.each(fn (item) { pylist.append(item) })
   pylist
@@ -69,11 +63,11 @@ pub fn PyList::op_get(self: PyList, idx: Int) -> PyObject {
   self.get(idx)
 }
 
-pub fn PyList::set[T: PyAble](self: PyList, idx: Int, item: T) -> Unit {
-  let _ = @cpython.py_list_set_item(self.obj_ref(), idx.to_int64(), item.to_pyobject().obj_ref())
+pub fn PyList::set[T: IsPyObject](self: PyList, idx: Int, item: T) -> Unit {
+  let _ = @cpython.py_list_set_item(self.obj_ref(), idx.to_int64(), item.obj_ref())
 }
 
-pub fn PyList::op_set[T: PyAble](self: PyList, idx: Int, item: T) -> Unit {
+pub fn PyList::op_set[T: IsPyObject](self: PyList, idx: Int, item: T) -> Unit {
   self.set(idx, item)
 }
 
@@ -89,7 +83,7 @@ pub fn PyList::drop(self: PyList) -> Unit {
   self.obj.drop()
 }
 
-pub fn PyList::type_name(self: PyList) -> String {
+pub impl IsPyObject for PyList with type_name(self: PyList) -> String {
   self.obj.type_name()
 }
 
