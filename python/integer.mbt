@@ -9,7 +9,17 @@ fn PyInteger::obj(self: PyInteger) -> PyObject {
   self.obj
 }
 
-pub fn PyInteger::create(obj: PyObject) -> PyInteger {
+pub fn PyInteger::create(obj: PyObject) -> PyInteger!PyRuntimeError {
+  guard obj.is_int() else {
+    raise TypeMisMatchError
+  }
+
+  PyInteger::{
+    obj: obj
+  }
+}
+
+pub fn PyInteger::create_unchecked(obj: PyObject) -> PyInteger {
   PyInteger::{
     obj: obj
   }

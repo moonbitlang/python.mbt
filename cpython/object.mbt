@@ -81,3 +81,7 @@ pub fn py_object_is_float(obj: PyObjectRef) -> Bool {
   __py_object_is_float(obj) != 0
 }
 
+extern "C" fn __py_object_is_string(obj: PyObjectRef) -> Int = "py_string_check"
+pub fn py_object_is_string(obj: PyObjectRef) -> Bool {
+  __py_object_is_string(obj) != 0
+}

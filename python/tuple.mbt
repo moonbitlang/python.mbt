@@ -9,15 +9,9 @@ fn PyTuple::obj(self: PyTuple) -> PyObject {
   self.obj
 }
 
-pub fn PyTuple::new(size : Int) -> PyTuple {
-  let size = if size < 0 {
-    0
-  } else {
-    size
-  }
-
+pub fn PyTuple::new(size : UInt64) -> PyTuple {
   PyTuple::{
-    obj: @cpython.pytuple_new(size.to_uint64()) |> PyObject::create
+    obj: @cpython.pytuple_new(size) |> PyObject::create
   }
 }
 
@@ -27,7 +21,19 @@ pub fn PyTuple::create(obj: PyObject) -> PyTuple {
   }
 }
 
+fn PyTuple::create_unchecked(obj: PyObject) -> PyTuple {
+  PyTuple::{
+    obj
+  }
+}
+
 pub fn PyTuple::create_by_ref(obj_ref: @cpython.PyObjectRef) -> PyTuple {
+  PyTuple::{
+    obj: PyObject::create(obj_ref)
+  }
+}
+
+fn PyTuple::create_by_ref_unchecked(obj_ref: @cpython.PyObjectRef) -> PyTuple {
   PyTuple::{
     obj: PyObject::create(obj_ref)
   }

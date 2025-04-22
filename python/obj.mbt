@@ -16,8 +16,20 @@ pub fn PyObject::is_null(self: PyObject) -> Bool {
   self.obj.is_null()
 }
 
-pub fn PyObject::to_string(self: PyObject) -> String {
-  @cpython.py_object_moonbit_repr(self.obj)
+pub fn PyObject::is_list(self: PyObject) -> Bool {
+  @cpython.py_object_is_list(self.obj_ref())
+}
+
+pub fn PyObject::is_int(self: PyObject) -> Bool {
+  @cpython.py_object_is_int(self.obj_ref())
+}
+
+pub fn PyObject::is_float(self: PyObject) -> Bool {
+  @cpython.py_object_is_float(self.obj_ref())
+}
+
+pub fn PyObject::is_string(self: PyObject) -> Bool {
+  @cpython.py_object_is_string(self.obj_ref())
 }
 
 pub fn PyObject::dump(self: PyObject) -> Unit {
@@ -66,9 +78,10 @@ pub impl PyAble for PyObject with to_pyobject(self) -> PyObject {
   self
 }
 
-pub impl Show for PyObject with to_string(self) -> String {
-  PyObject::to_string(self)
+pub impl Show for PyObject with to_string(self: PyObject) -> String {
+  @cpython.py_object_moonbit_repr(self.obj)
 }
+
 
 pub impl Show for PyObject with output(
   self:PyObject, logger: &Logger

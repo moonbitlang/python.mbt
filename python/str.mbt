@@ -5,6 +5,24 @@ pub struct PyString {
   priv obj: PyObject
 }
 
+pub fn PyString::create(obj: PyObject) -> PyString!PyRuntimeError {
+  guard obj.is_string() else {
+    raise TypeMisMatchError
+  }
+
+  PyString::{
+    obj: obj
+  }
+}
+
+fn PyString::create_unchecked(obj: PyObject) -> PyString {
+  PyString::{
+    obj: obj
+  }
+}
+
+
+
 ///| Create a PyString from a string
 ///
 /// ## Example

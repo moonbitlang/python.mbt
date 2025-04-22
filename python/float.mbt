@@ -6,6 +6,22 @@ fn PyFloat::obj(self: PyFloat) -> PyObject {
   self.obj
 }
 
+pub fn PyFloat::create(obj: PyObject) -> PyFloat!PyRuntimeError {
+  guard obj.is_float() else {
+    raise TypeMisMatchError
+  }
+
+  PyFloat::{
+    obj: obj
+  }
+}
+
+fn PyFloat::create_unchecked(obj: PyObject) -> PyFloat {
+  PyFloat::{
+    obj: obj
+  }
+}
+
 pub fn PyFloat::create_by_ref_unchecked(obj: @cpython.PyObjectRef) -> PyFloat {
   PyFloat::{
     obj: PyObject::create(obj)
