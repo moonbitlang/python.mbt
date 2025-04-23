@@ -1,15 +1,42 @@
 
 
 test "Module Test" {
-  let m = @python.pyimport("os", print_err = true)
+  let os = @python.pyimport("os", print_err = true)
 
-  assert_true!(m is Some(_))
-  //assert_true!(matplotlib is Some(_))
+  assert_true!(os is Some(_))
+  let os = os.unwrap()
+  inspect!(os.get_name(), content="os")
+  guard os.get_attr("name").unwrap() is PyConstantString(s)
+  assert_true!(["\'posix\'", "\'nt\'", "\'java\'"].contains(s.to_string()))
+  assert_true!(os.get_attr("listdir") is Some(PyCallable(_)))
 
-  //let collections = collections.unwrap()
-  //guard m.unwrap().get("__version__") is Some(PyConstantString(_))
+  /// ```python
+  /// import collections
+  /// ```
+  let collections = @python.pyimport("collections", print_err = true)
+  assert_true!(collections is Some(_))
+  let collections = collections.unwrap()
 
-  //println("numpy version: \{s}")
+  /// ```python
+  /// from collections import Counter
+  /// ```
+  guard collections.get_attr("Counter").unwrap() is PyCallable(counter)
 
-  //collections.unwrap().dump()
+  // ```python
+  // elements = [1, 2, 2, 3, 3, 3]
+  // counter = Counter(elements)
+  // print(counter) # Output: Counter({3: 3, 2: 2, 1: 1})
+  // ```
+  let list = [1L, 2L, 2L, 3L, 3L, 3L].map(PyInteger::from) |> PyList::from
+  let arg = PyTuple::new(1) ..set!(0, list)
+  guard counter.invoke(arg) is Some(PyDict(cnt))
+  inspect!(cnt, content="Counter({3: 3, 2: 2, 1: 1})")
+
+  // ```python
+  // print(cnt.total()) # Output: 6
+  // ```
+  guard cnt.obj().get_attr("total") is Some(PyCallable(total))
+  let arg = PyTuple::new(0)
+  inspect!(total.invoke(arg).unwrap(), content="PyInteger(6)")
+
 }

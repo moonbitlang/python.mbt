@@ -58,32 +58,48 @@ pub fn PyObject::type_name(self: PyObject) -> String {
   tyname
 }
 
-// TODO: what if the attribute doesn't exist?
-pub fn PyObject::get_attr(self: PyObject, attr_name: String) -> PyObject? {
-  let obj_ref = @cpython.py_object_get_attr_string(self.obj_ref(), attr_name)
-  @option.unless(
-    obj_ref.is_null(),
-    fn () { PyObject::create(obj_ref)}
-  )
-}
+//// TODO: what if the attribute doesn't exist?
+//pub fn PyObject::get_attr(self: PyObject, attr_name: String) -> PyObject? {
+//  let obj_ref = @cpython.py_object_get_attr_string(self.obj_ref(), attr_name)
+//  @option.unless(
+//    obj_ref.is_null(),
+//    fn () { PyObject::create(obj_ref)}
+//  )
+//}
+//
+//pub fn PyObject::get_method(self: PyObject, method_name: String) -> PyCallable? {
+//  println("getting method \{method_name}")
+//  let obj_ref = @cpython.py_object_get_attr_string(self.obj_ref(), method_name)
+//
+//  if obj_ref.is_null() {
+//    println("\{method_name} not found")
+//    return None
+//  } else {
+//    println("\{method_name} found")
+//  }
+//
+//  if @cpython.py_callable_check(obj_ref) {
+//    Some(PyCallable::create_by_ref(obj_ref))
+//  } else {
+//    println("\{method_name} is not callable")
+//    None
+//  }
+//}
 
-pub fn PyObject::get_method(self: PyObject, method_name: String) -> PyFunc? {
-  println("getting method \{method_name}")
-  let obj_ref = @cpython.py_object_get_attr_string(self.obj_ref(), method_name)
+pub fn PyObject::get_attr(self: PyObject, attr: String, print_err~ : Bool = false) -> PyAttrEnum? {
+  let f = @cpython.py_object_get_attr_string(self.obj_ref(), attr)
 
-  if obj_ref.is_null() {
-    println("\{method_name} not found")
+  if f.is_null() {
+    if print_err {
+      @cpython.py_err_print()
+    }
+    @cpython.py_err_clear()
     return None
-  } else {
-    println("\{method_name} found")
   }
 
-  if @cpython.py_callable_check(obj_ref) {
-    Some(PyFunc::create_by_ref(obj_ref))
-  } else {
-    println("\{method_name} is not callable")
-    None
-  }
+  let c = PyAttrEnum::create_by_ref(f)
+
+  Some(c)
 }
 
 pub impl Show for PyObject with to_string(self: PyObject) -> String {
