@@ -1,26 +1,37 @@
+// ========================================
+// Import
+// ========================================
+pub struct PyModule {
+  obj: PyObject
+}
+
+pub fn PyModule::obj(self: PyModule) -> PyObject {
+  self.obj
+}
+
+pub fn PyModule::obj_ref(self: PyModule) -> @cpython.PyObjectRef {
+  self.obj.obj_ref()
+}
 
 ///| Import a python module
 ///
 /// ## Example
 ///
-/// ```moonbit-no-test
-/// test "Python::Import" {
-///   let collections = pyimport("collections").unwrap()
-///   
-///   guard collections.get_attr("Counter").unwrap() is PyCallable(counter)
+/// ```no-test
+/// let collections = pyimport("collections").unwrap()
+/// guard collections.get_attr("Counter").unwrap() is PyCallable(counter)
 ///
-///   let list = [1L, 2L, 2L, 3L, 3L, 3L].map(PyInteger::from) |> PyList::from
-///   let arg = PyTuple::new(1) .. set!(0, list)
-///   guard counter.invoke(arg) is Some(PyDict(cnt))
-///   inspect!(cnt, content="Counter({3: 3, 2: 2, 1: 1})")
+/// let list = [1L, 2L, 2L, 3L, 3L, 3L].map(PyInteger::from) |> PyList::from
+/// let arg = PyTuple::new(1) .. set!(0, list)
+/// guard counter.invoke(arg) is Some(PyDict(cnt))
+/// inspect!(cnt, content="Counter({3: 3, 2: 2, 1: 1})")
 ///
-///   guard cnt.obj().get_attr("total") is Some(PyCallable(total))
-///   let arg = PyTuple::new(0)
-///   inspect!(total.invoke(arg).unwrap(), content="PyInteger(6)")
-/// }
+/// guard cnt.obj().get_attr("total") is Some(PyCallable(total))
+/// let arg = PyTuple::new(0)
+/// inspect!(total.invoke(arg).unwrap(), content="PyInteger(6)")
 /// ```
 /// 
-/// The above code is equivalent to the following python code:
+/// // The above code is equivalent to the following python code:
 ///
 /// ```python
 /// import collections
@@ -48,21 +59,6 @@ pub fn pyimport(name: String, print_err~: Bool = false) -> PyModule? {
   PyModule::{
     obj: PyObject::create(obj)
   } |> Some
-}
-
-// ========================================
-// Import
-// ========================================
-pub struct PyModule {
-  obj: PyObject
-}
-
-pub fn PyModule::obj(self: PyModule) -> PyObject {
-  self.obj
-}
-
-pub fn PyModule::obj_ref(self: PyModule) -> @cpython.PyObjectRef {
-  self.obj.obj_ref()
 }
 
 ///|
