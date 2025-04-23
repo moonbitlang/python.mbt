@@ -83,3 +83,8 @@ int py_method_check(PyObject *obj) { return PyMethod_Check(obj); }
 int py_is_true(PyObject *obj) { return 0 != Py_IsTrue(obj); };
 
 int py_is_false(PyObject *obj) { return 0 == Py_IsTrue(obj); }
+
+PyObject* py_import_import_module(const char* name) {
+  PyObject *module = PyImport_ImportModule(name);
+  return module;
+}

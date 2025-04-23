@@ -201,6 +201,7 @@ pub fn PyDict::setByObj[K: IsPyObject, V: IsPyObject](self: PyDict, key: K, val:
   let _ = @cpython.py_dict_set_item(dict, key.obj_ref(), val.obj_ref())
   let e = @cpython.py_err_occurred()
   if not(e.is_null()) {
+    @cpython.py_err_clear()
     raise KeyIsUnHashableError
   }
 }

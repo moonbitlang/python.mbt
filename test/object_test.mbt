@@ -13,6 +13,7 @@ test "PyInteger Test" {
   inspect!(i.type_name(), content="int")
   assert_eq!(i.to_int64(), 42);
   assert_eq!(i.to_double(), 42.0);
+
 }
 
 test "PyFloat Test" {

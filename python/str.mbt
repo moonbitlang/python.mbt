@@ -21,6 +21,22 @@ fn PyString::create_unchecked(obj: PyObject) -> PyString {
   }
 }
 
+pub fn PyString::create_by_ref(obj_ref: @cpython.PyObjectRef) -> PyString!PyRuntimeError {
+  guard @cpython.py_object_is_string(obj_ref) else {
+    raise TypeMisMatchError
+  }
+
+  PyString::{
+    obj: PyObject::create(obj_ref)
+  }
+}
+
+fn PyString::create_by_ref_unchecked(obj_ref: @cpython.PyObjectRef) -> PyString {
+  PyString::{
+    obj: PyObject::create(obj_ref)
+  }
+}
+
 ///| Create a PyString from a string
 ///
 /// ## Example
