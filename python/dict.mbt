@@ -38,20 +38,20 @@ pub fn PyDict::create_by_ref(obj: @cpython.PyObjectRef) -> PyDict {
 /// ```moonbit
 /// test "PyDict::new" {
 ///   let dict = PyDict::new()
-///            ..set(PyString::from("one"), PyInteger::from(1))
-///            ..set(PyString::from("two"), PyFloat::from(2.0))
-///            ..set(PyString::from("three"), PyString::from("three"));
+///            ..set("one", PyInteger::from(1))
+///            ..set("two", PyFloat::from(2.0))
+///            ..set("three", PyBool::from(true));
 ///
-///   inspect!(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': \'three\'}")
+///   inspect!(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
 /// }
 /// ```
 ///
 /// The above code is equivalent to:
 ///
 /// ```python
-/// d = { 'one': 1, 'two': 2.0, 'three': 'three' }
+/// d = { 'one': 1, 'two': 2.0, 'three': True }
 /// 
-/// print(d) # Output: {'one': 1, 'two': 2.0, 'three': 'three'}
+/// print(d) # Output: {'one': 1, 'two': 2.0, 'three': True}
 /// ```
 pub fn PyDict::new() -> PyDict {
   PyDict::{
@@ -66,9 +66,9 @@ pub fn PyDict::new() -> PyDict {
 /// ```moonbit
 /// test "PyDict::len" {
 ///   let dict = PyDict::new()
-///        ..set(PyString::from("one"), PyInteger::from(1))
-///        ..set(PyString::from("two"), PyFloat::from(2.0))
-///        ..set(PyString::from("three"), PyString::from("three"));
+///        ..set("one", PyInteger::from(1))
+///        ..set("two", PyFloat::from(2.0))
+///        ..set("three", PyString::from("three"));
 ///
 ///   assert_eq!(dict.len(), 3);
 /// }
@@ -88,7 +88,7 @@ pub fn PyDict::len(self: PyDict) -> Int {
 ///   let dict = PyDict::new()
 ///        ..set("one", PyInteger::from(1))
 ///        ..set("two", PyFloat::from(2.0))
-///        ..set("three", PyString::from("three"));
+///        ..set("three", PyBool::from(true));
 ///
 ///   inspect!(dict.get("one").unwrap(), content="PyInteger(1)")
 ///   inspect!(dict.get("two"), content="Some(PyFloat(2.0))")
@@ -98,6 +98,18 @@ pub fn PyDict::len(self: PyDict) -> Int {
 pub fn PyDict::get(self: PyDict, key: String) -> PyObjectEnum? {
   let dict = self.obj_ref()
   let obj_ref = @cpython.py_dict_get_item_string(dict, key)
+
+  @option.when(
+    not(obj_ref.is_null()),
+    fn () {
+      PyObjectEnum::create_by_ref(obj_ref)
+    }
+  )
+}
+
+pub fn PyDict::getByObj(self: PyDict, key: PyObject) -> PyObjectEnum? {
+  let dict = self.obj_ref()
+  let obj_ref = @cpython.py_dict_get_item(dict, key.obj_ref())
 
   @option.when(
     not(obj_ref.is_null()),
@@ -118,27 +130,105 @@ pub fn PyDict::get(self: PyDict, key: String) -> PyObjectEnum? {
 ///   let dict = PyDict::new()
 ///     ..set("one", PyInteger::from(1))
 ///     ..set("two", PyFloat::from(2.0))
-///     ..set("three", PyString::from("three"));
+///     ..set("three", PyBool::from(true));
 ///
 ///   inspect!(dict["one"], content="PyInteger(1)")
 ///   inspect!(dict["two"], content="PyFloat(2.0)")
-///   inspect!(dict["three"], content="PyString(\'three\')")
+///   inspect!(dict["three"], content="PyBool(True)")
 /// }
 /// ```
 pub fn PyDict::op_get(self: PyDict, key: String) -> PyObjectEnum {
   self.get(key).unwrap()
 }
 
+///| Set the elements of the dict by its key (String).
+///
+/// ## Example
+///
+/// ```moonbit
+/// test "PyDict::set" {
+///   let dict = PyDict::new()
+///     ..set("one", PyInteger::from(1))
+///     ..set("two", PyFloat::from(2.0))
+///     ..set("three", PyBool::from(true));
+///  
+///   inspect!(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
+/// }
+/// ```
+///
+/// The above code is equivalent to:
+///
+/// ```python
+/// d = dict()
+/// d['one'] = 1
+/// d['two'] = 2.0
+/// d['three'] = True
+/// ```
 pub fn PyDict::set[V: IsPyObject](self: PyDict, key: String, val: V) -> Unit {
   let dict = self.obj_ref()
   let val = val.obj_ref()
   let _ = @cpython.py_dict_set_item_string(dict, key, val)
 }
 
-// TODO: See if it is necessary
-// pub fn PyDict::get_by_object
-// pub fn PyDict::set_by_object
+///| Set the elements of the dict by its key. (Object)
+///
+/// ## Example
+///
+/// ```moonbit
+/// test "PyDict::setByObj" {
+///   let dict = PyDict::new()
+///            ..setByObj!(PyInteger::from(1), PyInteger::from(1))
+///            ..setByObj!(PyInteger::from(2), PyInteger::from(4))
+///            ..setByObj!(PyInteger::from(3), PyInteger::from(9))
+///
+///   inspect!(dict, content="{1: 1, 2: 4, 3: 9}")
+/// }
+/// ```
+///
+/// The above code is equivalent to:
+///
+/// ```python
+/// d = dict()
+/// d[1] = 1
+/// d[2] = 4
+/// d[3] = 9
+/// 
+/// print(d) # Output: {1: 1, 2: 4, 3: 9}
+/// ```
+pub fn PyDict::setByObj[K: IsPyObject, V: IsPyObject](self: PyDict, key: K, val: V) -> Unit!PyRuntimeError {
+  let dict = self.obj_ref()
+  @cpython.py_err_clear()
+  let _ = @cpython.py_dict_set_item(dict, key.obj_ref(), val.obj_ref())
+  let e = @cpython.py_err_occurred()
+  if not(e.is_null()) {
+    raise KeyIsUnHashableError
+  }
+}
 
+///| Set the elements of the dict by its key (String).
+///
+/// ## Example
+///
+/// ```moonbit
+/// test "PyDict::set" {
+///   let dict = PyDict::new()
+///
+///   dict["one"] = PyInteger::from(1);
+///   dict["two"] = PyFloat::from(2.0);
+///   dict["three"] = PyBool::from(true);
+///  
+///   inspect!(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
+/// }
+/// ```
+///
+/// The above code is equivalent to:
+///
+/// ```python
+/// d = dict()
+/// d['one'] = 1
+/// d['two'] = 2.0
+/// d['three'] = True
+/// ```
 pub fn PyDict::op_set[V: IsPyObject](self: PyDict, key: String, val: V) -> Unit {
   self.set(key, val)
 }
@@ -148,17 +238,86 @@ pub fn PyDict::contains(self: PyDict, key: String) -> Bool {
   @cpython.py_dict_contains(dict, PyString::from(key).obj_ref())
 }
 
-// TODO: Seems that it is incorrect.
+///| Get the keys of the dict.
+///
+/// **Notes**: It is slight different from the python dict.keys() method.
+/// In python, dict.keys() returns a view object that displays a list of all the keys.
+/// While here in moonbit, keys() returns a list of all the keys.
+///
+/// ## Example
+///
+/// ```moonbit
+/// test "PyDict::keys" {
+///   let dict = PyDict::new()
+///        ..set("one", PyInteger::from(1))
+///        ..set("two", PyFloat::from(2.0))
+///        ..set("three", PyBool::from(true));
+///
+///   inspect!(dict.keys(), content="[\'one\', \'two\', \'three\']")
+/// }
+/// ```
+///
+/// The above code is equivalent to:
+///
+/// ```python
+/// d = { 'one': 1, 'two': 2.0, 'three': True }
+/// dict_keys = d.keys()
+/// print(dict_keys) # Output: dict_keys(['one', 'two', 'three'])
+/// ```
 pub fn PyDict::keys(self: PyDict) -> PyList {
-  PyList::create_by_ref(@cpython.py_dict_keys(self.obj_ref()))
+  PyList::create_by_ref_unchecked(@cpython.py_dict_keys(self.obj_ref()))
 }
 
+///| Get the values of the dict.
+///
+/// **Notes**: It is slight different from the python dict.values() method.
+/// In python, dict.values() returns a view object that displays a list of all the values.
+/// While here in moonbit, values() returns a list of all the values.
+///
+/// ## Example
+///
+/// ```moonbit
+/// test "PyDict::values" {
+///  let dict = PyDict::new()
+///       ..set("one", PyInteger::from(1))
+///       ..set("two", PyFloat::from(2.0))
+///       ..set("three", PyBool::from(true));
+///
+///   inspect!(dict.values(), content="[1, 2.0, True]")
+/// }
+/// ```
+///
+/// The above code is equivalent to:
+///
+/// ```python
+/// d = { 'one': 1, 'two': 2.0, 'three': True }
+/// dict_values = d.values()
+/// print(dict_values) # Output: dict_values([1, 2.0, True])
+/// ```
 pub fn PyDict::values(self: PyDict) -> PyList {
-  PyList::create_by_ref(@cpython.py_dict_values(self.obj_ref()))
+  PyList::create_by_ref_unchecked(@cpython.py_dict_values(self.obj_ref()))
 }
 
+///| Get the items of the dict.
+///
+/// **Notes**: It is slight different from the python dict.items() method.
+/// In python, dict.items() returns a view object that displays a list of all the items.
+/// While here in moonbit, items() returns a list of all the items.
+///
+/// ## Example
+///
+/// ```moonbit
+/// test "PyDict::items" {
+///   let dict = PyDict::new()
+///     ..set("one", PyInteger::from(1))
+///     ..set("two", PyFloat::from(2.0))
+///     ..set("three", PyBool::from(true));
+///
+///   inspect!(dict.items(), content="[('one', 1), ('two', 2.0), ('three', True)]")
+/// }
+/// ```
 pub fn PyDict::items(self: PyDict) -> PyList {
-  PyList::create_by_ref(@cpython.py_dict_items(self.obj_ref()))
+  PyList::create_by_ref_unchecked(@cpython.py_dict_items(self.obj_ref()))
 }
 
 pub fn PyDict::dump(self: PyDict) -> Unit {
@@ -169,6 +328,27 @@ pub fn PyDict::drop(self: PyDict) -> Unit {
   self.obj.drop()
 }
 
+///| Return the type name of the dict.
+///
+/// **Note**: Always returns "dict", if no error occurs.
+///
+/// ## Example
+///
+/// ```moonbit
+/// test "PyDict::type_name" {
+///  let dict = PyDict::new()
+///
+///  inspect!(dict.type_name(), content="dict")
+/// }
+/// ```
+///
+/// The above code is equivalent to:
+///
+/// ```python
+/// d = dict()
+///
+/// print(type(d)) # Output: <class 'dict'>
+/// ```
 pub fn PyDict::type_name(self: PyDict) -> String {
   self.obj.type_name()
 }

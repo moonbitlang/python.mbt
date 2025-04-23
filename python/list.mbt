@@ -42,15 +42,17 @@ fn PyList::create_unchecked(obj: PyObject) -> PyList {
   }
 }
 
-pub fn PyList::create_by_ref(obj: @cpython.PyObjectRef) -> PyList {
-  // TODO: Need to check if it is really list object firstly.
+pub fn PyList::create_by_ref(obj: @cpython.PyObjectRef) -> PyList!PyRuntimeError {
+  guard @cpython.py_object_is_list(obj) else {
+    raise TypeMisMatchError
+  }
+
   PyList::{
     obj: PyObject::create(obj)
   }
 }
 
 fn PyList::create_by_ref_unchecked(obj: @cpython.PyObjectRef) -> PyList {
-  // TODO: Need to check if it is really list object firstly.
   PyList::{
     obj: PyObject::create(obj)
   }

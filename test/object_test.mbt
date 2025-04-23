@@ -105,19 +105,14 @@ test "PyTuple Test" {
 }
 
 test "PyDict Test" {
-
   let dict = PyDict::new()
            ..set("one", PyInteger::from(1))
            ..set("two", PyFloat::from(2.0))
-           ..set("three", PyString::from("three"));
-
-  println(dict.get("one"))
-  println(dict.get("two"))
-  println(dict.get("three"))
+           ..set("three", PyBool::from(true));
 
   inspect!(dict.type_name(), content="dict")
   assert_eq!(dict.len(), 3);
-  inspect!(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': \'three\'}")
+  inspect!(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
 
   inspect!(dict.get("one").unwrap(), content="PyInteger(1)")
   inspect!(dict.get("two"), content="Some(PyFloat(2.0))")
@@ -125,9 +120,22 @@ test "PyDict Test" {
 
   inspect!(dict["one"], content="PyInteger(1)")
   inspect!(dict["two"], content="PyFloat(2.0)")
-  inspect!(dict["three"], content="PyString(\'three\')")
+  inspect!(dict["three"], content="PyBool(True)")
 
-  //inspect!(dict.keys(), content="[\'one\', \'xwo\', \'three\']")
-  inspect!(dict.values(), content="[1, 2.0, \'three\']")
-  println(dict.items())
+  inspect!(dict.keys(), content="[\'one\', \'two\', \'three\']")
+  inspect!(dict.values(), content="[1, 2.0, True]")
+
+  let dict = PyDict::new()
+            ..setByObj!(PyInteger::from(1), PyInteger::from(1))
+            ..setByObj!(PyInteger::from(2), PyInteger::from(4))
+            ..setByObj!(PyInteger::from(3), PyInteger::from(9))
+
+  inspect!(dict, content="{1: 1, 2: 4, 3: 9}")
+
+  let list = PyList::new()
+            ..append(PyInteger::from(3))
+            ..append(PyInteger::from(2));
+
+  let e = dict.setByObj?(list, PyInteger::from(42));
+  inspect!(e, content="Err(KeyIsUnHashableError)")
 }
