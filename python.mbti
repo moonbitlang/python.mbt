@@ -1,4 +1,4 @@
-package "Kaida-Amethyst/python/python"
+package "Kaida-Amethyst/python"
 
 import(
   "Kaida-Amethyst/python/cpython"

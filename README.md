@@ -65,7 +65,9 @@ Add to your project's `moon.pkg.json`:
 
 ```json
 {
-  "import": ["Kaida-Amethyst/python/python"],
+  "import": [
+    "Kaida-Amethyst/python"
+  ],
   "link": {
     "native": {
       "cc": "$CC",
@@ -215,7 +217,7 @@ moon add Kaida-Amethyst/python
 ```json
 {
   "import": [
-    "Kaida-Amethyst/python/python"
+    "Kaida-Amethyst/python"
   ],
   "link": {
     "native": {
