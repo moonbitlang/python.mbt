@@ -1,12 +1,10 @@
-
-
 test "Module Test" {
   let os = @python.pyimport("os", print_err = true)
 
   assert_true!(os is Some(_))
   let os = os.unwrap()
   inspect!(os.get_name(), content="os")
-  guard os.get_attr("name").unwrap() is PyConstantString(s)
+  guard os.get_attr("name").unwrap() is PyString(s)
   assert_true!(["\'posix\'", "\'nt\'", "\'java\'"].contains(s.to_string()))
   assert_true!(os.get_attr("listdir") is Some(PyCallable(_)))
 
@@ -38,5 +36,4 @@ test "Module Test" {
   guard cnt.obj().get_attr("total") is Some(PyCallable(total))
   let arg = PyTuple::new(0)
   inspect!(total.invoke(arg).unwrap(), content="PyInteger(6)")
-
 }

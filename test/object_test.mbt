@@ -78,12 +78,6 @@ test "PyList Test" {
 
   list[1] = forty_two;
   inspect!(list, content="[42, 42, \'three\']")
-
-  let arr = [3, 5, 1, 7, 4, -2]
-  let pyobj_arr : Array[PyInteger] = arr.map(fn (e) {PyInteger::from(e.to_int64())});
-  let list = PyList::from(pyobj_arr);
-  list.sort();
-  inspect!(list, content="[-2, 1, 3, 4, 5, 7]")
 }
 
 test "PyTuple Test" {

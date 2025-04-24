@@ -115,30 +115,11 @@ pub fn PyList::append[T: IsPyObject](self: PyList, item: T) -> Unit {
   let _ = @cpython.py_list_append(self.obj_ref(), item.obj_ref())
 }
 
+// Review: The following code is available, but I don't think it is necessary.
 ///| Sort the elements inside the list, using python's built-in sort.
-///
-/// ## Example
-///
-/// ```moonbit
-/// test "PyList::sort" {
-///   let arr = [3, 5, 1, 7, 4, -2]
-///   let pyobj_arr = arr.map(fn (e) {PyInteger::from(e.to_int64())});
-///   let list = PyList::from(pyobj_arr);
-///   list.sort();
-///   inspect!(list, content="[-2, 1, 3, 4, 5, 7]")
-/// }
-/// ```
-///
-/// The above code is equivalent to the following Python code:
-///
-/// ```python
-/// arr = [3, 5, 1, 7, 4, -2]
-/// arr.sort()
-/// print(arr)  # Output: [-2, 1, 3, 4, 5, 7]
-/// ```
-pub fn PyList::sort(self: PyList) -> Unit {
-  let _ = @cpython.py_list_sort(self.obj_ref())
-}
+//pub fn PyList::sort(self: PyList) -> Unit {
+//  let _ = @cpython.py_list_sort(self.obj_ref())
+//}
 
 // Review: The following code is available, but I don't think it is necessary.
 //pub fn PyList::reverse(self: PyList) -> Unit {

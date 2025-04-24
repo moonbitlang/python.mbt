@@ -1,7 +1,7 @@
 pub trait IsPyObject {
   obj(Self) -> PyObject;
-  obj_ref(Self) -> @cpython.PyObjectRef;
-  type_name(Self) -> String;
+  obj_ref(Self) -> @cpython.PyObjectRef = _
+  type_name(Self) -> String = _
 }
 
 impl IsPyObject with obj_ref(self) {

@@ -13,36 +13,41 @@ pub fn PyModule::obj_ref(self: PyModule) -> @cpython.PyObjectRef {
   self.obj.obj_ref()
 }
 
+pub fn PyModule::create(obj: PyObject) -> PyModule!PyRuntimeError {
+  
+  guard obj.is_module() else {
+    raise TypeMisMatchError
+  }
+
+  PyModule::{ obj }
+}
+
+fn PyModule::create_unchecked(obj: PyObject) -> PyModule {
+  PyModule::{ obj }
+}
+
+pub fn PyModule::create_by_ref(obj_ref: @cpython.PyObjectRef) -> PyModule!PyRuntimeError {
+  guard @cpython.py_module_check(obj_ref) else {
+    raise TypeMisMatchError
+  }
+
+  PyModule::{ obj: PyObject::create(obj_ref) }
+}
+
+fn PyModule::create_by_ref_unchecked(obj_ref: @cpython.PyObjectRef) -> PyModule {
+  PyModule::{ obj: PyObject::create(obj_ref) }
+}
+
 ///| Import a python module
 ///
 /// ## Example
 ///
-/// ```no-test
-/// let collections = pyimport("collections").unwrap()
-/// guard collections.get_attr("Counter").unwrap() is PyCallable(counter)
+/// ```moonbit
+/// test "Py Import" {
+///   let os = @python.pyimport("os")
 ///
-/// let list = [1L, 2L, 2L, 3L, 3L, 3L].map(PyInteger::from) |> PyList::from
-/// let arg = PyTuple::new(1) .. set!(0, list)
-/// guard counter.invoke(arg) is Some(PyDict(cnt))
-/// inspect!(cnt, content="Counter({3: 3, 2: 2, 1: 1})")
-///
-/// guard cnt.obj().get_attr("total") is Some(PyCallable(total))
-/// let arg = PyTuple::new(0)
-/// inspect!(total.invoke(arg).unwrap(), content="PyInteger(6)")
-/// ```
-/// 
-/// // The above code is equivalent to the following python code:
-///
-/// ```python
-/// import collections
-/// from collections import Counter
-/// 
-/// list = [1, 2, 2, 3, 3, 3]
-/// cnt = Counter(list)
-/// print(cnt) # Counter({3: 3, 2: 2, 1: 1})
-///
-/// total = cnt.total()
-/// print(total) # 6
+///   assert_true!(os is Some(_))
+/// }
 /// ```
 pub fn pyimport(name: String, print_err~: Bool = false) -> PyModule? {
   let obj = @cpython.py_import_import_module(name);
@@ -61,7 +66,17 @@ pub fn pyimport(name: String, print_err~: Bool = false) -> PyModule? {
   } |> Some
 }
 
-///|
+///| Get the name of the module.
+///
+/// ## Example
+///
+/// ```moonbit
+/// test "Py Import" {
+///   let os = @python.pyimport("os").unwrap()
+///
+///   inspect!(os.get_name(), content="os")
+/// }
+/// ```
 pub fn PyModule::get_name(self: PyModule) -> String {
   let attr = self.get_attr("__name__")
 
@@ -72,7 +87,7 @@ pub fn PyModule::get_name(self: PyModule) -> String {
 
   let attr = attr.unwrap()
 
-  guard attr is PyConstantString(s) else {
+  guard attr is PyString(s) else {
     println("module __name__ is not a string")
     panic()
   }
@@ -84,7 +99,40 @@ pub fn PyModule::dump(self: PyModule) -> Unit {
   self.obj.dump()
 }
 
-pub fn PyModule::get_attr(self: PyModule, attr: String, print_err~ : Bool = false) -> PyAttrEnum? {
+///| Get attribute by name.
+///
+/// ## Example
+///
+/// ```moonbit
+/// test "Py Import" {
+///   let collections = pyimport("collections").unwrap()
+///   guard collections.get_attr("Counter").unwrap() is PyCallable(counter)
+///
+///   let list = [1L, 2L, 2L, 3L, 3L, 3L].map(PyInteger::from) |> PyList::from
+///   let arg = PyTuple::new(1) .. set!(0, list)
+///   guard counter.invoke(arg) is Some(PyDict(cnt))
+///   inspect!(cnt, content="Counter({3: 3, 2: 2, 1: 1})")
+///
+///   guard cnt.obj().get_attr("total") is Some(PyCallable(total))
+///   let arg = PyTuple::new(0)
+///   inspect!(total.invoke(arg).unwrap(), content="PyInteger(6)")
+/// }
+/// ```
+/// 
+/// // The above code is equivalent to the following python code:
+///
+/// ```python
+/// import collections
+/// from collections import Counter
+/// 
+/// list = [1, 2, 2, 3, 3, 3]
+/// cnt = Counter(list)
+/// print(cnt) # Counter({3: 3, 2: 2, 1: 1})
+///
+/// total = cnt.total()
+/// print(total) # 6
+/// ```
+pub fn PyModule::get_attr(self: PyModule, attr: String, print_err~ : Bool = false) -> PyObjectEnum? {
   let f = @cpython.py_object_get_attr_string(self.obj_ref(), attr)
 
   if f.is_null() {
@@ -96,7 +144,7 @@ pub fn PyModule::get_attr(self: PyModule, attr: String, print_err~ : Bool = fals
     return None
   }
 
-  let c = PyAttrEnum::create_by_ref(f)
+  let c = PyObjectEnum::create_by_ref(f)
   Some(c)
 }
 

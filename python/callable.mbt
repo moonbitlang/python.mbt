@@ -5,16 +5,29 @@ pub struct PyCallable {
   priv obj: PyObject
 }
 
-pub fn PyCallable::create(obj: PyObject) -> PyCallable {
-  PyCallable::{
-    obj: obj
+pub fn PyCallable::create(obj: PyObject) -> PyCallable!PyRuntimeError {
+  guard obj.is_callable() else {
+    raise TypeMisMatchError
   }
+
+  PyCallable::{ obj }
 }
 
-pub fn PyCallable::create_by_ref(obj: @cpython.PyObjectRef) -> PyCallable {
-  PyCallable::{
-    obj: PyObject::create(obj)
+fn PyCallable::create_unchecked(obj: PyObject) -> PyCallable {
+  PyCallable::{ obj }
+}
+
+pub fn PyCallable::create_by_ref(obj: @cpython.PyObjectRef) -> PyCallable!PyRuntimeError {
+
+  guard @cpython.py_callable_check(obj) else {
+    raise TypeMisMatchError
   }
+
+  PyCallable::{ obj: PyObject::create(obj) }
+}
+
+fn PyCallable::create_by_ref_unchecked(obj: @cpython.PyObjectRef) -> PyCallable {
+  PyCallable::{ obj: PyObject::create(obj) }
 }
 
 pub fn PyCallable::obj(self: PyCallable) -> PyObject {

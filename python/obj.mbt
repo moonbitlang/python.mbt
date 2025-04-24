@@ -44,6 +44,14 @@ pub fn PyObject::is_dict(self: PyObject) -> Bool {
   @cpython.py_object_is_dict(self.obj_ref())
 }
 
+pub fn PyObject::is_module(self: PyObject) -> Bool {
+  @cpython.py_module_check(self.obj_ref())
+}
+
+pub fn PyObject::is_callable(self: PyObject) -> Bool {
+  @cpython.py_callable_check(self.obj_ref())
+}
+
 pub fn PyObject::dump(self: PyObject) -> Unit {
   @cpython.print_pyobject(self.obj_ref())
 }
@@ -86,7 +94,7 @@ pub fn PyObject::type_name(self: PyObject) -> String {
 //  }
 //}
 
-pub fn PyObject::get_attr(self: PyObject, attr: String, print_err~ : Bool = false) -> PyAttrEnum? {
+pub fn PyObject::get_attr(self: PyObject, attr: String, print_err~ : Bool = false) -> PyObjectEnum? {
   let f = @cpython.py_object_get_attr_string(self.obj_ref(), attr)
 
   if f.is_null() {
@@ -97,7 +105,7 @@ pub fn PyObject::get_attr(self: PyObject, attr: String, print_err~ : Bool = fals
     return None
   }
 
-  let c = PyAttrEnum::create_by_ref(f)
+  let c = PyObjectEnum::create_by_ref(f)
 
   Some(c)
 }
