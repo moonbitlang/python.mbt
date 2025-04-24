@@ -4,6 +4,8 @@
 ///|
 pub struct PyModule {
   obj : PyObject
+  mut name: String?
+  attrs: Map[String, PyObjectEnum]
 }
 
 ///|
@@ -19,12 +21,12 @@ pub fn PyModule::obj_ref(self : PyModule) -> @cpython.PyObjectRef {
 ///|
 pub fn PyModule::create(obj : PyObject) -> PyModule!PyRuntimeError {
   guard obj.is_module() else { raise TypeMisMatchError }
-  PyModule::{ obj, }
+  PyModule::{ obj, name: None, attrs: Map::new() }
 }
 
 ///|
 fn PyModule::create_unchecked(obj : PyObject) -> PyModule {
-  PyModule::{ obj, }
+  PyModule::{ obj, name: None, attrs: Map::new() }
 }
 
 ///|
@@ -32,16 +34,17 @@ pub fn PyModule::create_by_ref(
   obj_ref : @cpython.PyObjectRef
 ) -> PyModule!PyRuntimeError {
   guard @cpython.py_module_check(obj_ref) else { raise TypeMisMatchError }
-  PyModule::{ obj: PyObject::create(obj_ref) }
+  PyModule::{ obj: PyObject::create(obj_ref), name: None, attrs: Map::new() }
 }
 
 ///|
 fn PyModule::create_by_ref_unchecked(
   obj_ref : @cpython.PyObjectRef
 ) -> PyModule {
-  PyModule::{ obj: PyObject::create(obj_ref) }
+  PyModule::{ obj: PyObject::create(obj_ref), name: None,  attrs: Map::new() }
 }
 
+// REVIEW: what if user call pyimport twice or more?
 ///| Import a python module
 ///
 /// ## Example
@@ -63,7 +66,7 @@ pub fn pyimport(name : String, print_err~ : Bool = false) -> PyModule? {
     @cpython.py_err_clear()
     return None
   }
-  PyModule::{ obj: PyObject::create(obj) } |> Some
+  PyModule::{ obj: PyObject::create(obj), name: None, attrs: Map::new() } |> Some
 }
 
 ///| Get the name of the module.
@@ -78,6 +81,10 @@ pub fn pyimport(name : String, print_err~ : Bool = false) -> PyModule? {
 /// }
 /// ```
 pub fn PyModule::get_name(self : PyModule) -> String {
+  if self.name is Some(n) {
+    return n
+  }
+
   let attr = self.get_attr("__name__")
   if attr is None {
     println("module has no attribute __name__")
@@ -88,7 +95,9 @@ pub fn PyModule::get_name(self : PyModule) -> String {
     println("module __name__ is not a string")
     panic()
   }
-  s.to_string() |> strip_quot
+  let n = s.to_string() |> strip_quot
+  self.name = Some(n)
+  n
 }
 
 ///|
@@ -134,6 +143,10 @@ pub fn PyModule::get_attr(
   attr : String,
   print_err~ : Bool = false
 ) -> PyObjectEnum? {
+  if self.attrs.contains(attr) {
+    return self.attrs.get(attr)
+  }
+
   let f = @cpython.py_object_get_attr_string(self.obj_ref(), attr)
   if f.is_null() {
     if print_err {
@@ -144,6 +157,7 @@ pub fn PyModule::get_attr(
     return None
   }
   let c = PyObjectEnum::create_by_ref(f)
+  self.attrs.set(attr, c)
   Some(c)
 }
 
