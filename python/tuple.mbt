@@ -1,11 +1,13 @@
 // ========================================
 // Tuple
 // ========================================
+///|
 pub struct PyTuple {
-  priv obj: PyObject
+  priv obj : PyObject
 }
 
-fn PyTuple::obj(self: PyTuple) -> PyObject {
+///|
+fn PyTuple::obj(self : PyTuple) -> PyObject {
   self.obj
 }
 
@@ -26,35 +28,28 @@ fn PyTuple::obj(self: PyTuple) -> PyObject {
 /// }
 /// ```
 pub fn PyTuple::new(size : UInt64) -> PyTuple {
-  PyTuple::{
-    obj: @cpython.pytuple_new(size) |> PyObject::create
-  }
+  PyTuple::{ obj: @cpython.pytuple_new(size) |> PyObject::create }
 }
 
 ///| Create a PyTuple object from a python object.
-pub fn PyTuple::create(obj: PyObject) -> PyTuple!PyRuntimeError {
-  guard obj.is_tuple() else {
-    raise TypeMisMatchError
-  }
-
-  PyTuple::{ obj }
+pub fn PyTuple::create(obj : PyObject) -> PyTuple!PyRuntimeError {
+  guard obj.is_tuple() else { raise TypeMisMatchError }
+  PyTuple::{ obj, }
 }
 
 ///|
-fn PyTuple::create_unchecked(obj: PyObject) -> PyTuple {
-  PyTuple::{ obj }
+fn PyTuple::create_unchecked(obj : PyObject) -> PyTuple {
+  PyTuple::{ obj, }
 }
 
-pub fn PyTuple::create_by_ref(obj_ref: @cpython.PyObjectRef) -> PyTuple {
-  PyTuple::{
-    obj: PyObject::create(obj_ref)
-  }
+///|
+pub fn PyTuple::create_by_ref(obj_ref : @cpython.PyObjectRef) -> PyTuple {
+  PyTuple::{ obj: PyObject::create(obj_ref) }
 }
 
-fn PyTuple::create_by_ref_unchecked(obj_ref: @cpython.PyObjectRef) -> PyTuple {
-  PyTuple::{
-    obj: PyObject::create(obj_ref)
-  }
+///|
+fn PyTuple::create_by_ref_unchecked(obj_ref : @cpython.PyObjectRef) -> PyTuple {
+  PyTuple::{ obj: PyObject::create(obj_ref) }
 }
 
 ///| Return the size of the tuple.
@@ -68,7 +63,7 @@ fn PyTuple::create_by_ref_unchecked(obj_ref: @cpython.PyObjectRef) -> PyTuple {
 ///   assert_eq!(tuple.len(), 3);
 /// }
 /// ```
-pub fn PyTuple::len(self: PyTuple) -> Int {
+pub fn PyTuple::len(self : PyTuple) -> Int {
   @cpython.pytuple_size(self.obj_ref()).to_int()
 }
 
@@ -103,15 +98,12 @@ pub fn PyTuple::len(self: PyTuple) -> Int {
 /// print(tuple[0]) # Output: 1
 /// print(tuple[1]) # Output: 2.0
 /// print(tuple[2]) # Output: three
-pub fn PyTuple::get(self: PyTuple, idx: Int) -> PyObjectEnum? {
-  @option.when(
-    idx >= 0 && idx < self.len(),
-    fn () {
-      @cpython.pytuple_get_item(self.obj_ref(), idx.to_uint64())
-      |> PyObject::create
-      |> PyObjectEnum::create
-    }
-  )
+pub fn PyTuple::get(self : PyTuple, idx : Int) -> PyObjectEnum? {
+  @option.when(idx >= 0 && idx < self.len(), fn() {
+    @cpython.pytuple_get_item(self.obj_ref(), idx.to_uint64())
+    |> PyObject::create
+    |> PyObjectEnum::create
+  })
 }
 
 ///| Get the item at the given index.
@@ -133,7 +125,7 @@ pub fn PyTuple::get(self: PyTuple, idx: Int) -> PyObjectEnum? {
 ///   inspect!(tuple[2], content="PyString(\'three\')")
 /// }
 /// ```
-pub fn PyTuple::op_get(self: PyTuple, idx: Int) -> PyObjectEnum {
+pub fn PyTuple::op_get(self : PyTuple, idx : Int) -> PyObjectEnum {
   self.get(idx).unwrap()
 }
 
@@ -153,12 +145,18 @@ pub fn PyTuple::op_get(self: PyTuple, idx: Int) -> PyObjectEnum {
 ///
 ///   inspect!(tuple, content="(10, 2.0, \'three\')")
 /// }
-pub fn PyTuple::set[T: IsPyObject](self: PyTuple, idx: Int, item: T) -> Unit!PyRuntimeError {
-  guard idx >= 0 && idx < self.len() else {
-    raise IndexOutOfBoundsError
-  }
+pub fn PyTuple::set[T : IsPyObject](
+  self : PyTuple,
+  idx : Int,
+  item : T
+) -> Unit!PyRuntimeError {
+  guard idx >= 0 && idx < self.len() else { raise IndexOutOfBoundsError }
+  let _ = @cpython.pytuple_set_item(
+    self.obj_ref(),
+    idx.to_uint64(),
+    item.obj_ref(),
+  )
 
-  let _ = @cpython.pytuple_set_item(self.obj_ref(), idx.to_uint64(), item.obj_ref())
 }
 
 ///| Set the item at the given index.
@@ -178,17 +176,23 @@ pub fn PyTuple::set[T: IsPyObject](self: PyTuple, idx: Int, item: T) -> Unit!PyR
 ///   inspect!(tuple, content="(1, 2.0, \'three\')")
 /// }
 /// ```
-pub fn PyTuple::op_set[T: IsPyObject](self: PyTuple, idx: Int, item: T) -> Unit {
+pub fn PyTuple::op_set[T : IsPyObject](
+  self : PyTuple,
+  idx : Int,
+  item : T
+) -> Unit {
   self.set?(idx, item).unwrap()
 }
 
-pub fn PyTuple::dump(self: PyTuple) -> Unit {
+///|
+pub fn PyTuple::dump(self : PyTuple) -> Unit {
   PyObject::dump(self.obj)
 }
 
-pub fn PyTuple::drop(self: PyTuple) -> Unit {
+///|
+pub fn PyTuple::drop(self : PyTuple) -> Unit {
   self.obj.drop()
-} 
+}
 
 ///| Return the name of the type.
 ///
@@ -203,20 +207,21 @@ pub fn PyTuple::drop(self: PyTuple) -> Unit {
 ///   inspect!(tuple.type_name(), content="tuple")
 /// }
 /// ```
-pub impl IsPyObject for PyTuple with type_name(self: PyTuple) -> String {
+pub impl IsPyObject for PyTuple with type_name(self : PyTuple) -> String {
   self.obj.type_name()
 }
 
+///|
 pub impl IsPyObject for PyTuple with obj(self) -> PyObject {
   self.obj()
 }
 
+///|
 pub impl Show for PyTuple with to_string(self) -> String {
   self.obj.to_string()
 }
 
-pub impl Show for PyTuple with output(
-  self:PyTuple, logger: &Logger
-) -> Unit {
+///|
+pub impl Show for PyTuple with output(self : PyTuple, logger : &Logger) -> Unit {
   logger.write_string(self.to_string())
 }

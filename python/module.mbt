@@ -1,40 +1,44 @@
 // ========================================
 // Import
 // ========================================
+///|
 pub struct PyModule {
-  obj: PyObject
+  obj : PyObject
 }
 
-pub fn PyModule::obj(self: PyModule) -> PyObject {
+///|
+pub fn PyModule::obj(self : PyModule) -> PyObject {
   self.obj
 }
 
-pub fn PyModule::obj_ref(self: PyModule) -> @cpython.PyObjectRef {
+///|
+pub fn PyModule::obj_ref(self : PyModule) -> @cpython.PyObjectRef {
   self.obj.obj_ref()
 }
 
-pub fn PyModule::create(obj: PyObject) -> PyModule!PyRuntimeError {
-  
-  guard obj.is_module() else {
-    raise TypeMisMatchError
-  }
-
-  PyModule::{ obj }
+///|
+pub fn PyModule::create(obj : PyObject) -> PyModule!PyRuntimeError {
+  guard obj.is_module() else { raise TypeMisMatchError }
+  PyModule::{ obj, }
 }
 
-fn PyModule::create_unchecked(obj: PyObject) -> PyModule {
-  PyModule::{ obj }
+///|
+fn PyModule::create_unchecked(obj : PyObject) -> PyModule {
+  PyModule::{ obj, }
 }
 
-pub fn PyModule::create_by_ref(obj_ref: @cpython.PyObjectRef) -> PyModule!PyRuntimeError {
-  guard @cpython.py_module_check(obj_ref) else {
-    raise TypeMisMatchError
-  }
-
+///|
+pub fn PyModule::create_by_ref(
+  obj_ref : @cpython.PyObjectRef
+) -> PyModule!PyRuntimeError {
+  guard @cpython.py_module_check(obj_ref) else { raise TypeMisMatchError }
   PyModule::{ obj: PyObject::create(obj_ref) }
 }
 
-fn PyModule::create_by_ref_unchecked(obj_ref: @cpython.PyObjectRef) -> PyModule {
+///|
+fn PyModule::create_by_ref_unchecked(
+  obj_ref : @cpython.PyObjectRef
+) -> PyModule {
   PyModule::{ obj: PyObject::create(obj_ref) }
 }
 
@@ -49,9 +53,8 @@ fn PyModule::create_by_ref_unchecked(obj_ref: @cpython.PyObjectRef) -> PyModule 
 ///   assert_true!(os is Some(_))
 /// }
 /// ```
-pub fn pyimport(name: String, print_err~: Bool = false) -> PyModule? {
-  let obj = @cpython.py_import_import_module(name);
-
+pub fn pyimport(name : String, print_err~ : Bool = false) -> PyModule? {
+  let obj = @cpython.py_import_import_module(name)
   if obj.is_null() {
     if print_err {
       println("module \{name} not found")
@@ -60,10 +63,7 @@ pub fn pyimport(name: String, print_err~: Bool = false) -> PyModule? {
     @cpython.py_err_clear()
     return None
   }
-
-  PyModule::{
-    obj: PyObject::create(obj)
-  } |> Some
+  PyModule::{ obj: PyObject::create(obj) } |> Some
 }
 
 ///| Get the name of the module.
@@ -77,25 +77,22 @@ pub fn pyimport(name: String, print_err~: Bool = false) -> PyModule? {
 ///   inspect!(os.get_name(), content="os")
 /// }
 /// ```
-pub fn PyModule::get_name(self: PyModule) -> String {
+pub fn PyModule::get_name(self : PyModule) -> String {
   let attr = self.get_attr("__name__")
-
   if attr is None {
     println("module has no attribute __name__")
     panic()
   }
-
   let attr = attr.unwrap()
-
   guard attr is PyString(s) else {
     println("module __name__ is not a string")
     panic()
   }
-
   s.to_string() |> strip_quot
 }
 
-pub fn PyModule::dump(self: PyModule) -> Unit {
+///|
+pub fn PyModule::dump(self : PyModule) -> Unit {
   self.obj.dump()
 }
 
@@ -132,9 +129,12 @@ pub fn PyModule::dump(self: PyModule) -> Unit {
 /// total = cnt.total()
 /// print(total) # 6
 /// ```
-pub fn PyModule::get_attr(self: PyModule, attr: String, print_err~ : Bool = false) -> PyObjectEnum? {
+pub fn PyModule::get_attr(
+  self : PyModule,
+  attr : String,
+  print_err~ : Bool = false
+) -> PyObjectEnum? {
   let f = @cpython.py_object_get_attr_string(self.obj_ref(), attr)
-
   if f.is_null() {
     if print_err {
       println("module \{self.get_name()} has no attribute \{attr}")
@@ -143,15 +143,16 @@ pub fn PyModule::get_attr(self: PyModule, attr: String, print_err~ : Bool = fals
     @cpython.py_err_clear()
     return None
   }
-
   let c = PyObjectEnum::create_by_ref(f)
   Some(c)
 }
 
+///|
 pub impl Show for PyModule with to_string(self) {
   self.obj.to_string()
 }
 
+///|
 pub impl Show for PyModule with output(self, logger) {
   logger.write_string(self.to_string())
 }

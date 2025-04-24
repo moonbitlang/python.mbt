@@ -1,34 +1,30 @@
 // ========================================
 // Dict
 // ========================================
+///|
 pub struct PyDict {
-  priv obj: PyObject
+  priv obj : PyObject
 }
 
-fn PyDict::obj(self: PyDict) -> PyObject {
+///|
+fn PyDict::obj(self : PyDict) -> PyObject {
   self.obj
 }
 
-pub fn PyDict::create(obj: PyObject) -> PyDict!PyRuntimeError {
-  guard obj.is_dict() else {
-    raise TypeMisMatchError
-  }
-
-  PyDict::{ 
-    obj: obj
-  }
+///|
+pub fn PyDict::create(obj : PyObject) -> PyDict!PyRuntimeError {
+  guard obj.is_dict() else { raise TypeMisMatchError }
+  PyDict::{ obj, }
 }
 
-pub fn PyDict::create_unchecked(obj: PyObject) -> PyDict {
-  PyDict::{ 
-    obj: obj
-  }
+///|
+pub fn PyDict::create_unchecked(obj : PyObject) -> PyDict {
+  PyDict::{ obj, }
 }
 
-pub fn PyDict::create_by_ref(obj: @cpython.PyObjectRef) -> PyDict {
-  PyDict::{
-    obj: PyObject::create(obj)
-  }
+///|
+pub fn PyDict::create_by_ref(obj : @cpython.PyObjectRef) -> PyDict {
+  PyDict::{ obj: PyObject::create(obj) }
 }
 
 ///| Creates a new python dict object.
@@ -54,9 +50,7 @@ pub fn PyDict::create_by_ref(obj: @cpython.PyObjectRef) -> PyDict {
 /// print(d) # Output: {'one': 1, 'two': 2.0, 'three': True}
 /// ```
 pub fn PyDict::new() -> PyDict {
-  PyDict::{
-    obj: PyObject::create(@cpython.py_dict_new())
-  }
+  PyDict::{ obj: PyObject::create(@cpython.py_dict_new()) }
 }
 
 ///| Return the length of the dict.
@@ -73,7 +67,7 @@ pub fn PyDict::new() -> PyDict {
 ///   assert_eq!(dict.len(), 3);
 /// }
 /// ```
-pub fn PyDict::len(self: PyDict) -> Int {
+pub fn PyDict::len(self : PyDict) -> Int {
   @cpython.py_dict_size(self.obj_ref()).to_int()
 }
 
@@ -95,28 +89,21 @@ pub fn PyDict::len(self: PyDict) -> Int {
 ///   inspect!(dict.get("four"), content="None")
 /// }
 /// ```
-pub fn PyDict::get(self: PyDict, key: String) -> PyObjectEnum? {
+pub fn PyDict::get(self : PyDict, key : String) -> PyObjectEnum? {
   let dict = self.obj_ref()
   let obj_ref = @cpython.py_dict_get_item_string(dict, key)
-
-  @option.when(
-    not(obj_ref.is_null()),
-    fn () {
-      PyObjectEnum::create_by_ref(obj_ref)
-    }
-  )
+  @option.when(not(obj_ref.is_null()), fn() {
+    PyObjectEnum::create_by_ref(obj_ref)
+  })
 }
 
-pub fn PyDict::getByObj(self: PyDict, key: PyObject) -> PyObjectEnum? {
+///|
+pub fn PyDict::getByObj(self : PyDict, key : PyObject) -> PyObjectEnum? {
   let dict = self.obj_ref()
   let obj_ref = @cpython.py_dict_get_item(dict, key.obj_ref())
-
-  @option.when(
-    not(obj_ref.is_null()),
-    fn () {
-      PyObjectEnum::create_by_ref(obj_ref)
-    }
-  )
+  @option.when(not(obj_ref.is_null()), fn() {
+    PyObjectEnum::create_by_ref(obj_ref)
+  })
 }
 
 ///| Return the elements of the dict by its key.
@@ -137,7 +124,7 @@ pub fn PyDict::getByObj(self: PyDict, key: PyObject) -> PyObjectEnum? {
 ///   inspect!(dict["three"], content="PyBool(True)")
 /// }
 /// ```
-pub fn PyDict::op_get(self: PyDict, key: String) -> PyObjectEnum {
+pub fn PyDict::op_get(self : PyDict, key : String) -> PyObjectEnum {
   self.get(key).unwrap()
 }
 
@@ -164,10 +151,15 @@ pub fn PyDict::op_get(self: PyDict, key: String) -> PyObjectEnum {
 /// d['two'] = 2.0
 /// d['three'] = True
 /// ```
-pub fn PyDict::set[V: IsPyObject](self: PyDict, key: String, val: V) -> Unit {
+pub fn PyDict::set[V : IsPyObject](
+  self : PyDict,
+  key : String,
+  val : V
+) -> Unit {
   let dict = self.obj_ref()
   let val = val.obj_ref()
   let _ = @cpython.py_dict_set_item_string(dict, key, val)
+
 }
 
 ///| Set the elements of the dict by its key. (Object)
@@ -195,7 +187,11 @@ pub fn PyDict::set[V: IsPyObject](self: PyDict, key: String, val: V) -> Unit {
 /// 
 /// print(d) # Output: {1: 1, 2: 4, 3: 9}
 /// ```
-pub fn PyDict::setByObj[K: IsPyObject, V: IsPyObject](self: PyDict, key: K, val: V) -> Unit!PyRuntimeError {
+pub fn PyDict::setByObj[K : IsPyObject, V : IsPyObject](
+  self : PyDict,
+  key : K,
+  val : V
+) -> Unit!PyRuntimeError {
   let dict = self.obj_ref()
   @cpython.py_err_clear()
   let _ = @cpython.py_dict_set_item(dict, key.obj_ref(), val.obj_ref())
@@ -230,11 +226,16 @@ pub fn PyDict::setByObj[K: IsPyObject, V: IsPyObject](self: PyDict, key: K, val:
 /// d['two'] = 2.0
 /// d['three'] = True
 /// ```
-pub fn PyDict::op_set[V: IsPyObject](self: PyDict, key: String, val: V) -> Unit {
+pub fn PyDict::op_set[V : IsPyObject](
+  self : PyDict,
+  key : String,
+  val : V
+) -> Unit {
   self.set(key, val)
 }
 
-pub fn PyDict::contains(self: PyDict, key: String) -> Bool {
+///|
+pub fn PyDict::contains(self : PyDict, key : String) -> Bool {
   let dict = self.obj_ref()
   @cpython.py_dict_contains(dict, PyString::from(key).obj_ref())
 }
@@ -265,7 +266,7 @@ pub fn PyDict::contains(self: PyDict, key: String) -> Bool {
 /// dict_keys = d.keys()
 /// print(dict_keys) # Output: dict_keys(['one', 'two', 'three'])
 /// ```
-pub fn PyDict::keys(self: PyDict) -> PyList {
+pub fn PyDict::keys(self : PyDict) -> PyList {
   PyList::create_by_ref_unchecked(@cpython.py_dict_keys(self.obj_ref()))
 }
 
@@ -295,7 +296,7 @@ pub fn PyDict::keys(self: PyDict) -> PyList {
 /// dict_values = d.values()
 /// print(dict_values) # Output: dict_values([1, 2.0, True])
 /// ```
-pub fn PyDict::values(self: PyDict) -> PyList {
+pub fn PyDict::values(self : PyDict) -> PyList {
   PyList::create_by_ref_unchecked(@cpython.py_dict_values(self.obj_ref()))
 }
 
@@ -317,15 +318,17 @@ pub fn PyDict::values(self: PyDict) -> PyList {
 ///   inspect!(dict.items(), content="[('one', 1), ('two', 2.0), ('three', True)]")
 /// }
 /// ```
-pub fn PyDict::items(self: PyDict) -> PyList {
+pub fn PyDict::items(self : PyDict) -> PyList {
   PyList::create_by_ref_unchecked(@cpython.py_dict_items(self.obj_ref()))
 }
 
-pub fn PyDict::dump(self: PyDict) -> Unit {
+///|
+pub fn PyDict::dump(self : PyDict) -> Unit {
   PyObject::dump(self.obj)
 }
 
-pub fn PyDict::drop(self: PyDict) -> Unit {
+///|
+pub fn PyDict::drop(self : PyDict) -> Unit {
   self.obj.drop()
 }
 
@@ -350,21 +353,21 @@ pub fn PyDict::drop(self: PyDict) -> Unit {
 ///
 /// print(type(d)) # Output: <class 'dict'>
 /// ```
-pub fn PyDict::type_name(self: PyDict) -> String {
+pub fn PyDict::type_name(self : PyDict) -> String {
   self.obj.type_name()
 }
 
+///|
 pub impl IsPyObject for PyDict with obj(self) {
   self.obj()
 }
 
+///|
 pub impl Show for PyDict with to_string(self) -> String {
   self.obj.to_string()
 }
 
-pub impl Show for PyDict with output(
-  self:PyDict, logger: &Logger
-) -> Unit {
+///|
+pub impl Show for PyDict with output(self : PyDict, logger : &Logger) -> Unit {
   logger.write_string(self.to_string())
 }
-

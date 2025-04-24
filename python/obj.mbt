@@ -1,72 +1,84 @@
+///|
 pub struct PyObject {
-  priv obj: @cpython.PyObjectRef
+  priv obj : @cpython.PyObjectRef
 }
 
-fn PyObject::obj_ref(self: PyObject) -> @cpython.PyObjectRef {
+///|
+fn PyObject::obj_ref(self : PyObject) -> @cpython.PyObjectRef {
   self.obj
 }
 
-pub fn PyObject::create(obj: @cpython.PyObjectRef) -> PyObject {
-  PyObject::{
-    obj: obj
-  }
+///|
+pub fn PyObject::create(obj : @cpython.PyObjectRef) -> PyObject {
+  PyObject::{ obj, }
 }
 
-pub fn PyObject::is_null(self: PyObject) -> Bool {
+///|
+pub fn PyObject::is_null(self : PyObject) -> Bool {
   self.obj.is_null()
 }
 
-pub fn PyObject::is_bool(self: PyObject) -> Bool {
+///|
+pub fn PyObject::is_bool(self : PyObject) -> Bool {
   @cpython.py_object_is_bool(self.obj_ref())
 }
 
-pub fn PyObject::is_int(self: PyObject) -> Bool {
+///|
+pub fn PyObject::is_int(self : PyObject) -> Bool {
   @cpython.py_object_is_int(self.obj_ref())
 }
 
-pub fn PyObject::is_float(self: PyObject) -> Bool {
+///|
+pub fn PyObject::is_float(self : PyObject) -> Bool {
   @cpython.py_object_is_float(self.obj_ref())
 }
 
-pub fn PyObject::is_string(self: PyObject) -> Bool {
+///|
+pub fn PyObject::is_string(self : PyObject) -> Bool {
   @cpython.py_object_is_string(self.obj_ref())
 }
 
-pub fn PyObject::is_list(self: PyObject) -> Bool {
+///|
+pub fn PyObject::is_list(self : PyObject) -> Bool {
   @cpython.py_object_is_list(self.obj_ref())
 }
 
-pub fn PyObject::is_tuple(self: PyObject) -> Bool {
+///|
+pub fn PyObject::is_tuple(self : PyObject) -> Bool {
   @cpython.py_object_is_tuple(self.obj_ref())
 }
 
-pub fn PyObject::is_dict(self: PyObject) -> Bool {
+///|
+pub fn PyObject::is_dict(self : PyObject) -> Bool {
   @cpython.py_object_is_dict(self.obj_ref())
 }
 
-pub fn PyObject::is_module(self: PyObject) -> Bool {
+///|
+pub fn PyObject::is_module(self : PyObject) -> Bool {
   @cpython.py_module_check(self.obj_ref())
 }
 
-pub fn PyObject::is_callable(self: PyObject) -> Bool {
+///|
+pub fn PyObject::is_callable(self : PyObject) -> Bool {
   @cpython.py_callable_check(self.obj_ref())
 }
 
-pub fn PyObject::dump(self: PyObject) -> Unit {
+///|
+pub fn PyObject::dump(self : PyObject) -> Unit {
   @cpython.print_pyobject(self.obj_ref())
 }
 
-pub fn PyObject::drop(self: PyObject) -> Unit {
+///|
+pub fn PyObject::drop(self : PyObject) -> Unit {
   @cpython.py_decref(self.obj_ref())
 }
 
-pub fn PyObject::type_name(self: PyObject) -> String {
+///|
+pub fn PyObject::type_name(self : PyObject) -> String {
   let ty = @cpython.py_type(self.obj_ref())
   let tyname = @cpython.py_type_name(ty)
   tyname
 }
-
-//// TODO: what if the attribute doesn't exist?
 //pub fn PyObject::get_attr(self: PyObject, attr_name: String) -> PyObject? {
 //  let obj_ref = @cpython.py_object_get_attr_string(self.obj_ref(), attr_name)
 //  @option.unless(
@@ -94,9 +106,13 @@ pub fn PyObject::type_name(self: PyObject) -> String {
 //  }
 //}
 
-pub fn PyObject::get_attr(self: PyObject, attr: String, print_err~ : Bool = false) -> PyObjectEnum? {
+///| TODO: what if the attribute doesn't exist?
+pub fn PyObject::get_attr(
+  self : PyObject,
+  attr : String,
+  print_err~ : Bool = false
+) -> PyObjectEnum? {
   let f = @cpython.py_object_get_attr_string(self.obj_ref(), attr)
-
   if f.is_null() {
     if print_err {
       @cpython.py_err_print()
@@ -104,19 +120,16 @@ pub fn PyObject::get_attr(self: PyObject, attr: String, print_err~ : Bool = fals
     @cpython.py_err_clear()
     return None
   }
-
   let c = PyObjectEnum::create_by_ref(f)
-
   Some(c)
 }
 
-pub impl Show for PyObject with to_string(self: PyObject) -> String {
+///|
+pub impl Show for PyObject with to_string(self : PyObject) -> String {
   @cpython.py_object_moonbit_repr(self.obj)
 }
 
-
-pub impl Show for PyObject with output(
-  self:PyObject, logger: &Logger
-) -> Unit {
+///|
+pub impl Show for PyObject with output(self : PyObject, logger : &Logger) -> Unit {
   logger.write_string(self.to_string())
 }

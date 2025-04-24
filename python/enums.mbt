@@ -1,4 +1,4 @@
-
+///|
 pub(all) enum PyObjectEnum {
   PyInteger(PyInteger)
   PyFloat(PyFloat)
@@ -11,7 +11,8 @@ pub(all) enum PyObjectEnum {
   Class(PyObject)
 } derive(Show)
 
-pub fn PyObjectEnum::create(obj: PyObject) -> PyObjectEnum {
+///|
+pub fn PyObjectEnum::create(obj : PyObject) -> PyObjectEnum {
   if obj.is_bool() {
     PyObjectEnum::PyBool(PyBool::create_unchecked(obj))
   } else if obj.is_int() {
@@ -33,8 +34,10 @@ pub fn PyObjectEnum::create(obj: PyObject) -> PyObjectEnum {
   }
 }
 
-pub fn PyObjectEnum::create_by_ref(obj_ref: @cpython.PyObjectRef) -> PyObjectEnum {
-  let obj = PyObject::create(obj_ref);
-
+///|
+pub fn PyObjectEnum::create_by_ref(
+  obj_ref : @cpython.PyObjectRef
+) -> PyObjectEnum {
+  let obj = PyObject::create(obj_ref)
   PyObjectEnum::create(obj)
 }

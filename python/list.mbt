@@ -1,11 +1,13 @@
 // ========================================
 // py_list
 // ========================================
+///|
 pub struct PyList {
-  priv obj: PyObject
+  priv obj : PyObject
 }
 
-fn PyList::obj(self: PyList) -> PyObject {
+///|
+fn PyList::obj(self : PyList) -> PyObject {
   self.obj
 }
 
@@ -21,41 +23,31 @@ fn PyList::obj(self: PyList) -> PyObject {
 /// }
 /// ```
 pub fn PyList::new() -> PyList {
-  PyList::{
-    obj: @cpython.py_list_new(0) |> PyObject::create
-  }
+  PyList::{ obj: @cpython.py_list_new(0) |> PyObject::create }
 }
 
-pub fn PyList::create(obj: PyObject) -> PyList!PyRuntimeError {
-  guard obj.is_list() else {
-    raise TypeMisMatchError
-  }
-
-  PyList::{
-    obj
-  }
+///|
+pub fn PyList::create(obj : PyObject) -> PyList!PyRuntimeError {
+  guard obj.is_list() else { raise TypeMisMatchError }
+  PyList::{ obj, }
 }
 
-fn PyList::create_unchecked(obj: PyObject) -> PyList {
-  PyList::{
-    obj
-  }
+///|
+fn PyList::create_unchecked(obj : PyObject) -> PyList {
+  PyList::{ obj, }
 }
 
-pub fn PyList::create_by_ref(obj: @cpython.PyObjectRef) -> PyList!PyRuntimeError {
-  guard @cpython.py_object_is_list(obj) else {
-    raise TypeMisMatchError
-  }
-
-  PyList::{
-    obj: PyObject::create(obj)
-  }
+///|
+pub fn PyList::create_by_ref(
+  obj : @cpython.PyObjectRef
+) -> PyList!PyRuntimeError {
+  guard @cpython.py_object_is_list(obj) else { raise TypeMisMatchError }
+  PyList::{ obj: PyObject::create(obj) }
 }
 
-fn PyList::create_by_ref_unchecked(obj: @cpython.PyObjectRef) -> PyList {
-  PyList::{
-    obj: PyObject::create(obj)
-  }
+///|
+fn PyList::create_by_ref_unchecked(obj : @cpython.PyObjectRef) -> PyList {
+  PyList::{ obj: PyObject::create(obj) }
 }
 
 ///| Returns the length of the list.
@@ -83,7 +75,7 @@ fn PyList::create_by_ref_unchecked(obj: @cpython.PyObjectRef) -> PyList {
 ///
 /// print(len(list))  # Output: 3
 /// ```
-pub fn PyList::len(self: PyList) -> Int {
+pub fn PyList::len(self : PyList) -> Int {
   @cpython.py_list_size(self.obj_ref()).to_int()
 }
 
@@ -111,8 +103,9 @@ pub fn PyList::len(self: PyList) -> Int {
 ///
 /// print(list)  # Output: [1, 2.0, 'hello']
 /// ```
-pub fn PyList::append[T: IsPyObject](self: PyList, item: T) -> Unit {
+pub fn PyList::append[T : IsPyObject](self : PyList, item : T) -> Unit {
   let _ = @cpython.py_list_append(self.obj_ref(), item.obj_ref())
+
 }
 
 // Review: The following code is available, but I don't think it is necessary.
@@ -145,9 +138,9 @@ pub fn PyList::append[T: IsPyObject](self: PyList, item: T) -> Unit {
 ///   inspect!(list, content="[1, 2.0, \'three\']")
 /// }
 /// ```
-pub fn PyList::from[T: IsPyObject](items: Array[T]) -> PyList {
+pub fn PyList::from[T : IsPyObject](items : Array[T]) -> PyList {
   let pylist = PyList::new()
-  items.each(fn (item) { pylist.append(item) })
+  items.each(fn(item) { pylist.append(item) })
   pylist
 }
 
@@ -171,15 +164,12 @@ pub fn PyList::from[T: IsPyObject](items: Array[T]) -> PyList {
 ///   inspect!(list.get(-1), content="None")
 /// }
 /// ```
-pub fn PyList::get(self: PyList, idx: Int) -> PyObjectEnum? {
-  @option.when(
-    idx >= 0 && idx < self.len(),
-    fn () {
-      @cpython.py_list_get_item(self.obj_ref(), idx.to_int64())
-      |> PyObject::create
-      |> PyObjectEnum::create
-    }
-  )
+pub fn PyList::get(self : PyList, idx : Int) -> PyObjectEnum? {
+  @option.when(idx >= 0 && idx < self.len(), fn() {
+    @cpython.py_list_get_item(self.obj_ref(), idx.to_int64())
+    |> PyObject::create
+    |> PyObjectEnum::create
+  })
 }
 
 ///| Get the item at the specified index.
@@ -201,8 +191,8 @@ pub fn PyList::get(self: PyList, idx: Int) -> PyObjectEnum? {
 ///   inspect!(list[2], content="PyString(\'hello\')")
 /// }
 /// ```
-pub fn PyList::op_get(self: PyList, idx: Int) -> PyObjectEnum {
-    self.get(idx).unwrap()
+pub fn PyList::op_get(self : PyList, idx : Int) -> PyObjectEnum {
+  self.get(idx).unwrap()
 }
 
 ///| Set the item at the specified index.
@@ -224,14 +214,19 @@ pub fn PyList::op_get(self: PyList, idx: Int) -> PyObjectEnum {
 ///   inspect!(list, content="[42, 2.0, \'hello\']")
 /// }
 /// ```
-pub fn PyList::set[T: IsPyObject](self: PyList, idx: Int, item: T) -> Unit!PyRuntimeError {
-  guard idx >= 0 && idx < self.len() else {
-    raise IndexOutOfBoundsError
-  }
+pub fn PyList::set[T : IsPyObject](
+  self : PyList,
+  idx : Int,
+  item : T
+) -> Unit!PyRuntimeError {
+  guard idx >= 0 && idx < self.len() else { raise IndexOutOfBoundsError }
+  let _ = @cpython.py_list_set_item(
+    self.obj_ref(),
+    idx.to_int64(),
+    item.obj_ref(),
+  )
 
-  let _ = @cpython.py_list_set_item(self.obj_ref(), idx.to_int64(), item.obj_ref())
 }
-
 
 ///| Set the item at the specified index.
 ///
@@ -252,21 +247,26 @@ pub fn PyList::set[T: IsPyObject](self: PyList, idx: Int, item: T) -> Unit!PyRun
 ///  inspect!(list, content="[42, 2.0, \'hello\']")
 /// }
 /// ```
-pub fn PyList::op_set[T: IsPyObject](self: PyList, idx: Int, item: T) -> Unit {
+pub fn PyList::op_set[T : IsPyObject](
+  self : PyList,
+  idx : Int,
+  item : T
+) -> Unit {
   self.set?(idx, item).unwrap()
 }
 
 ///|
-pub fn PyList::to_string(self: PyList) -> String {
+pub fn PyList::to_string(self : PyList) -> String {
   PyObject::to_string(self.obj)
 }
 
 ///|
-pub fn PyList::dump(self: PyList) -> Unit {
+pub fn PyList::dump(self : PyList) -> Unit {
   self.obj.dump()
 }
 
-pub fn PyList::drop(self: PyList) -> Unit {
+///|
+pub fn PyList::drop(self : PyList) -> Unit {
   self.obj.drop()
 }
 
@@ -282,21 +282,21 @@ pub fn PyList::drop(self: PyList) -> Unit {
 ///   inspect!(list.type_name(), content="list")
 /// }
 /// ```
-pub impl IsPyObject for PyList with type_name(self: PyList) -> String {
+pub impl IsPyObject for PyList with type_name(self : PyList) -> String {
   self.obj.type_name()
 }
- 
+
 ///|
 pub impl IsPyObject for PyList with obj(self) {
   self.obj()
 }
 
+///|
 pub impl Show for PyList with to_string(self) -> String {
   PyList::to_string(self)
 }
 
-pub impl Show for PyList with output(
-  self:PyList, logger: &Logger
-) -> Unit {
+///|
+pub impl Show for PyList with output(self : PyList, logger : &Logger) -> Unit {
   logger.write_string(self.to_string())
 }

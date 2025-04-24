@@ -9,11 +9,10 @@
 //  @plt.show()
 //}
 
+///|
 fn main {
-  let f = @python.PyFloat::from(3.5);
-
+  let f = @python.PyFloat::from(3.5)
   println(f)
   println(f.type_name())
   println(f.to_double())
-
 }
