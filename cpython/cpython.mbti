@@ -1,0 +1,614 @@
+package "Kaida-Amethyst/python/cpython"
+
+// Values
+fn __py_callable_check(PyObjectRef) -> Int
+
+fn __py_dict_contains(PyObjectRef, PyObjectRef) -> Int
+
+fn _py_context_new_hamt_for_tests() -> PyObjectRef
+
+fn print_pyobject(PyObjectRef) -> Unit
+
+fn py_bool_from_long(Int64) -> PyObjectRef
+
+fn py_call_iter_new(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn py_callable_check(PyObjectRef) -> Bool
+
+fn py_cell_get(PyObjectRef) -> PyObjectRef
+
+fn py_cell_new(PyObjectRef) -> PyObjectRef
+
+fn py_cell_set(PyObjectRef, PyObjectRef) -> Int
+
+fn py_class_method_new(PyObjectRef) -> PyObjectRef
+
+fn py_code_addr2_line(PyCodeObjectRef, Int) -> Int
+
+fn py_code_new(Int, Int, Int, Int, Int, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, Int, PyObjectRef) -> PyCodeObjectRef
+
+fn py_code_new_empty(CStr, CStr, Int) -> PyCodeObjectRef
+
+fn py_code_new_with_pos_only_args(Int, Int, Int, Int, Int, Int, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, Int, PyObjectRef) -> PyCodeObjectRef
+
+fn py_codec_backslash_replace_errors(PyObjectRef) -> PyObjectRef
+
+fn py_codec_decode(PyObjectRef, CStr, CStr) -> PyObjectRef
+
+fn py_codec_decoder(CStr) -> PyObjectRef
+
+fn py_codec_encode(PyObjectRef, CStr, CStr) -> PyObjectRef
+
+fn py_codec_encoder(CStr) -> PyObjectRef
+
+fn py_codec_ignore_errors(PyObjectRef) -> PyObjectRef
+
+fn py_codec_incremental_decoder(CStr, CStr) -> PyObjectRef
+
+fn py_codec_incremental_encoder(CStr, CStr) -> PyObjectRef
+
+fn py_codec_known_encoding(CStr) -> Int
+
+fn py_codec_lookup_error(CStr) -> PyObjectRef
+
+fn py_codec_name_replace_errors(PyObjectRef) -> PyObjectRef
+
+fn py_codec_register(PyObjectRef) -> Int
+
+fn py_codec_register_error(CStr, PyObjectRef) -> Int
+
+fn py_codec_replace_errors(PyObjectRef) -> PyObjectRef
+
+fn py_codec_stream_reader(CStr, PyObjectRef, CStr) -> PyObjectRef
+
+fn py_codec_stream_writer(CStr, PyObjectRef, CStr) -> PyObjectRef
+
+fn py_codec_strict_errors(PyObjectRef) -> PyObjectRef
+
+fn py_codec_xml_char_ref_replace_errors(PyObjectRef) -> PyObjectRef
+
+fn py_complex_from_doubles(Double, Double) -> PyObjectRef
+
+fn py_complex_imag_as_double(PyObjectRef) -> Double
+
+fn py_complex_real_as_double(PyObjectRef) -> Double
+
+fn py_context_clear_free_list() -> Int
+
+fn py_context_copy(PyObjectRef) -> PyObjectRef
+
+fn py_context_copy_current() -> PyObjectRef
+
+fn py_context_enter(PyObjectRef) -> Int
+
+fn py_context_exit(PyObjectRef) -> Int
+
+fn py_context_new() -> PyObjectRef
+
+fn py_context_var_get(PyObjectRef, PyObjectRef, ArrayPyObjectRef) -> Int
+
+fn py_context_var_new(CStr, PyObjectRef) -> PyObjectRef
+
+fn py_context_var_reset(PyObjectRef, PyObjectRef) -> Int
+
+fn py_context_var_set(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn py_decref(PyObjectRef) -> Unit
+
+fn py_dict_clear(PyObjectRef) -> Unit
+
+fn py_dict_contains(PyObjectRef, PyObjectRef) -> Bool
+
+fn py_dict_copy(PyObjectRef) -> PyObjectRef
+
+fn py_dict_del_item(PyObjectRef, PyObjectRef) -> Int
+
+fn py_dict_del_item_string(PyObjectRef, String) -> Int
+
+fn py_dict_get_item(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn py_dict_get_item_string(PyObjectRef, String) -> PyObjectRef
+
+fn py_dict_items(PyObjectRef) -> PyObjectRef
+
+fn py_dict_keys(PyObjectRef) -> PyObjectRef
+
+fn py_dict_merge(PyObjectRef, PyObjectRef, Int) -> Int
+
+fn py_dict_merge_from_seq2(PyObjectRef, PyObjectRef, Int) -> Int
+
+fn py_dict_new() -> PyObjectRef
+
+fn py_dict_set_item(PyObjectRef, PyObjectRef, PyObjectRef) -> Int
+
+fn py_dict_set_item_string(PyObjectRef, String, PyObjectRef) -> Int
+
+fn py_dict_size(PyObjectRef) -> UInt64
+
+fn py_dict_update(PyObjectRef, PyObjectRef) -> Int
+
+fn py_dict_values(PyObjectRef) -> PyObjectRef
+
+fn py_err_clear() -> Unit
+
+fn py_err_occurred() -> PyObjectRef
+
+fn py_err_print() -> Unit
+
+fn py_eval_acquire_thread(PyThreadStateRef) -> Unit
+
+fn py_eval_call_object_with_keywords(PyObjectRef, PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn py_eval_eval_code(PyObjectRef, PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn py_eval_get_builtins() -> PyObjectRef
+
+fn py_eval_get_func_desc(PyObjectRef) -> CStr
+
+fn py_eval_get_func_name(PyObjectRef) -> CStr
+
+fn py_eval_get_globals() -> PyObjectRef
+
+fn py_eval_get_locals() -> PyObjectRef
+
+fn py_eval_init_threads() -> Unit
+
+fn py_eval_release_thread(PyThreadStateRef) -> Unit
+
+fn py_eval_restore_thread(PyThreadStateRef) -> Unit
+
+fn py_eval_save_thread() -> PyThreadStateRef
+
+fn py_eval_threads_initialized() -> Int
+
+fn py_file_from_fd(Int, CStr, CStr, Int, CStr, CStr, CStr, Int) -> PyObjectRef
+
+fn py_file_get_line(PyObjectRef, Int) -> PyObjectRef
+
+fn py_file_new_std_printer(Int) -> PyObjectRef
+
+fn py_file_open_code(CStr) -> PyObjectRef
+
+fn py_file_open_code_object(PyObjectRef) -> PyObjectRef
+
+fn py_file_write_object(PyObjectRef, PyObjectRef, Int) -> Int
+
+fn py_file_write_string(CStr, PyObjectRef) -> Int
+
+fn py_finalize() -> Unit
+
+fn py_float_as_double(PyObjectRef) -> Double
+
+fn py_float_from_double(Double) -> PyObjectRef
+
+fn py_float_from_string(PyObjectRef) -> PyObjectRef
+
+fn py_float_get_info() -> PyObjectRef
+
+fn py_float_get_max() -> Double
+
+fn py_float_get_min() -> Double
+
+fn py_frozen_set_new(PyObjectRef) -> PyObjectRef
+
+fn py_function_check(PyObjectRef) -> Bool
+
+fn py_function_get_annotations(PyObjectRef) -> PyObjectRef
+
+fn py_function_get_closure(PyObjectRef) -> PyObjectRef
+
+fn py_function_get_code(PyObjectRef) -> PyObjectRef
+
+fn py_function_get_defaults(PyObjectRef) -> PyObjectRef
+
+fn py_function_get_globals(PyObjectRef) -> PyObjectRef
+
+fn py_function_get_kw_defaults(PyObjectRef) -> PyObjectRef
+
+fn py_function_get_module(PyObjectRef) -> PyObjectRef
+
+fn py_function_new(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn py_function_new_with_qual_name(PyObjectRef, PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn py_function_set_annotations(PyObjectRef, PyObjectRef) -> Int
+
+fn py_function_set_closure(PyObjectRef, PyObjectRef) -> Int
+
+fn py_function_set_defaults(PyObjectRef, PyObjectRef) -> Int
+
+fn py_function_set_kw_defaults(PyObjectRef, PyObjectRef) -> Int
+
+fn py_get_recursion_limit() -> Int
+
+fn py_import_add_module(CStr) -> PyObjectRef
+
+fn py_import_add_module_object(PyObjectRef) -> PyObjectRef
+
+fn py_import_cleanup() -> Unit
+
+fn py_import_exec_code_module(CStr, PyObjectRef) -> PyObjectRef
+
+fn py_import_exec_code_module_ex(CStr, PyObjectRef, CStr) -> PyObjectRef
+
+fn py_import_exec_code_module_object(PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn py_import_exec_code_module_with_pathnames(CStr, PyObjectRef, CStr, CStr) -> PyObjectRef
+
+fn py_import_get_importer(PyObjectRef) -> PyObjectRef
+
+fn py_import_get_magic_number() -> Int
+
+fn py_import_get_magic_tag() -> CStr
+
+fn py_import_get_module(PyObjectRef) -> PyObjectRef
+
+fn py_import_get_module_dict() -> PyObjectRef
+
+fn py_import_import(PyObjectRef) -> PyObjectRef
+
+fn py_import_import_frozen_module(CStr) -> Int
+
+fn py_import_import_frozen_module_object(PyObjectRef) -> Int
+
+fn py_import_import_module(String) -> PyObjectRef
+
+fn py_import_import_module_level(CStr, PyObjectRef, PyObjectRef, PyObjectRef, Int) -> PyObjectRef
+
+fn py_import_import_module_level_object(PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, Int) -> PyObjectRef
+
+fn py_import_import_module_no_block(CStr) -> PyObjectRef
+
+fn py_import_reload_module(PyObjectRef) -> PyObjectRef
+
+fn py_incref(PyObjectRef) -> Unit
+
+fn py_init() -> Unit
+
+fn py_instance_method_function(PyObjectRef) -> PyObjectRef
+
+fn py_instance_method_new(PyObjectRef) -> PyObjectRef
+
+fn py_is_initialized() -> Bool
+
+fn py_list_append(PyObjectRef, PyObjectRef) -> Int
+
+fn py_list_as_tuple(PyObjectRef) -> PyObjectRef
+
+fn py_list_get_item(PyObjectRef, Int64) -> PyObjectRef
+
+fn py_list_get_slice(PyObjectRef, Int64, Int64) -> PyObjectRef
+
+fn py_list_insert(PyObjectRef, Int64, PyObjectRef) -> Int
+
+fn py_list_new(Int64) -> PyObjectRef
+
+fn py_list_reverse(PyObjectRef) -> Int
+
+fn py_list_set_item(PyObjectRef, Int64, PyObjectRef) -> Int
+
+fn py_list_set_slice(PyObjectRef, Int64, Int64, PyObjectRef) -> Int
+
+fn py_list_size(PyObjectRef) -> Int64
+
+fn py_list_sort(PyObjectRef) -> Int
+
+fn py_long_as_double(PyObjectRef) -> Double
+
+fn py_long_as_long(PyObjectRef) -> Int64
+
+fn py_long_from_long(Int64) -> PyObjectRef
+
+fn py_make_pending_calls() -> Int
+
+fn py_method_clear_free_list() -> Int
+
+fn py_method_function(PyObjectRef) -> PyObjectRef
+
+fn py_method_new(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn py_method_self(PyObjectRef) -> PyObjectRef
+
+fn py_module_check(PyObjectRef) -> Bool
+
+fn py_module_get_dict(PyObjectRef) -> PyObjectRef
+
+fn py_module_get_filename_object(PyObjectRef) -> PyObjectRef
+
+fn py_module_get_name(PyObjectRef) -> CStr
+
+fn py_module_get_name_object(PyObjectRef) -> PyObjectRef
+
+fn py_module_new(CStr) -> PyObjectRef
+
+fn py_module_new_object(PyObjectRef) -> PyObjectRef
+
+fn py_object_as_file_descriptor(PyObjectRef) -> Int
+
+fn py_object_ascii(PyObjectRef) -> PyObjectRef
+
+fn py_object_bytes(PyObjectRef) -> PyObjectRef
+
+fn py_object_call(PyObjectRef, PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn py_object_call_object(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn py_object_clear_weak_refs(PyObjectRef) -> Unit
+
+fn py_object_del_item(PyObjectRef, PyObjectRef) -> Int
+
+fn py_object_del_item_string(PyObjectRef, CStr) -> Int
+
+fn py_object_dir(PyObjectRef) -> PyObjectRef
+
+fn py_object_generic_get_attr(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn py_object_generic_set_attr(PyObjectRef, PyObjectRef, PyObjectRef) -> Int
+
+fn py_object_get_attr(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn py_object_get_attr_string(PyObjectRef, String) -> PyObjectRef
+
+fn py_object_get_item(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn py_object_get_iter(PyObjectRef) -> PyObjectRef
+
+fn py_object_has_attr(PyObjectRef, PyObjectRef) -> Int
+
+fn py_object_has_attr_string(PyObjectRef, String) -> Int
+
+fn py_object_is_bool(PyObjectRef) -> Bool
+
+fn py_object_is_dict(PyObjectRef) -> Bool
+
+fn py_object_is_float(PyObjectRef) -> Bool
+
+fn py_object_is_instance(PyObjectRef, PyObjectRef) -> Int
+
+fn py_object_is_int(PyObjectRef) -> Bool
+
+fn py_object_is_list(PyObjectRef) -> Bool
+
+fn py_object_is_set(PyObjectRef) -> Bool
+
+fn py_object_is_string(PyObjectRef) -> Bool
+
+fn py_object_is_subclass(PyObjectRef, PyObjectRef) -> Int
+
+fn py_object_is_true(PyObjectRef) -> Bool
+
+fn py_object_is_tuple(PyObjectRef) -> Bool
+
+fn py_object_moonbit_repr(PyObjectRef) -> String
+
+fn py_object_moonbit_str(PyObjectRef) -> String
+
+fn py_object_not(PyObjectRef) -> Int
+
+fn py_object_repr(PyObjectRef) -> PyObjectRef
+
+fn py_object_rich_compare(PyObjectRef, PyObjectRef, Int) -> PyObjectRef
+
+fn py_object_rich_compare_bool(PyObjectRef, PyObjectRef, Int) -> Int
+
+fn py_object_self_iter(PyObjectRef) -> PyObjectRef
+
+fn py_object_set_attr(PyObjectRef, PyObjectRef, PyObjectRef) -> Int
+
+fn py_object_set_attr_string(PyObjectRef, String, PyObjectRef) -> Int
+
+fn py_object_set_item(PyObjectRef, PyObjectRef, PyObjectRef) -> Int
+
+fn py_object_size(PyObjectRef) -> UInt64
+
+fn py_object_str(PyObjectRef) -> PyObjectRef
+
+fn py_object_type(PyObjectRef) -> PyObjectRef
+
+fn py_odict_del_item(PyObjectRef, PyObjectRef) -> Int
+
+fn py_odict_new() -> PyObjectRef
+
+fn py_odict_set_item(PyObjectRef, PyObjectRef, PyObjectRef) -> Int
+
+fn py_repr_enter(PyObjectRef) -> Int
+
+fn py_repr_leave(PyObjectRef) -> Unit
+
+fn py_seq_iter_new(PyObjectRef) -> PyObjectRef
+
+fn py_set_add(PyObjectRef, PyObjectRef) -> Int
+
+fn py_set_clear(PyObjectRef) -> Int
+
+fn py_set_contains(PyObjectRef, PyObjectRef) -> Int
+
+fn py_set_discard(PyObjectRef, PyObjectRef) -> Int
+
+fn py_set_new(PyObjectRef) -> PyObjectRef
+
+fn py_set_pop(PyObjectRef) -> PyObjectRef
+
+fn py_set_recursion_limit(Int) -> Unit
+
+fn py_set_size(PyObjectRef) -> Int64
+
+fn py_static_method_new(PyObjectRef) -> PyObjectRef
+
+fn py_type(PyObjectRef) -> PyTypeObjectRef
+
+fn py_type_name(PyTypeObjectRef) -> String
+
+fn py_unicode_as_utf8(PyObjectRef) -> String
+
+fn py_unicode_from_string(String) -> PyObjectRef
+
+fn py_unicode_from_string_and_size(CStr, UInt64) -> PyObjectRef
+
+fn py_unicode_from_unicode(CWStr, UInt64) -> PyObjectRef
+
+fn pyindex_check(PyObjectRef) -> Int
+
+fn pyiter_check(PyObjectRef) -> Int
+
+fn pyiter_next(PyObjectRef) -> PyObjectRef
+
+fn pymapping_check(PyObjectRef) -> Int
+
+fn pymapping_get_item_string(PyObjectRef, CStr) -> PyObjectRef
+
+fn pymapping_has_key(PyObjectRef, PyObjectRef) -> Int
+
+fn pymapping_has_key_string(PyObjectRef, CStr) -> Int
+
+fn pymapping_items(PyObjectRef) -> PyObjectRef
+
+fn pymapping_keys(PyObjectRef) -> PyObjectRef
+
+fn pymapping_set_item_string(PyObjectRef, CStr, PyObjectRef) -> Int
+
+fn pymapping_size(PyObjectRef) -> Int
+
+fn pymapping_values(PyObjectRef) -> PyObjectRef
+
+fn pynumber_absolute(PyObjectRef) -> PyObjectRef
+
+fn pynumber_add(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_and(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_as_ssize_t(PyObjectRef, PyObjectRef) -> Int
+
+fn pynumber_check(PyObjectRef) -> Int
+
+fn pynumber_divmod(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_float(PyObjectRef) -> PyObjectRef
+
+fn pynumber_floor_divide(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_index(PyObjectRef) -> PyObjectRef
+
+fn pynumber_inplace_add(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_inplace_and(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_inplace_floor_divide(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_inplace_lshift(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_inplace_multiply(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_inplace_or(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_inplace_power(PyObjectRef, PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_inplace_remainder(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_inplace_rshift(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_inplace_subtract(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_inplace_true_divide(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_inplace_xor(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_invert(PyObjectRef) -> PyObjectRef
+
+fn pynumber_long(PyObjectRef) -> PyObjectRef
+
+fn pynumber_lshift(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_multiply(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_negative(PyObjectRef) -> PyObjectRef
+
+fn pynumber_or(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_positive(PyObjectRef) -> PyObjectRef
+
+fn pynumber_power(PyObjectRef, PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_remainder(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_rshift(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_subtract(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_to_base(PyObjectRef, Int) -> PyObjectRef
+
+fn pynumber_true_divide(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pynumber_xor(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pyobkect_format(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pysequence_check(PyObjectRef) -> Int
+
+fn pysequence_concat(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pysequence_contains(PyObjectRef, PyObjectRef) -> Int
+
+fn pysequence_count(PyObjectRef, PyObjectRef) -> Int
+
+fn pysequence_del_item(PyObjectRef, UInt64) -> Int
+
+fn pysequence_del_slice(PyObjectRef, UInt64, UInt64) -> Int
+
+fn pysequence_fast(PyObjectRef, CStr) -> PyObjectRef
+
+fn pysequence_get_item(PyObjectRef, UInt64) -> PyObjectRef
+
+fn pysequence_get_slice(PyObjectRef, UInt64, UInt64) -> PyObjectRef
+
+fn pysequence_index(PyObjectRef, PyObjectRef) -> Int
+
+fn pysequence_inplace_concat(PyObjectRef, PyObjectRef) -> PyObjectRef
+
+fn pysequence_inplace_repeat(PyObjectRef, Int) -> PyObjectRef
+
+fn pysequence_list(PyObjectRef) -> PyObjectRef
+
+fn pysequence_repeat(PyObjectRef, Int) -> PyObjectRef
+
+fn pysequence_set_item(PyObjectRef, UInt64, PyObjectRef) -> Int
+
+fn pysequence_set_slice(PyObjectRef, UInt64, UInt64, PyObjectRef) -> Int
+
+fn pysequence_size(PyObjectRef) -> Int
+
+fn pysequence_tuple(PyObjectRef) -> PyObjectRef
+
+fn pytuple_get_item(PyObjectRef, UInt64) -> PyObjectRef
+
+fn pytuple_get_slice(PyObjectRef, UInt64, UInt64) -> PyObjectRef
+
+fn pytuple_new(UInt64) -> PyObjectRef
+
+fn pytuple_set_item(PyObjectRef, UInt64, PyObjectRef) -> Int
+
+fn pytuple_size(PyObjectRef) -> UInt64
+
+// Types and methods
+type ArrayPyObjectRef
+
+type CStr
+
+type CWStr
+
+type PyCodeObjectRef
+
+type PyObjectRef
+impl PyObjectRef {
+  dump(Self) -> Unit
+  is_null(Self) -> Bool
+}
+
+type PyThreadStateRef
+
+type PyTypeObjectRef
+
+// Type aliases
+
+// Traits
+

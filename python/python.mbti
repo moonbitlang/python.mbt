@@ -1,0 +1,219 @@
+package "Kaida-Amethyst/python/python"
+
+import(
+  "Kaida-Amethyst/python/cpython"
+)
+
+// Values
+fn init_py() -> Unit
+
+fn pyimport(String, print_err~ : Bool = ..) -> PyModule?
+
+fn strip_quot(String) -> String
+
+// Types and methods
+pub struct PyBool {
+  obj : PyObject
+}
+impl PyBool {
+  create(PyObject) -> Self!PyRuntimeError
+  create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
+  create_by_ref_unchecked(@cpython.PyObjectRef) -> Self
+  create_unchecked(PyObject) -> Self
+  from(Bool) -> Self
+  is_false(Self) -> Bool
+  is_true(Self) -> Bool
+  not(Self) -> Self
+}
+impl IsPyObject for PyBool
+impl Show for PyBool
+
+pub struct PyCallable {
+  // private fields
+}
+impl PyCallable {
+  create(PyObject) -> Self!PyRuntimeError
+  create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
+  invoke(Self, PyTuple, kwargs~ : PyDict = ..) -> PyObjectEnum?
+  obj(Self) -> PyObject
+}
+impl IsPyObject for PyCallable
+impl Show for PyCallable
+
+pub struct PyDict {
+  // private fields
+}
+impl PyDict {
+  contains(Self, String) -> Bool
+  create(PyObject) -> Self!PyRuntimeError
+  create_by_ref(@cpython.PyObjectRef) -> Self
+  create_unchecked(PyObject) -> Self
+  drop(Self) -> Unit
+  dump(Self) -> Unit
+  get(Self, String) -> PyObjectEnum?
+  getByObj(Self, PyObject) -> PyObjectEnum?
+  items(Self) -> PyList
+  keys(Self) -> PyList
+  len(Self) -> Int
+  new() -> Self
+  op_get(Self, String) -> PyObjectEnum
+  op_set[V : IsPyObject](Self, String, V) -> Unit
+  set[V : IsPyObject](Self, String, V) -> Unit
+  setByObj[K : IsPyObject, V : IsPyObject](Self, K, V) -> Unit!PyRuntimeError
+  type_name(Self) -> String
+  values(Self) -> PyList
+}
+impl IsPyObject for PyDict
+impl Show for PyDict
+
+pub struct PyFloat {
+  // private fields
+}
+impl PyFloat {
+  create(PyObject) -> Self!PyRuntimeError
+  create_by_ref_unchecked(@cpython.PyObjectRef) -> Self
+  drop(Self) -> Unit
+  dump(Self) -> Unit
+  from(Double) -> Self
+  to_double(Self) -> Double
+}
+impl IsPyObject for PyFloat
+impl Show for PyFloat
+
+pub struct PyInteger {
+  // private fields
+}
+impl PyInteger {
+  create(PyObject) -> Self!PyRuntimeError
+  create_unchecked(PyObject) -> Self
+  drop(Self) -> Unit
+  dump(Self) -> Unit
+  from(Int64) -> Self
+  to_double(Self) -> Double
+  to_int64(Self) -> Int64
+}
+impl IsPyObject for PyInteger
+impl Show for PyInteger
+
+pub struct PyList {
+  // private fields
+}
+impl PyList {
+  append[T : IsPyObject](Self, T) -> Unit
+  create(PyObject) -> Self!PyRuntimeError
+  create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
+  drop(Self) -> Unit
+  dump(Self) -> Unit
+  from[T : IsPyObject](Array[T]) -> Self
+  get(Self, Int) -> PyObjectEnum?
+  len(Self) -> Int
+  new() -> Self
+  op_get(Self, Int) -> PyObjectEnum
+  op_set[T : IsPyObject](Self, Int, T) -> Unit
+  set[T : IsPyObject](Self, Int, T) -> Unit!PyRuntimeError
+  to_string(Self) -> String
+}
+impl IsPyObject for PyList
+impl Show for PyList
+
+pub struct PyModule {
+  obj : PyObject
+}
+impl PyModule {
+  create(PyObject) -> Self!PyRuntimeError
+  create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
+  dump(Self) -> Unit
+  get_attr(Self, String, print_err~ : Bool = ..) -> PyObjectEnum?
+  get_name(Self) -> String
+  obj(Self) -> PyObject
+  obj_ref(Self) -> @cpython.PyObjectRef
+}
+impl Show for PyModule
+
+pub struct PyObject {
+  // private fields
+}
+impl PyObject {
+  create(@cpython.PyObjectRef) -> Self
+  drop(Self) -> Unit
+  dump(Self) -> Unit
+  get_attr(Self, String, print_err~ : Bool = ..) -> PyObjectEnum?
+  is_bool(Self) -> Bool
+  is_callable(Self) -> Bool
+  is_dict(Self) -> Bool
+  is_float(Self) -> Bool
+  is_int(Self) -> Bool
+  is_list(Self) -> Bool
+  is_module(Self) -> Bool
+  is_null(Self) -> Bool
+  is_string(Self) -> Bool
+  is_tuple(Self) -> Bool
+  type_name(Self) -> String
+}
+impl Show for PyObject
+
+pub(all) enum PyObjectEnum {
+  PyInteger(PyInteger)
+  PyFloat(PyFloat)
+  PyBool(PyBool)
+  PyString(PyString)
+  PyList(PyList)
+  PyDict(PyDict)
+  PyModule(PyModule)
+  PyCallable(PyCallable)
+  Class(PyObject)
+}
+impl PyObjectEnum {
+  create(PyObject) -> Self
+  create_by_ref(@cpython.PyObjectRef) -> Self
+}
+impl Show for PyObjectEnum
+
+pub type! PyRuntimeError {
+  TypeMisMatchError
+  IndexOutOfBoundsError
+  KeyIsUnHashableError
+}
+impl Show for PyRuntimeError
+
+pub struct PyString {
+  // private fields
+}
+impl PyString {
+  create(PyObject) -> Self!PyRuntimeError
+  create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
+  drop(Self) -> Unit
+  dump(Self) -> Unit
+  from(String) -> Self
+  obj(Self) -> PyObject
+}
+impl IsPyObject for PyString
+impl Show for PyString
+
+pub struct PyTuple {
+  // private fields
+}
+impl PyTuple {
+  create(PyObject) -> Self!PyRuntimeError
+  create_by_ref(@cpython.PyObjectRef) -> Self
+  drop(Self) -> Unit
+  dump(Self) -> Unit
+  get(Self, Int) -> PyObjectEnum?
+  len(Self) -> Int
+  new(UInt64) -> Self
+  op_get(Self, Int) -> PyObjectEnum
+  op_set[T : IsPyObject](Self, Int, T) -> Unit
+  set[T : IsPyObject](Self, Int, T) -> Unit!PyRuntimeError
+}
+impl IsPyObject for PyTuple
+impl Show for PyTuple
+
+// Type aliases
+
+// Traits
+pub trait IsPyObject {
+  obj(Self) -> PyObject
+  obj_ref(Self) -> @cpython.PyObjectRef
+  type_name(Self) -> String
+}
+

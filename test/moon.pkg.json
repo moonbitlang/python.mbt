@@ -2,7 +2,7 @@
   "is-main": false,
   "import": [
     "Kaida-Amethyst/python/python",
-    "Kaida-Amethyst/python/cpython",
+    "Kaida-Amethyst/python/cpython"
   ],
   "link" : {
     "native" : {
