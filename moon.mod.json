@@ -2,7 +2,7 @@
   "name": "Kaida-Amethyst/python",
   "version": "0.1.0",
   "readme": "README.md",
-  "repository": "https://github.com/Kaida-Amethyst/moonbit-python",
+  "repository": "https://github.com/Kaida-Amethyst/python.mbt",
   "license": "Apache-2.0",
   "keywords": ["python", "Native-Only"],
   "description": "Allow you use python utilities in Moonbit"
