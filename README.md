@@ -1,6 +1,6 @@
-# Moonbit-Python
+# 🐍 Python.mbt
 
-[🇨🇳简体中文](#moonbit-python-1)
+[🇨🇳简体中文](#-pythonmbt-1)
 
 ⚠️ **Project Status Notice**
 This project is currently in early development. API changes may occur without backward compatibility. Not recommended for production use. Contributors and testers welcome!
@@ -123,7 +123,7 @@ fn main {
 
   let cnt = counter.invoke(args).unwrap()
   guard cnt is @python.PyDict(cnt)
-  println(cnt) // Output: PyDict(Counter({4: 4, 3: 3, 2: 2, 1: 2}))
+  println(cnt) // Output: Counter({4: 4, 3: 3, 2: 2, 1: 2})
 }
 ```
 
@@ -149,7 +149,7 @@ We welcome contributions through:
 📜 **License**: Apache-2.0 License (See LICENSE file)
 
 
-# Moonbit-Python
+# 🐍 Python.mbt
 
 ⚠️ **项目状态提示**
 本项目目前处于早期开发阶段，API可能发生不兼容变更，暂不建议用于生产环境。欢迎开发者参与测试和功能建议！
@@ -274,7 +274,7 @@ fn main {
 
   let cnt = counter.invoke(args).unwrap()
   guard cnt is @python.PyDict(cnt)
-  println(cnt) // Out: PyDict(Counter({4: 4, 3: 3, 2: 2, 1: 2}))
+  println(cnt) // Out: Counter({4: 4, 3: 3, 2: 2, 1: 2})
 }
 ```
 
