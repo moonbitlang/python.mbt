@@ -1,12 +1,14 @@
 // ========================================
 // PyString
 // ========================================
+
 ///|
 pub struct PyString {
   priv obj : PyObject
 }
 
-///|
+///| Create a python string from a python object.
+/// If the python object is not a string, it will raise a TypeMisMatchError.
 pub fn PyString::create(obj : PyObject) -> PyString!PyRuntimeError {
   guard obj.is_string() else { raise TypeMisMatchError }
   PyString::{ obj, }
@@ -17,7 +19,8 @@ fn PyString::create_unchecked(obj : PyObject) -> PyString {
   PyString::{ obj, }
 }
 
-///|
+///| Create a python string from a python object reference.
+///If the python object is not a string, it will raise a TypeMisMatchError.
 pub fn PyString::create_by_ref(
   obj_ref : @cpython.PyObjectRef
 ) -> PyString!PyRuntimeError {
@@ -45,11 +48,6 @@ pub fn PyString::from(s : String) -> PyString {
   PyString::{ obj: PyObject::create(@cpython.py_unicode_from_moonbit_string(s)) }
 }
 
-///|
-pub fn PyString::obj(self : PyString) -> PyObject {
-  self.obj
-}
-
 ///| Print the PyString object direcly.
 ///
 /// Different from use `println`, `dump` means we made python interpreter
@@ -72,25 +70,9 @@ pub fn PyString::drop(self : PyString) -> Unit {
   self.obj.drop()
 }
 
-///| Get the type name of the PyString object.
-///
-/// Note: Always return "str" if no error occurs.
-///
-/// ## Example
-///
-/// ```moonbit
-/// test "PyString::type_name" {
-///   let s = @python.PyString::from("hello");
-///   inspect!(s.type_name(), content="str")
-/// }
-/// ```
-pub impl IsPyObject for PyString with type_name(self) {
-  self.obj.type_name()
-}
-
 ///|
 pub impl IsPyObject for PyString with obj(self) {
-  self.obj()
+  self.obj
 }
 
 ///|

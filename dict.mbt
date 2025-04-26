@@ -6,24 +6,22 @@ pub struct PyDict {
   priv obj : PyObject
 }
 
-///|
-fn PyDict::obj(self : PyDict) -> PyObject {
-  self.obj
-}
-
-///|
+///| Create a python dict object.
+/// If the python object is not a dict, it will raise a TypeMisMatchError.
 pub fn PyDict::create(obj : PyObject) -> PyDict!PyRuntimeError {
   guard obj.is_dict() else { raise TypeMisMatchError }
-  PyDict::{ obj, }
+  PyDict::{ obj }
 }
 
 ///|
-pub fn PyDict::create_unchecked(obj : PyObject) -> PyDict {
+fn PyDict::create_unchecked(obj : PyObject) -> PyDict {
   PyDict::{ obj, }
 }
 
-///|
-pub fn PyDict::create_by_ref(obj : @cpython.PyObjectRef) -> PyDict {
+///| Create a python dict object from a python object reference.
+/// If the python object is not a dict, it will raise a TypeMisMatchError.
+pub fn PyDict::create_by_ref(obj : @cpython.PyObjectRef) -> PyDict!PyRuntimeError {
+  guard @cpython.py_dict_check(obj) else { raise TypeMisMatchError }
   PyDict::{ obj: PyObject::create(obj) }
 }
 
@@ -97,7 +95,7 @@ pub fn PyDict::get(self : PyDict, key : String) -> PyObjectEnum? {
   })
 }
 
-///|
+///| Return the elements of the dict by its key, when the key is not string.
 pub fn PyDict::getByObj(self : PyDict, key : PyObject) -> PyObjectEnum? {
   let dict = self.obj_ref()
   let obj_ref = @cpython.py_dict_get_item(dict, key.obj_ref())
@@ -234,10 +232,17 @@ pub fn PyDict::op_set[V : IsPyObject](
   self.set(key, val)
 }
 
-///|
+///| Check if the dict contains the key. Note that the key is a string.
+/// If the key is not string, use `containsObj` instead.
 pub fn PyDict::contains(self : PyDict, key : String) -> Bool {
   let dict = self.obj_ref()
   @cpython.py_dict_contains(dict, PyString::from(key).obj_ref())
+}
+
+///| Check if the dict contains the key.
+pub fn PyDict::containsObj(self : PyDict, key : PyObject) -> Bool {
+  let dict = self.obj_ref()
+  @cpython.py_dict_contains(dict, key.obj_ref())
 }
 
 ///| Get the keys of the dict.
@@ -322,7 +327,10 @@ pub fn PyDict::items(self : PyDict) -> PyList {
   PyList::create_by_ref_unchecked(@cpython.py_dict_items(self.obj_ref()))
 }
 
-///|
+///| Let python interpret print the dict directly.
+///
+/// **Note**: This is different from `println(dict)` and `dict.dump()`.
+/// although they always print the same content.
 pub fn PyDict::dump(self : PyDict) -> Unit {
   PyObject::dump(self.obj)
 }
@@ -332,34 +340,9 @@ pub fn PyDict::drop(self : PyDict) -> Unit {
   self.obj.drop()
 }
 
-///| Return the type name of the dict.
-///
-/// **Note**: Always returns "dict", if no error occurs.
-///
-/// ## Example
-///
-/// ```moonbit
-/// test "PyDict::type_name" {
-///  let dict = PyDict::new()
-///
-///  inspect!(dict.type_name(), content="dict")
-/// }
-/// ```
-///
-/// The above code is equivalent to:
-///
-/// ```python
-/// d = dict()
-///
-/// print(type(d)) # Output: <class 'dict'>
-/// ```
-pub fn PyDict::type_name(self : PyDict) -> String {
-  self.obj.type_name()
-}
-
 ///|
 pub impl IsPyObject for PyDict with obj(self) {
-  self.obj()
+  self.obj
 }
 
 ///|

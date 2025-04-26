@@ -6,12 +6,8 @@ pub struct PyInteger {
   priv obj : PyObject
 }
 
-///|
-fn PyInteger::obj(self : PyInteger) -> PyObject {
-  self.obj
-}
-
-///|
+///| Create a python integer object from a python object.
+/// If 
 pub fn PyInteger::create(obj : PyObject) -> PyInteger!PyRuntimeError {
   guard obj.is_int() else { raise TypeMisMatchError }
   PyInteger::{ obj, }
@@ -23,7 +19,7 @@ pub fn PyInteger::create_unchecked(obj : PyObject) -> PyInteger {
 }
 
 ///|
-fn PyInteger::create_by_ref(
+pub fn PyInteger::create_by_ref(
   obj : @cpython.PyObjectRef
 ) -> PyInteger!PyRuntimeError {
   guard @cpython.py_int_check(obj) else { raise TypeMisMatchError }
@@ -99,27 +95,9 @@ pub fn PyInteger::drop(self : PyInteger) -> Unit {
   self.obj.drop()
 }
 
-// ======== Implement Traits ==========
-
-///| Get the type name of the PyInteger object.
-///
-/// Note: Always return "int" if no error occurs.
-///
-/// ## Example
-///
-/// ```moonbit
-/// test "PyInteger::type_name" {
-///   let i = @python.PyInteger::from(42);
-///   inspect!(i.type_name(), content="int")
-/// }
-/// ```
-pub impl IsPyObject for PyInteger with type_name(self) {
-  self.obj.type_name()
-}
-
 ///|
 pub impl IsPyObject for PyInteger with obj(self) {
-  self.obj()
+  self.obj
 }
 
 ///|

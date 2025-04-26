@@ -3,12 +3,8 @@ pub struct PyFloat {
   priv obj : PyObject
 }
 
-///|
-fn PyFloat::obj(self : PyFloat) -> PyObject {
-  self.obj
-}
-
-///|
+///| Create a python float object from a python object.
+/// If the python object is not a float, it will raise a TypeMisMatchError.
 pub fn PyFloat::create(obj : PyObject) -> PyFloat!PyRuntimeError {
   guard obj.is_float() else { raise TypeMisMatchError }
   PyFloat::{ obj, }
@@ -19,8 +15,15 @@ fn PyFloat::create_unchecked(obj : PyObject) -> PyFloat {
   PyFloat::{ obj, }
 }
 
+///| Ceate a python float object from a python object reference.
+/// If the python object is not a float, it will raise a TypeMisMatchError.
+pub fn PyFloat::create_by_ref(obj : @cpython.PyObjectRef) -> PyFloat!PyRuntimeError {
+  guard @cpython.py_float_check(obj) else { raise TypeMisMatchError }
+  PyFloat::{ obj: PyObject::create(obj) }
+}
+
 ///|
-pub fn PyFloat::create_by_ref_unchecked(obj : @cpython.PyObjectRef) -> PyFloat {
+fn PyFloat::create_by_ref_unchecked(obj : @cpython.PyObjectRef) -> PyFloat {
   PyFloat::{ obj: PyObject::create(obj) }
 }
 
@@ -74,25 +77,9 @@ pub fn PyFloat::drop(self : PyFloat) -> Unit {
   self.obj.drop()
 }
 
-///| Get the type name of the PyFloat object.
-///
-/// Note: Always return "float" if no error occurs.
-///
-/// ## Example
-///
-/// ```moonbit
-/// test "PyFloat::type_name" {
-///   let f = @python.PyFloat::from(3.5);
-///   inspect!(f.type_name(), content="float")
-/// }
-/// ```
-pub impl IsPyObject for PyFloat with type_name(self) {
-  self.obj.type_name()
-}
-
 ///|
 pub impl IsPyObject for PyFloat with obj(self) {
-  self.obj()
+  self.obj
 }
 
 ///|

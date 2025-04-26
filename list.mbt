@@ -6,11 +6,6 @@ pub struct PyList {
   priv obj : PyObject
 }
 
-///|
-fn PyList::obj(self : PyList) -> PyObject {
-  self.obj
-}
-
 ///| Create an empty python list.
 ///
 /// ## Example
@@ -26,10 +21,11 @@ pub fn PyList::new() -> PyList {
   PyList::{ obj: @cpython.py_list_new(0) |> PyObject::create }
 }
 
-///|
+///| Create a python list object from a pyobject.
+/// If the pyobject is not a list, it will raise a TypeMisMatchError.
 pub fn PyList::create(obj : PyObject) -> PyList!PyRuntimeError {
   guard obj.is_list() else { raise TypeMisMatchError }
-  PyList::{ obj, }
+  PyList::{ obj }
 }
 
 ///|
@@ -37,7 +33,8 @@ fn PyList::create_unchecked(obj : PyObject) -> PyList {
   PyList::{ obj, }
 }
 
-///|
+///| Create a python list object from a pyobject reference.
+/// If the pyobject is not a list, it will raise a TypeMisMatchError.
 pub fn PyList::create_by_ref(
   obj : @cpython.PyObjectRef
 ) -> PyList!PyRuntimeError {
@@ -255,12 +252,10 @@ pub fn PyList::op_set[T : IsPyObject](
   self.set?(idx, item).unwrap()
 }
 
-///|
-pub fn PyList::to_string(self : PyList) -> String {
-  self.obj.to_string()
-}
-
-///|
+///| Let python interpreter print the list directly.
+///
+/// **Note**: It is different from `println(list)` and `list.dump()`
+/// although they always print the same content.
 pub fn PyList::dump(self : PyList) -> Unit {
   self.obj.dump()
 }
@@ -270,30 +265,14 @@ pub fn PyList::drop(self : PyList) -> Unit {
   self.obj.drop()
 }
 
-///| Returns the type name of the PyList.
-///
-/// **Notes**: Always returns "list", if no error occurs.
-///
-/// ## Example
-///
-/// ```moonbit
-/// test "PyList::type_name" {
-///   let list = @python.PyList::new();
-///   inspect!(list.type_name(), content="list")
-/// }
-/// ```
-pub impl IsPyObject for PyList with type_name(self : PyList) -> String {
-  self.obj.type_name()
-}
-
 ///|
 pub impl IsPyObject for PyList with obj(self) {
-  self.obj()
+  self.obj
 }
 
 ///|
 pub impl Show for PyList with to_string(self) -> String {
-  PyList::to_string(self)
+  self.obj.to_string()
 }
 
 ///|

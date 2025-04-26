@@ -6,11 +6,6 @@ pub struct PyTuple {
   priv obj : PyObject
 }
 
-///|
-fn PyTuple::obj(self : PyTuple) -> PyObject {
-  self.obj
-}
-
 ///| Create a PyTuple object.
 ///
 /// **Notes**: Tuple type must know the size of the tuple.
@@ -32,6 +27,7 @@ pub fn PyTuple::new(size : UInt64) -> PyTuple {
 }
 
 ///| Create a PyTuple object from a python object.
+/// If the python object is not a tuple, it will raise a TypeMisMatchError.
 pub fn PyTuple::create(obj : PyObject) -> PyTuple!PyRuntimeError {
   guard obj.is_tuple() else { raise TypeMisMatchError }
   PyTuple::{ obj, }
@@ -42,8 +38,10 @@ fn PyTuple::create_unchecked(obj : PyObject) -> PyTuple {
   PyTuple::{ obj, }
 }
 
-///|
-pub fn PyTuple::create_by_ref(obj_ref : @cpython.PyObjectRef) -> PyTuple {
+///| Create a PyTuple object from a python object reference.
+/// If the python object is not a tuple, it will raise a TypeMisMatchError.
+pub fn PyTuple::create_by_ref(obj_ref : @cpython.PyObjectRef) -> PyTuple!PyRuntimeError {
+  guard @cpython.py_tuple_check(obj_ref) else { raise TypeMisMatchError }
   PyTuple::{ obj: PyObject::create(obj_ref) }
 }
 
@@ -194,26 +192,9 @@ pub fn PyTuple::drop(self : PyTuple) -> Unit {
   self.obj.drop()
 }
 
-///| Return the name of the type.
-///
-/// **Notes**: Always return `tuple`, if no error occurs.
-///
-/// ## Example:
-///
-/// ```moonbit
-/// test "PyTuple::type_name" {
-///   let tuple = PyTuple::new(3);
-///
-///   inspect!(tuple.type_name(), content="tuple")
-/// }
-/// ```
-pub impl IsPyObject for PyTuple with type_name(self : PyTuple) -> String {
-  self.obj.type_name()
-}
-
 ///|
 pub impl IsPyObject for PyTuple with obj(self) -> PyObject {
-  self.obj()
+  self.obj
 }
 
 ///|

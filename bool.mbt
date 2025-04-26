@@ -3,21 +3,23 @@
 // ========================================
 ///|
 pub struct PyBool {
-  obj : PyObject
+  priv obj : PyObject
 }
 
-///|
+///| Create a python boolean object from a python object.
+/// If the object is not a boolean, it will raise a TypeMisMatchError.
 pub fn PyBool::create(obj : PyObject) -> PyBool!PyRuntimeError {
   guard obj.is_bool() else { raise TypeMisMatchError }
   PyBool::{ obj, }
 }
 
 ///|
-pub fn PyBool::create_unchecked(obj : PyObject) -> PyBool {
+fn PyBool::create_unchecked(obj : PyObject) -> PyBool {
   PyBool::{ obj, }
 }
 
-///|
+///| Create a python boolean object from a python object reference.
+/// If the object is not a boolean, it will raise a TypeMisMatchError.
 pub fn PyBool::create_by_ref(
   obj_ref : @cpython.PyObjectRef
 ) -> PyBool!PyRuntimeError {
@@ -26,7 +28,7 @@ pub fn PyBool::create_by_ref(
 }
 
 ///|
-pub fn PyBool::create_by_ref_unchecked(
+fn PyBool::create_by_ref_unchecked(
   obj_ref : @cpython.PyObjectRef
 ) -> PyBool {
   PyBool::{ obj: PyObject::create(obj_ref) }
@@ -112,36 +114,9 @@ pub fn PyBool::not(self : PyBool) -> PyBool {
   }
 }
 
-///| Return the type name of the object.
-///
-/// ## Example
-///
-/// ```moonbit
-/// test "PyBool::type_name" {
-///   let t = PyBool::from(true);
-///
-///   inspect!(t.type_name(), content="bool")
-/// }
-/// ```
-///
-/// The above code is equivalent to:
-///
-/// ```python
-/// t = True
-/// print(type(t)) # Output: <class 'bool'>
-/// ```
-pub impl IsPyObject for PyBool with type_name(self) {
-  self.obj.type_name()
-}
-
 ///|
 pub impl IsPyObject for PyBool with obj(self) {
   self.obj
-}
-
-///|
-pub impl IsPyObject for PyBool with obj_ref(self) {
-  self.obj.obj_ref()
 }
 
 ///|

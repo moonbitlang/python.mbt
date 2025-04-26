@@ -3,19 +3,9 @@
 // ========================================
 ///|
 pub struct PyModule {
-  obj : PyObject
-  mut name: String?
-  attrs: Map[String, PyObjectEnum]
-}
-
-///|
-pub fn PyModule::obj(self : PyModule) -> PyObject {
-  self.obj
-}
-
-///|
-pub fn PyModule::obj_ref(self : PyModule) -> @cpython.PyObjectRef {
-  self.obj.obj_ref()
+  priv obj : PyObject
+  priv mut name: String?
+  priv attrs: Map[String, PyObjectEnum]
 }
 
 ///|
@@ -159,6 +149,10 @@ pub fn PyModule::get_attr(
   let c = PyObjectEnum::create_by_ref(f)
   self.attrs.set(attr, c)
   Some(c)
+}
+
+pub impl IsPyObject for PyModule with obj(self) {
+  self.obj
 }
 
 ///|
