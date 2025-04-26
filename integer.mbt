@@ -26,7 +26,7 @@ pub fn PyInteger::create_unchecked(obj : PyObject) -> PyInteger {
 fn PyInteger::create_by_ref(
   obj : @cpython.PyObjectRef
 ) -> PyInteger!PyRuntimeError {
-  guard @cpython.py_object_is_int(obj) else { raise TypeMisMatchError }
+  guard @cpython.py_int_check(obj) else { raise TypeMisMatchError }
   PyInteger::{ obj: PyObject::create(obj) }
 }
 

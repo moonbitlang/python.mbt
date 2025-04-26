@@ -1,11 +1,4 @@
 // Func Object
-///|
-extern "C" fn __py_function_check(f : PyObjectRef) -> Int = "Moonbit_PyFunction_Check"
-
-///|
-pub fn py_function_check(f : PyObjectRef) -> Bool {
-  __py_function_check(f) != 0
-}
 
 ///|
 pub extern "C" fn py_function_new(

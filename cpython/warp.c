@@ -46,8 +46,6 @@ void py_decref(PyObject *obj) { Py_DECREF(obj); }
 
 int Moonbit_PyObjectRef_is_null(PyObject *obj) { return obj == NULL; }
 
-int Moonbit_PyFunction_Check(PyObject *obj) { return PyFunction_Check(obj); }
-
 PyTypeObject *py_type(PyObject *obj) { return obj->ob_type; }
 
 int py_tuple_check(PyObject *obj) { return PyTuple_Check(obj); }

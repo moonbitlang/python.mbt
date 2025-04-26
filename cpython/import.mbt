@@ -54,8 +54,7 @@ extern "C" fn __py_import_import_module(name : Bytes) -> PyObjectRef = "PyImport
 //extern "C" fn __py_import_import_module(name: Bytes) -> PyObjectRef = "py_import_import_module"
 ///|
 pub fn py_import_import_module(name : String) -> PyObjectRef {
-  let cstr = name.to_bytes().to_array().filter(fn(c) { c != 0 })..push(0)
-    |> @bytes.from_array
+  let cstr = name.to_cstr();
   __py_import_import_module(cstr)
 }
 

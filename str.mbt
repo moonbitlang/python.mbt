@@ -21,7 +21,7 @@ fn PyString::create_unchecked(obj : PyObject) -> PyString {
 pub fn PyString::create_by_ref(
   obj_ref : @cpython.PyObjectRef
 ) -> PyString!PyRuntimeError {
-  guard @cpython.py_object_is_string(obj_ref) else { raise TypeMisMatchError }
+  guard @cpython.py_string_check(obj_ref) else { raise TypeMisMatchError }
   PyString::{ obj: PyObject::create(obj_ref) }
 }
 

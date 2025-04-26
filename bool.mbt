@@ -21,7 +21,7 @@ pub fn PyBool::create_unchecked(obj : PyObject) -> PyBool {
 pub fn PyBool::create_by_ref(
   obj_ref : @cpython.PyObjectRef
 ) -> PyBool!PyRuntimeError {
-  guard @cpython.py_object_is_bool(obj_ref) else { raise TypeMisMatchError }
+  guard @cpython.py_bool_check(obj_ref) else { raise TypeMisMatchError }
   PyBool::{ obj: PyObject::create(obj_ref) }
 }
 

@@ -41,7 +41,7 @@ fn PyList::create_unchecked(obj : PyObject) -> PyList {
 pub fn PyList::create_by_ref(
   obj : @cpython.PyObjectRef
 ) -> PyList!PyRuntimeError {
-  guard @cpython.py_object_is_list(obj) else { raise TypeMisMatchError }
+  guard @cpython.py_list_check(obj) else { raise TypeMisMatchError }
   PyList::{ obj: PyObject::create(obj) }
 }
 

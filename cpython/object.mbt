@@ -27,19 +27,19 @@ pub extern "C" fn py_object_rich_compare_bool(
 ///|
 extern "C" fn __py_object_get_attr_string(
   a : PyObjectRef,
-  b : CStr
+  b : Bytes
 ) -> PyObjectRef = "PyObject_GetAttrString"
 
 ///|
 pub fn py_object_get_attr_string(a : PyObjectRef, b : String) -> PyObjectRef {
-  let b = CStr::from(b)
+  let b = b.to_cstr()
   __py_object_get_attr_string(a, b)
 }
 
 ///|
 extern "C" fn __py_object_set_attr_string(
   a : PyObjectRef,
-  b : CStr,
+  b : Bytes,
   c : PyObjectRef
 ) -> Int = "PyObject_SetAttrString"
 
@@ -49,16 +49,16 @@ pub fn py_object_set_attr_string(
   b : String,
   c : PyObjectRef
 ) -> Int {
-  let b = CStr::from(b)
+  let b = b.to_cstr()
   __py_object_set_attr_string(a, b, c)
 }
 
 ///|
-extern "C" fn __py_object_has_attr_string(a : PyObjectRef, b : CStr) -> Int = "PyObject_HasAttrString"
+extern "C" fn __py_object_has_attr_string(a : PyObjectRef, b : Bytes) -> Int = "PyObject_HasAttrString"
 
 ///|
 pub fn py_object_has_attr_string(a : PyObjectRef, b : String) -> Int {
-  let b = CStr::from(b)
+  let b = b.to_cstr()
   __py_object_has_attr_string(a, b)
 }
 
@@ -108,14 +108,6 @@ pub fn py_object_is_true(a : PyObjectRef) -> Bool {
 pub extern "C" fn py_object_not(a : PyObjectRef) -> Int = "PyObject_Not"
 
 ///|
-pub extern "C" fn __py_callable_check(a : PyObjectRef) -> Int = "PyCallable_Check"
-
-///|
-pub fn py_callable_check(a : PyObjectRef) -> Bool {
-  __py_callable_check(a) != 0
-}
-
-///|
 pub extern "C" fn py_object_clear_weak_refs(a : PyObjectRef) = "PyObject_ClearWeakRefs"
 
 ///|
@@ -140,65 +132,131 @@ pub fn py_type_name(t : PyTypeObjectRef) -> String {
 }
 
 ///|
-extern "C" fn __py_object_is_tuple(obj : PyObjectRef) -> Int = "py_tuple_check"
+extern "C" fn __py_tuple_check(obj : PyObjectRef) -> Int = "py_tuple_check"
 
 ///|
-pub fn py_object_is_tuple(obj : PyObjectRef) -> Bool {
-  __py_object_is_tuple(obj) != 0
+pub fn py_tuple_check(obj : PyObjectRef) -> Bool {
+  __py_tuple_check(obj) != 0
 }
 
 ///|
-extern "C" fn __py_object_is_list(obj : PyObjectRef) -> Int = "py_list_check"
+extern "C" fn __py_list_check(obj : PyObjectRef) -> Int = "py_list_check"
 
 ///|
-pub fn py_object_is_list(obj : PyObjectRef) -> Bool {
-  __py_object_is_list(obj) != 0
+pub fn py_list_check(obj : PyObjectRef) -> Bool {
+   __py_list_check(obj) != 0
+}
+
+pub fn PyObjectRef::is_list(self: PyObjectRef) -> Bool {
+   __py_list_check(self) != 0
 }
 
 ///|
-extern "C" fn __py_object_is_dict(obj : PyObjectRef) -> Int = "py_dict_check"
+extern "C" fn __py_dict_check(obj : PyObjectRef) -> Int = "py_dict_check"
 
 ///|
-pub fn py_object_is_dict(obj : PyObjectRef) -> Bool {
-  __py_object_is_dict(obj) != 0
+pub fn py_dict_check(obj : PyObjectRef) -> Bool {
+   __py_dict_check(obj) != 0
+}
+
+pub fn PyObjectRef::is_dict(self: PyObjectRef) -> Bool {
+  __py_dict_check(self) != 0
 }
 
 ///|
-extern "C" fn __py_object_is_set(obj : PyObjectRef) -> Int = "py_set_check"
+extern "C" fn __py_set_check(obj : PyObjectRef) -> Int = "py_set_check"
 
 ///|
-pub fn py_object_is_set(obj : PyObjectRef) -> Bool {
-  __py_object_is_set(obj) != 0
+pub fn py_set_check(obj : PyObjectRef) -> Bool {
+   __py_set_check(obj) != 0
+}
+
+pub fn PyObjectRef::is_set(self: PyObjectRef) -> Bool {
+  __py_set_check(self) != 0
 }
 
 ///|
-extern "C" fn __py_object_is_int(obj : PyObjectRef) -> Int = "py_int_check"
+extern "C" fn __py_int_check(obj : PyObjectRef) -> Int = "py_int_check"
 
 ///|
-pub fn py_object_is_int(obj : PyObjectRef) -> Bool {
-  __py_object_is_int(obj) != 0
+pub fn py_int_check(obj : PyObjectRef) -> Bool {
+   __py_int_check(obj) != 0
+}
+
+pub fn PyObjectRef::is_int(self: PyObjectRef) -> Bool {
+  __py_int_check(self) != 0
 }
 
 ///|
-extern "C" fn __py_object_is_float(obj : PyObjectRef) -> Int = "py_float_check"
+extern "C" fn __py_float_check(obj : PyObjectRef) -> Int = "py_float_check"
 
 ///|
-pub fn py_object_is_float(obj : PyObjectRef) -> Bool {
-  __py_object_is_float(obj) != 0
+pub fn py_float_check(obj : PyObjectRef) -> Bool {
+   __py_float_check(obj) != 0
+}
+
+pub fn PyObjectRef::is_float(self: PyObjectRef) -> Bool {
+  __py_float_check(self) != 0
 }
 
 ///|
-extern "C" fn __py_object_is_string(obj : PyObjectRef) -> Int = "py_string_check"
+extern "C" fn __py_string_check(obj : PyObjectRef) -> Int = "py_string_check"
 
 ///|
-pub fn py_object_is_string(obj : PyObjectRef) -> Bool {
-  __py_object_is_string(obj) != 0
+pub fn py_string_check(obj : PyObjectRef) -> Bool {
+   __py_string_check(obj) != 0
+}
+
+pub fn PyObjectRef::is_string(self: PyObjectRef) -> Bool {
+  __py_string_check(self) != 0
 }
 
 ///|
-extern "C" fn __py_object_is_bool(obj : PyObjectRef) -> Int = "py_bool_check"
+extern "C" fn __py_bool_check(obj : PyObjectRef) -> Int = "py_bool_check"
 
 ///|
-pub fn py_object_is_bool(obj : PyObjectRef) -> Bool {
-  __py_object_is_bool(obj) != 0
+pub fn py_bool_check(obj : PyObjectRef) -> Bool {
+   __py_bool_check(obj) != 0
 }
+
+///|
+pub fn PyObjectRef::is_bool(self: PyObjectRef) -> Bool {
+  __py_bool_check(self) != 0
+}
+
+///|
+extern "C" fn __py_module_check(obj : PyObjectRef) -> Int = "py_module_check"
+
+///|
+pub fn py_module_check(obj : PyObjectRef) -> Bool {
+  __py_module_check(obj) != 0
+}
+
+///|
+pub fn PyObjectRef::is_module(self: PyObjectRef) -> Bool {
+  __py_module_check(self) != 0
+}
+
+///|
+extern "C" fn __py_function_check(f : PyObjectRef) -> Int = "py_function_check"
+
+///|
+pub fn py_function_check(f : PyObjectRef) -> Bool {
+  __py_function_check(f) != 0
+}
+
+pub fn PyObjectRef::is_function(self: PyObjectRef) -> Bool {
+  __py_function_check(self) != 0
+}
+
+pub extern "C" fn __py_callable_check(a : PyObjectRef) -> Int = "PyCallable_Check"
+
+///|
+pub fn py_callable_check(a : PyObjectRef) -> Bool {
+  __py_callable_check(a) != 0
+}
+
+pub fn PyObjectRef::is_callable(self: PyObjectRef) -> Bool {
+  __py_callable_check(self) != 0
+}
+
