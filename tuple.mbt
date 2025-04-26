@@ -84,7 +84,7 @@ pub fn PyTuple::len(self : PyTuple) -> Int {
 ///   inspect!(tuple, content="(1, 2.0, \'three\')")
 ///   inspect!(tuple.get(0).unwrap(), content="PyInteger(1)")
 ///   inspect!(tuple.get(1).unwrap(), content="PyFloat(2.0)")
-///   inspect!(tuple.get(2).unwrap(), content="PyString(\'three\')")
+///   inspect!(tuple.get(2).unwrap(), content="PyString(three)")
 ///   inspect!(tuple.get(3), content="None")
 /// }
 /// ```
@@ -122,7 +122,7 @@ pub fn PyTuple::get(self : PyTuple, idx : Int) -> PyObjectEnum? {
 ///
 ///   inspect!(tuple[0], content="PyInteger(1)")
 ///   inspect!(tuple[1], content="PyFloat(2.0)")
-///   inspect!(tuple[2], content="PyString(\'three\')")
+///   inspect!(tuple[2], content="PyString(three)")
 /// }
 /// ```
 pub fn PyTuple::op_get(self : PyTuple, idx : Int) -> PyObjectEnum {

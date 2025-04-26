@@ -42,7 +42,7 @@ fn PyString::create_by_ref_unchecked(
 ///   inspect(s, content="\'hello\'");
 /// }
 pub fn PyString::from(s : String) -> PyString {
-  PyString::{ obj: PyObject::create(@cpython.py_unicode_from_string(s)) }
+  PyString::{ obj: PyObject::create(@cpython.py_unicode_from_moonbit_string(s)) }
 }
 
 ///|
@@ -95,7 +95,7 @@ pub impl IsPyObject for PyString with obj(self) {
 
 ///|
 pub impl Show for PyString with to_string(self) {
-  PyObject::to_string(self.obj)
+  self.obj.to_string()
 }
 
 ///|

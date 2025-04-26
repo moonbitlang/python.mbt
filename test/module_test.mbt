@@ -5,7 +5,7 @@ test "Module Test" {
   let os = os.unwrap()
   inspect!(os.get_name(), content="os")
   guard os.get_attr("name").unwrap() is PyString(s)
-  assert_true!(["\'posix\'", "\'nt\'", "\'java\'"].contains(s.to_string()))
+  assert_true!(["posix", "nt", "java"].contains(s.to_string()))
   assert_true!(os.get_attr("listdir") is Some(PyCallable(_)))
 
   /// ```python
@@ -25,7 +25,7 @@ test "Module Test" {
   // counter = Counter(elements)
   // print(counter) # Output: Counter({3: 3, 2: 2, 1: 1})
   // ```
-  let list = [1L, 2L, 2L, 3L, 3L, 3L].map(PyInteger::from) |> PyList::from
+  let list = [1L, 2, 2, 3, 3, 3].map(PyInteger::from) |> PyList::from
   let arg = PyTuple::new(1)..set!(0, list)
   guard counter.invoke(arg) is Some(PyDict(cnt))
   inspect!(cnt, content="Counter({3: 3, 2: 2, 1: 1})")

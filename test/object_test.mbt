@@ -52,10 +52,13 @@ test "PyBool Test" {
 ///|
 test "PyString Test" {
   let s = PyString::from("hello")
-  inspect!(s, content="\'hello\'")
+  inspect!(s, content="hello")
   inspect!(s.type_name(), content="str")
-  inspect!(PyString::from("one"), content="\'one\'")
-  inspect!(PyString::from("two"), content="\'two\'")
+  inspect!(PyString::from("one"), content="one")
+  inspect!(PyString::from("two"), content="two")
+
+  let hw = PyString::from("你好，世界")
+  inspect!(hw, content="你好，世界")
 }
 
 ///|
@@ -74,12 +77,12 @@ test "PyList Test" {
   inspect!(list, content="[1, 2.0, \'three\']")
   inspect!(list.get(0).unwrap(), content="PyInteger(1)")
   inspect!(list.get(1).unwrap(), content="PyFloat(2.0)")
-  inspect!(list.get(2), content="Some(PyString(\'three\'))")
+  inspect!(list.get(2), content="Some(PyString(three))")
   inspect!(list.get(3), content="None")
   inspect!(list.get(-1), content="None")
   inspect!(list[0], content="PyInteger(1)")
   inspect!(list[1], content="PyFloat(2.0)")
-  inspect!(list[2], content="PyString(\'three\')")
+  inspect!(list[2], content="PyString(three)")
   let forty_two = PyInteger::from(42)
   list.set!(0, forty_two)
   inspect!(list, content="[42, 2.0, \'three\']")
@@ -98,7 +101,7 @@ test "PyTuple Test" {
   inspect!(tuple, content="(1, 2.0, \'three\')")
   inspect!(tuple.get(0).unwrap(), content="PyInteger(1)")
   inspect!(tuple.get(1).unwrap(), content="PyFloat(2.0)")
-  inspect!(tuple.get(2).unwrap(), content="PyString(\'three\')")
+  inspect!(tuple.get(2).unwrap(), content="PyString(three)")
   inspect!(tuple.get(3), content="None")
   tuple[0] = PyInteger::from(42)
   inspect!(tuple, content="(42, 2.0, \'three\')")

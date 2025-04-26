@@ -188,7 +188,7 @@ pub fn PyList::get(self : PyList, idx : Int) -> PyObjectEnum? {
 ///
 ///   inspect!(list[0], content="PyInteger(1)")
 ///   inspect!(list[1], content="PyFloat(2.0)")
-///   inspect!(list[2], content="PyString(\'hello\')")
+///   inspect!(list[2], content="PyString(hello)")
 /// }
 /// ```
 pub fn PyList::op_get(self : PyList, idx : Int) -> PyObjectEnum {
@@ -257,7 +257,7 @@ pub fn PyList::op_set[T : IsPyObject](
 
 ///|
 pub fn PyList::to_string(self : PyList) -> String {
-  PyObject::to_string(self.obj)
+  self.obj.to_string()
 }
 
 ///|

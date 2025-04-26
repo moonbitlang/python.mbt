@@ -124,7 +124,7 @@ pub impl IsPyObject for PyInteger with obj(self) {
 
 ///|
 pub impl Show for PyInteger with to_string(self) -> String {
-  @cpython.py_object_moonbit_repr(self.obj_ref())
+  self.obj.to_string()
 }
 
 ///|
