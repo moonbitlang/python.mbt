@@ -1,7 +1,8 @@
 {
   "is-main": true,
   "import": [
-    "Kaida-Amethyst/python"
+    "Kaida-Amethyst/python",
+    "Kaida-Amethyst/python/tkinter"
   ],
   "link" : {
     "native" : {

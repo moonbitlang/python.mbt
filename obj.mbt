@@ -98,6 +98,10 @@ pub fn PyObject::get_attr(
   Some(c)
 }
 
+pub impl IsPyObject for PyObject with obj(self) {
+  self
+}
+
 ///|
 pub impl Show for PyObject with to_string(self : PyObject) -> String {
   @cpython.py_object_moonbit_str(self.obj)
