@@ -64,6 +64,31 @@ pub fn PyObject::is_callable(self : PyObject) -> Bool {
 }
 
 ///|
+pub fn PyObject::type_of(self: PyObject) -> PyType {
+  if @cpython.py_bool_check(self.obj_ref()) {
+    PyType::PyBool
+  } else if @cpython.py_int_check(self.obj_ref()) {
+    PyType::PyInteger
+  } else if @cpython.py_float_check(self.obj_ref()) {
+    PyType::PyFloat
+  } else if @cpython.py_string_check(self.obj_ref()) {
+    PyType::PyString
+  } else if @cpython.py_list_check(self.obj_ref()) {
+    PyType::PyList
+  } else if @cpython.py_tuple_check(self.obj_ref()) {
+    PyType::PyTuple
+  } else if @cpython.py_dict_check(self.obj_ref()) {
+    PyType::PyDict
+  } else if @cpython.py_module_check(self.obj_ref()) {
+    PyType::PyModule
+  } else if @cpython.py_callable_check(self.obj_ref()) {
+    PyType::PyCallable
+  } else {
+    PyType::PyClass
+  }
+}
+
+///|
 pub fn PyObject::dump(self : PyObject) -> Unit {
   @cpython.print_pyobject(self.obj_ref())
 }

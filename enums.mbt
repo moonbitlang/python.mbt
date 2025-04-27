@@ -1,4 +1,18 @@
 ///|
+pub enum PyType {
+  PyInteger
+  PyFloat
+  PyBool
+  PyString
+  PyTuple
+  PyList
+  PyDict
+  PyModule
+  PyCallable
+  PyClass
+}
+
+///|
 pub(all) enum PyObjectEnum {
   PyInteger(PyInteger)
   PyFloat(PyFloat)
@@ -12,28 +26,18 @@ pub(all) enum PyObjectEnum {
   PyClass(PyObject)
 } derive(Show)
 
-///|
-pub fn PyObjectEnum::create(obj : PyObject) -> PyObjectEnum {
-  if obj.is_bool() {
-    PyObjectEnum::PyBool(PyBool::create_unchecked(obj))
-  } else if obj.is_int() {
-    PyObjectEnum::PyInteger(PyInteger::create_unchecked(obj))
-  } else if obj.is_float() {
-    PyObjectEnum::PyFloat(PyFloat::create_unchecked(obj))
-  } else if obj.is_string() {
-    PyObjectEnum::PyString(PyString::create_unchecked(obj))
-  } else if obj.is_tuple() {
-    PyObjectEnum::PyTuple(PyTuple::create_unchecked(obj))
-  } else if obj.is_list() {
-    PyObjectEnum::PyList(PyList::create_unchecked(obj))
-  } else if obj.is_dict() {
-    PyObjectEnum::PyDict(PyDict::create_unchecked(obj))
-  } else if obj.is_module() {
-    PyObjectEnum::PyModule(PyModule::create_unchecked(obj))
-  } else if obj.is_callable() {
-    PyObjectEnum::PyCallable(PyCallable::create_unchecked(obj))
-  } else {
-    PyObjectEnum::PyClass(obj)
+pub fn PyObjectEnum::create(obj: PyObject) -> PyObjectEnum {
+  match obj.type_of() {
+    PyInteger => PyInteger(PyInteger::create_unchecked(obj))
+    PyFloat => PyFloat(PyFloat::create_unchecked(obj))
+    PyBool => PyBool(PyBool::create_unchecked(obj))
+    PyString => PyString(PyString::create_unchecked(obj))
+    PyTuple => PyTuple(PyTuple::create_unchecked(obj))
+    PyList => PyList(PyList::create_unchecked(obj))
+    PyDict => PyDict(PyDict::create_unchecked(obj))
+    PyModule => PyModule(PyModule::create_unchecked(obj))
+    PyCallable => PyCallable(PyCallable::create_unchecked(obj))
+    PyClass => PyClass(obj)
   }
 }
 
