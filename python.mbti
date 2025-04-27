@@ -13,13 +13,11 @@ fn strip_quot(String) -> String
 
 // Types and methods
 pub struct PyBool {
-  obj : PyObject
+  // private fields
 }
 impl PyBool {
   create(PyObject) -> Self!PyRuntimeError
   create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
-  create_by_ref_unchecked(@cpython.PyObjectRef) -> Self
-  create_unchecked(PyObject) -> Self
   from(Bool) -> Self
   is_false(Self) -> Bool
   is_true(Self) -> Bool
@@ -35,7 +33,6 @@ impl PyCallable {
   create(PyObject) -> Self!PyRuntimeError
   create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
   invoke(Self, PyTuple, kwargs~ : PyDict = ..) -> PyObjectEnum?
-  obj(Self) -> PyObject
 }
 impl IsPyObject for PyCallable
 impl Show for PyCallable
@@ -45,9 +42,9 @@ pub struct PyDict {
 }
 impl PyDict {
   contains(Self, String) -> Bool
+  containsObj(Self, PyObject) -> Bool
   create(PyObject) -> Self!PyRuntimeError
-  create_by_ref(@cpython.PyObjectRef) -> Self
-  create_unchecked(PyObject) -> Self
+  create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
   drop(Self) -> Unit
   dump(Self) -> Unit
   get(Self, String) -> PyObjectEnum?
@@ -60,7 +57,6 @@ impl PyDict {
   op_set[V : IsPyObject](Self, String, V) -> Unit
   set[V : IsPyObject](Self, String, V) -> Unit
   setByObj[K : IsPyObject, V : IsPyObject](Self, K, V) -> Unit!PyRuntimeError
-  type_name(Self) -> String
   values(Self) -> PyList
 }
 impl IsPyObject for PyDict
@@ -71,7 +67,7 @@ pub struct PyFloat {
 }
 impl PyFloat {
   create(PyObject) -> Self!PyRuntimeError
-  create_by_ref_unchecked(@cpython.PyObjectRef) -> Self
+  create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
   drop(Self) -> Unit
   dump(Self) -> Unit
   from(Double) -> Self
@@ -85,6 +81,7 @@ pub struct PyInteger {
 }
 impl PyInteger {
   create(PyObject) -> Self!PyRuntimeError
+  create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
   create_unchecked(PyObject) -> Self
   drop(Self) -> Unit
   dump(Self) -> Unit
@@ -111,13 +108,12 @@ impl PyList {
   op_get(Self, Int) -> PyObjectEnum
   op_set[T : IsPyObject](Self, Int, T) -> Unit
   set[T : IsPyObject](Self, Int, T) -> Unit!PyRuntimeError
-  to_string(Self) -> String
 }
 impl IsPyObject for PyList
 impl Show for PyList
 
 pub struct PyModule {
-  obj : PyObject
+  // private fields
 }
 impl PyModule {
   create(PyObject) -> Self!PyRuntimeError
@@ -125,9 +121,8 @@ impl PyModule {
   dump(Self) -> Unit
   get_attr(Self, String, print_err~ : Bool = ..) -> PyObjectEnum?
   get_name(Self) -> String
-  obj(Self) -> PyObject
-  obj_ref(Self) -> @cpython.PyObjectRef
 }
+impl IsPyObject for PyModule
 impl Show for PyModule
 
 pub struct PyObject {
@@ -157,11 +152,12 @@ pub(all) enum PyObjectEnum {
   PyFloat(PyFloat)
   PyBool(PyBool)
   PyString(PyString)
+  PyTuple(PyTuple)
   PyList(PyList)
   PyDict(PyDict)
   PyModule(PyModule)
   PyCallable(PyCallable)
-  Class(PyObject)
+  PyClass(PyObject)
 }
 impl PyObjectEnum {
   create(PyObject) -> Self
@@ -185,7 +181,6 @@ impl PyString {
   drop(Self) -> Unit
   dump(Self) -> Unit
   from(String) -> Self
-  obj(Self) -> PyObject
 }
 impl IsPyObject for PyString
 impl Show for PyString
@@ -195,7 +190,7 @@ pub struct PyTuple {
 }
 impl PyTuple {
   create(PyObject) -> Self!PyRuntimeError
-  create_by_ref(@cpython.PyObjectRef) -> Self
+  create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
   drop(Self) -> Unit
   dump(Self) -> Unit
   get(Self, Int) -> PyObjectEnum?

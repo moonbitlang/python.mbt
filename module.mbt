@@ -4,8 +4,8 @@
 ///|
 pub struct PyModule {
   priv obj : PyObject
-  priv mut name: String?
-  priv attrs: Map[String, PyObjectEnum]
+  priv mut name : String?
+  priv attrs : Map[String, PyObjectEnum]
 }
 
 ///|
@@ -31,7 +31,7 @@ pub fn PyModule::create_by_ref(
 fn PyModule::create_by_ref_unchecked(
   obj_ref : @cpython.PyObjectRef
 ) -> PyModule {
-  PyModule::{ obj: PyObject::create(obj_ref), name: None,  attrs: Map::new() }
+  PyModule::{ obj: PyObject::create(obj_ref), name: None, attrs: Map::new() }
 }
 
 // REVIEW: what if user call pyimport twice or more?
@@ -56,7 +56,8 @@ pub fn pyimport(name : String, print_err~ : Bool = false) -> PyModule? {
     @cpython.py_err_clear()
     return None
   }
-  PyModule::{ obj: PyObject::create(obj), name: None, attrs: Map::new() } |> Some
+  PyModule::{ obj: PyObject::create(obj), name: None, attrs: Map::new() }
+  |> Some
 }
 
 ///| Get the name of the module.
@@ -74,7 +75,6 @@ pub fn PyModule::get_name(self : PyModule) -> String {
   if self.name is Some(n) {
     return n
   }
-
   let attr = self.get_attr("__name__")
   if attr is None {
     println("module has no attribute __name__")
@@ -136,7 +136,6 @@ pub fn PyModule::get_attr(
   if self.attrs.contains(attr) {
     return self.attrs.get(attr)
   }
-
   let f = @cpython.py_object_get_attr_string(self.obj_ref(), attr)
   if f.is_null() {
     if print_err {
@@ -151,6 +150,7 @@ pub fn PyModule::get_attr(
   Some(c)
 }
 
+///|
 pub impl IsPyObject for PyModule with obj(self) {
   self.obj
 }

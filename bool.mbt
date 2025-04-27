@@ -28,9 +28,7 @@ pub fn PyBool::create_by_ref(
 }
 
 ///|
-fn PyBool::create_by_ref_unchecked(
-  obj_ref : @cpython.PyObjectRef
-) -> PyBool {
+fn PyBool::create_by_ref_unchecked(obj_ref : @cpython.PyObjectRef) -> PyBool {
   PyBool::{ obj: PyObject::create(obj_ref) }
 }
 

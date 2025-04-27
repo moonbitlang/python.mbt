@@ -9,6 +9,8 @@ fn _py_context_new_hamt_for_tests() -> PyObjectRef
 
 fn print_pyobject(PyObjectRef) -> Unit
 
+fn py_bool_check(PyObjectRef) -> Bool
+
 fn py_bool_from_long(Int64) -> PyObjectRef
 
 fn py_call_iter_new(PyObjectRef, PyObjectRef) -> PyObjectRef
@@ -95,6 +97,8 @@ fn py_context_var_set(PyObjectRef, PyObjectRef) -> PyObjectRef
 
 fn py_decref(PyObjectRef) -> Unit
 
+fn py_dict_check(PyObjectRef) -> Bool
+
 fn py_dict_clear(PyObjectRef) -> Unit
 
 fn py_dict_contains(PyObjectRef, PyObjectRef) -> Bool
@@ -178,6 +182,8 @@ fn py_file_write_string(CStr, PyObjectRef) -> Int
 fn py_finalize() -> Unit
 
 fn py_float_as_double(PyObjectRef) -> Double
+
+fn py_float_check(PyObjectRef) -> Bool
 
 fn py_float_from_double(Double) -> PyObjectRef
 
@@ -269,11 +275,15 @@ fn py_instance_method_function(PyObjectRef) -> PyObjectRef
 
 fn py_instance_method_new(PyObjectRef) -> PyObjectRef
 
+fn py_int_check(PyObjectRef) -> Bool
+
 fn py_is_initialized() -> Bool
 
 fn py_list_append(PyObjectRef, PyObjectRef) -> Int
 
 fn py_list_as_tuple(PyObjectRef) -> PyObjectRef
+
+fn py_list_check(PyObjectRef) -> Bool
 
 fn py_list_get_item(PyObjectRef, Int64) -> PyObjectRef
 
@@ -357,27 +367,11 @@ fn py_object_has_attr(PyObjectRef, PyObjectRef) -> Int
 
 fn py_object_has_attr_string(PyObjectRef, String) -> Int
 
-fn py_object_is_bool(PyObjectRef) -> Bool
-
-fn py_object_is_dict(PyObjectRef) -> Bool
-
-fn py_object_is_float(PyObjectRef) -> Bool
-
 fn py_object_is_instance(PyObjectRef, PyObjectRef) -> Int
-
-fn py_object_is_int(PyObjectRef) -> Bool
-
-fn py_object_is_list(PyObjectRef) -> Bool
-
-fn py_object_is_set(PyObjectRef) -> Bool
-
-fn py_object_is_string(PyObjectRef) -> Bool
 
 fn py_object_is_subclass(PyObjectRef, PyObjectRef) -> Int
 
 fn py_object_is_true(PyObjectRef) -> Bool
-
-fn py_object_is_tuple(PyObjectRef) -> Bool
 
 fn py_object_moonbit_repr(PyObjectRef) -> String
 
@@ -419,6 +413,8 @@ fn py_seq_iter_new(PyObjectRef) -> PyObjectRef
 
 fn py_set_add(PyObjectRef, PyObjectRef) -> Int
 
+fn py_set_check(PyObjectRef) -> Bool
+
 fn py_set_clear(PyObjectRef) -> Int
 
 fn py_set_contains(PyObjectRef, PyObjectRef) -> Int
@@ -435,11 +431,21 @@ fn py_set_size(PyObjectRef) -> Int64
 
 fn py_static_method_new(PyObjectRef) -> PyObjectRef
 
+fn py_string_check(PyObjectRef) -> Bool
+
+fn py_tuple_check(PyObjectRef) -> Bool
+
 fn py_type(PyObjectRef) -> PyTypeObjectRef
 
 fn py_type_name(PyTypeObjectRef) -> String
 
+fn py_unicode_as_moonbit_string(PyObjectRef) -> String
+
+fn py_unicode_as_utf16_string(PyObjectRef) -> PyObjectRef
+
 fn py_unicode_as_utf8(PyObjectRef) -> String
+
+fn py_unicode_from_moonbit_string(String) -> PyObjectRef
 
 fn py_unicode_from_string(String) -> PyObjectRef
 
@@ -601,7 +607,17 @@ type PyCodeObjectRef
 type PyObjectRef
 impl PyObjectRef {
   dump(Self) -> Unit
+  is_bool(Self) -> Bool
+  is_callable(Self) -> Bool
+  is_dict(Self) -> Bool
+  is_float(Self) -> Bool
+  is_function(Self) -> Bool
+  is_int(Self) -> Bool
+  is_list(Self) -> Bool
+  is_module(Self) -> Bool
   is_null(Self) -> Bool
+  is_set(Self) -> Bool
+  is_string(Self) -> Bool
 }
 
 type PyThreadStateRef

@@ -56,7 +56,6 @@ test "PyString Test" {
   inspect!(s.type_name(), content="str")
   inspect!(PyString::from("one"), content="one")
   inspect!(PyString::from("two"), content="two")
-
   let hw = PyString::from("你好，世界")
   inspect!(hw, content="你好，世界")
 }

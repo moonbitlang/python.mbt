@@ -40,7 +40,9 @@ fn PyTuple::create_unchecked(obj : PyObject) -> PyTuple {
 
 ///| Create a PyTuple object from a python object reference.
 /// If the python object is not a tuple, it will raise a TypeMisMatchError.
-pub fn PyTuple::create_by_ref(obj_ref : @cpython.PyObjectRef) -> PyTuple!PyRuntimeError {
+pub fn PyTuple::create_by_ref(
+  obj_ref : @cpython.PyObjectRef
+) -> PyTuple!PyRuntimeError {
   guard @cpython.py_tuple_check(obj_ref) else { raise TypeMisMatchError }
   PyTuple::{ obj: PyObject::create(obj_ref) }
 }

@@ -10,7 +10,7 @@ fn PyObject::obj_ref(self : PyObject) -> @cpython.PyObjectRef {
 
 ///|
 pub fn PyObject::create(obj : @cpython.PyObjectRef) -> PyObject {
-  PyObject::{ obj }
+  PyObject::{ obj, }
 }
 
 ///|

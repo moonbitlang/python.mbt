@@ -144,11 +144,12 @@ extern "C" fn __py_list_check(obj : PyObjectRef) -> Int = "py_list_check"
 
 ///|
 pub fn py_list_check(obj : PyObjectRef) -> Bool {
-   __py_list_check(obj) != 0
+  __py_list_check(obj) != 0
 }
 
-pub fn PyObjectRef::is_list(self: PyObjectRef) -> Bool {
-   __py_list_check(self) != 0
+///|
+pub fn PyObjectRef::is_list(self : PyObjectRef) -> Bool {
+  __py_list_check(self) != 0
 }
 
 ///|
@@ -156,10 +157,11 @@ extern "C" fn __py_dict_check(obj : PyObjectRef) -> Int = "py_dict_check"
 
 ///|
 pub fn py_dict_check(obj : PyObjectRef) -> Bool {
-   __py_dict_check(obj) != 0
+  __py_dict_check(obj) != 0
 }
 
-pub fn PyObjectRef::is_dict(self: PyObjectRef) -> Bool {
+///|
+pub fn PyObjectRef::is_dict(self : PyObjectRef) -> Bool {
   __py_dict_check(self) != 0
 }
 
@@ -168,10 +170,11 @@ extern "C" fn __py_set_check(obj : PyObjectRef) -> Int = "py_set_check"
 
 ///|
 pub fn py_set_check(obj : PyObjectRef) -> Bool {
-   __py_set_check(obj) != 0
+  __py_set_check(obj) != 0
 }
 
-pub fn PyObjectRef::is_set(self: PyObjectRef) -> Bool {
+///|
+pub fn PyObjectRef::is_set(self : PyObjectRef) -> Bool {
   __py_set_check(self) != 0
 }
 
@@ -180,10 +183,11 @@ extern "C" fn __py_int_check(obj : PyObjectRef) -> Int = "py_int_check"
 
 ///|
 pub fn py_int_check(obj : PyObjectRef) -> Bool {
-   __py_int_check(obj) != 0
+  __py_int_check(obj) != 0
 }
 
-pub fn PyObjectRef::is_int(self: PyObjectRef) -> Bool {
+///|
+pub fn PyObjectRef::is_int(self : PyObjectRef) -> Bool {
   __py_int_check(self) != 0
 }
 
@@ -192,10 +196,11 @@ extern "C" fn __py_float_check(obj : PyObjectRef) -> Int = "py_float_check"
 
 ///|
 pub fn py_float_check(obj : PyObjectRef) -> Bool {
-   __py_float_check(obj) != 0
+  __py_float_check(obj) != 0
 }
 
-pub fn PyObjectRef::is_float(self: PyObjectRef) -> Bool {
+///|
+pub fn PyObjectRef::is_float(self : PyObjectRef) -> Bool {
   __py_float_check(self) != 0
 }
 
@@ -204,10 +209,11 @@ extern "C" fn __py_string_check(obj : PyObjectRef) -> Int = "py_string_check"
 
 ///|
 pub fn py_string_check(obj : PyObjectRef) -> Bool {
-   __py_string_check(obj) != 0
+  __py_string_check(obj) != 0
 }
 
-pub fn PyObjectRef::is_string(self: PyObjectRef) -> Bool {
+///|
+pub fn PyObjectRef::is_string(self : PyObjectRef) -> Bool {
   __py_string_check(self) != 0
 }
 
@@ -216,11 +222,11 @@ extern "C" fn __py_bool_check(obj : PyObjectRef) -> Int = "py_bool_check"
 
 ///|
 pub fn py_bool_check(obj : PyObjectRef) -> Bool {
-   __py_bool_check(obj) != 0
+  __py_bool_check(obj) != 0
 }
 
 ///|
-pub fn PyObjectRef::is_bool(self: PyObjectRef) -> Bool {
+pub fn PyObjectRef::is_bool(self : PyObjectRef) -> Bool {
   __py_bool_check(self) != 0
 }
 
@@ -233,7 +239,7 @@ pub fn py_module_check(obj : PyObjectRef) -> Bool {
 }
 
 ///|
-pub fn PyObjectRef::is_module(self: PyObjectRef) -> Bool {
+pub fn PyObjectRef::is_module(self : PyObjectRef) -> Bool {
   __py_module_check(self) != 0
 }
 
@@ -245,10 +251,12 @@ pub fn py_function_check(f : PyObjectRef) -> Bool {
   __py_function_check(f) != 0
 }
 
-pub fn PyObjectRef::is_function(self: PyObjectRef) -> Bool {
+///|
+pub fn PyObjectRef::is_function(self : PyObjectRef) -> Bool {
   __py_function_check(self) != 0
 }
 
+///|
 pub extern "C" fn __py_callable_check(a : PyObjectRef) -> Int = "PyCallable_Check"
 
 ///|
@@ -256,7 +264,7 @@ pub fn py_callable_check(a : PyObjectRef) -> Bool {
   __py_callable_check(a) != 0
 }
 
-pub fn PyObjectRef::is_callable(self: PyObjectRef) -> Bool {
+///|
+pub fn PyObjectRef::is_callable(self : PyObjectRef) -> Bool {
   __py_callable_check(self) != 0
 }
-

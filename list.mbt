@@ -25,7 +25,7 @@ pub fn PyList::new() -> PyList {
 /// If the pyobject is not a list, it will raise a TypeMisMatchError.
 pub fn PyList::create(obj : PyObject) -> PyList!PyRuntimeError {
   guard obj.is_list() else { raise TypeMisMatchError }
-  PyList::{ obj }
+  PyList::{ obj, }
 }
 
 ///|
