@@ -4,11 +4,12 @@ pub(all) enum PyObjectEnum {
   PyFloat(PyFloat)
   PyBool(PyBool)
   PyString(PyString)
+  PyTuple(PyTuple)
   PyList(PyList)
   PyDict(PyDict)
   PyModule(PyModule)
   PyCallable(PyCallable)
-  Class(PyObject)
+  PyClass(PyObject)
 } derive(Show)
 
 ///|
@@ -21,6 +22,8 @@ pub fn PyObjectEnum::create(obj : PyObject) -> PyObjectEnum {
     PyObjectEnum::PyFloat(PyFloat::create_unchecked(obj))
   } else if obj.is_string() {
     PyObjectEnum::PyString(PyString::create_unchecked(obj))
+  } else if obj.is_tuple() {
+    PyObjectEnum::PyTuple(PyTuple::create_unchecked(obj))
   } else if obj.is_list() {
     PyObjectEnum::PyList(PyList::create_unchecked(obj))
   } else if obj.is_dict() {
@@ -30,7 +33,7 @@ pub fn PyObjectEnum::create(obj : PyObject) -> PyObjectEnum {
   } else if obj.is_callable() {
     PyObjectEnum::PyCallable(PyCallable::create_unchecked(obj))
   } else {
-    PyObjectEnum::Class(obj)
+    PyObjectEnum::PyClass(obj)
   }
 }
 
