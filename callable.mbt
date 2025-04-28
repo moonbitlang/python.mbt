@@ -37,7 +37,7 @@ fn PyCallable::create_by_ref_unchecked(
 ///|
 pub fn PyCallable::invoke(
   self : PyCallable,
-  args : PyTuple,
+  args~ : PyTuple = PyTuple::new(0),
   kwargs~ : PyDict = PyDict::new()
 ) -> PyObjectEnum? {
   let obj = if kwargs.len() > 0 {

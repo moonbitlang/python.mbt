@@ -1,0 +1,41 @@
+package "Kaida-Amethyst/python/turtle"
+
+// Values
+fn bgcolor(Color) -> Unit
+
+// Types and methods
+pub(all) enum Color {
+  Red
+  Green
+  Blue
+  Purple
+  Orange
+  Yellow
+  Black
+}
+impl Show for Color
+
+pub struct Pen {
+  // private fields
+}
+impl Pen {
+  forward(Self, Double) -> Unit
+  left(Self, Double) -> Unit
+  new() -> Self
+  pencolor(Self, Color) -> Unit
+  width(Self, Double) -> Unit
+}
+
+pub struct Turtle {
+  // private fields
+}
+
+pub type! TurtleError {
+  LoadTurtleError
+}
+impl Show for TurtleError
+
+// Type aliases
+
+// Traits
+

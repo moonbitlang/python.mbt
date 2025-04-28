@@ -1,0 +1,35 @@
+package "Kaida-Amethyst/python/tkinter"
+
+// Values
+
+// Types and methods
+pub struct Label {
+  // private fields
+}
+impl Label {
+  new(Window, String) -> Self
+  pack(Self) -> Unit
+}
+
+pub struct Tkinter {
+  // private fields
+}
+
+pub type! TkinterError {
+  LoadTkinterError
+}
+impl Show for TkinterError
+
+pub struct Window {
+  // private fields
+}
+impl Window {
+  mainloop(Self) -> Unit
+  new() -> Self
+  set_title(Self, String) -> Unit
+}
+
+// Type aliases
+
+// Traits
+

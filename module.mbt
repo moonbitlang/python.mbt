@@ -105,13 +105,12 @@ pub fn PyModule::dump(self : PyModule) -> Unit {
 ///   guard collections.get_attr("Counter").unwrap() is PyCallable(counter)
 ///
 ///   let list = [1L, 2L, 2L, 3L, 3L, 3L].map(PyInteger::from) |> PyList::from
-///   let arg = PyTuple::new(1) .. set(0, list)
-///   guard counter.invoke(arg) is Some(PyDict(cnt))
+///   let args = PyTuple::new(1) .. set(0, list)
+///   guard counter.invoke(args~) is Some(PyDict(cnt))
 ///   inspect!(cnt, content="Counter({3: 3, 2: 2, 1: 1})")
 ///
 ///   guard cnt.obj().get_attr("total") is Some(PyCallable(total))
-///   let arg = PyTuple::new(0)
-///   inspect!(total.invoke(arg).unwrap(), content="PyInteger(6)")
+///   inspect!(total.invoke().unwrap(), content="PyInteger(6)")
 /// }
 /// ```
 /// 

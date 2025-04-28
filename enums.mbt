@@ -26,7 +26,8 @@ pub(all) enum PyObjectEnum {
   PyClass(PyObject)
 } derive(Show)
 
-pub fn PyObjectEnum::create(obj: PyObject) -> PyObjectEnum {
+///|
+pub fn PyObjectEnum::create(obj : PyObject) -> PyObjectEnum {
   match obj.type_of() {
     PyInteger => PyInteger(PyInteger::create_unchecked(obj))
     PyFloat => PyFloat(PyFloat::create_unchecked(obj))

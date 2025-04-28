@@ -32,7 +32,7 @@ pub struct PyCallable {
 impl PyCallable {
   create(PyObject) -> Self!PyRuntimeError
   create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
-  invoke(Self, PyTuple, kwargs~ : PyDict = ..) -> PyObjectEnum?
+  invoke(Self, args~ : PyTuple = .., kwargs~ : PyDict = ..) -> PyObjectEnum?
 }
 impl IsPyObject for PyCallable
 impl Show for PyCallable
@@ -144,7 +144,9 @@ impl PyObject {
   is_string(Self) -> Bool
   is_tuple(Self) -> Bool
   type_name(Self) -> String
+  type_of(Self) -> PyType
 }
+impl IsPyObject for PyObject
 impl Show for PyObject
 
 pub(all) enum PyObjectEnum {
@@ -194,14 +196,27 @@ impl PyTuple {
   drop(Self) -> Unit
   dump(Self) -> Unit
   get(Self, Int) -> PyObjectEnum?
-  len(Self) -> Int
+  len(Self) -> UInt64
   new(UInt64) -> Self
   op_get(Self, Int) -> PyObjectEnum
   op_set[T : IsPyObject](Self, Int, T) -> Unit
-  set[T : IsPyObject](Self, Int, T) -> Unit!PyRuntimeError
+  set[T : IsPyObject](Self, Int, T) -> Unit
 }
 impl IsPyObject for PyTuple
 impl Show for PyTuple
+
+pub enum PyType {
+  PyInteger
+  PyFloat
+  PyBool
+  PyString
+  PyTuple
+  PyList
+  PyDict
+  PyModule
+  PyCallable
+  PyClass
+}
 
 // Type aliases
 

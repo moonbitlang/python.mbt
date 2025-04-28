@@ -64,7 +64,7 @@ pub fn PyObject::is_callable(self : PyObject) -> Bool {
 }
 
 ///|
-pub fn PyObject::type_of(self: PyObject) -> PyType {
+pub fn PyObject::type_of(self : PyObject) -> PyType {
   if @cpython.py_bool_check(self.obj_ref()) {
     PyType::PyBool
   } else if @cpython.py_int_check(self.obj_ref()) {
@@ -123,6 +123,7 @@ pub fn PyObject::get_attr(
   Some(c)
 }
 
+///|
 pub impl IsPyObject for PyObject with obj(self) {
   self
 }

@@ -26,14 +26,14 @@ test "Module Test" {
   // print(counter) # Output: Counter({3: 3, 2: 2, 1: 1})
   // ```
   let list = [1L, 2, 2, 3, 3, 3].map(PyInteger::from) |> PyList::from
-  let arg = PyTuple::new(1)..set(0, list)
-  guard counter.invoke(arg) is Some(PyDict(cnt))
+  let args = PyTuple::new(1)..set(0, list)
+  guard counter.invoke(args~) is Some(PyDict(cnt))
   inspect!(cnt, content="Counter({3: 3, 2: 2, 1: 1})")
 
   // ```python
   // print(cnt.total()) # Output: 6
   // ```
   guard cnt.obj().get_attr("total") is Some(PyCallable(total))
-  let arg = PyTuple::new(0)
-  inspect!(total.invoke(arg).unwrap(), content="PyInteger(6)")
+  let args = PyTuple::new(0)
+  inspect!(total.invoke(args~).unwrap(), content="PyInteger(6)")
 }
