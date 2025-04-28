@@ -1,13 +1,19 @@
 
-typealias Window = @tkinter.Window
-typealias Label = @tkinter.Label
+typealias Pen = @turtle.Pen
 
 fn main {
-  let window = Window::new()
-  window.set_title("Hello, World!")
+  let color = [
+    @turtle.Red, @turtle.Purple, @turtle.Blue,
+    @turtle.Green, @turtle.Orange, @turtle.Yellow
+  ]
 
-  let label = Label::new(window, "Hello, World!")
-  label.pack()
+  let p = Pen::new()
+  @turtle.bgcolor(@turtle.Black)
 
-  window.mainloop()
+  for i in 0..<360 {
+    p.pencolor(color[i % 6])
+    p.width(i.to_double() / 100 + 1)
+    p.forward(i.to_double())
+    p.left(59)
+  }
 }

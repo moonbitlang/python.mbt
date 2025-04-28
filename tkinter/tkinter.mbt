@@ -34,7 +34,7 @@ pub struct Label {
   priv label: PyObject
 }
 
-pub fn new() -> Tkinter!Error {
+fn new() -> Tkinter!Error {
   guard @python.pyimport("tkinter") is Some(tkinter) else {
     raise LoadTkinterError
   }
