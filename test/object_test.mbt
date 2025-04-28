@@ -92,9 +92,9 @@ test "PyList Test" {
 ///|
 test "PyTuple Test" {
   let tuple = PyTuple::new(3)
-    ..set!(0, PyInteger::from(1))
-    ..set!(1, PyFloat::from(2.0))
-    ..set!(2, PyString::from("three"))
+    ..set(0, PyInteger::from(1))
+    ..set(1, PyFloat::from(2.0))
+    ..set(2, PyString::from("three"))
   inspect!(tuple.type_name(), content="tuple")
   assert_eq!(tuple.len(), 3)
   inspect!(tuple, content="(1, 2.0, \'three\')")

@@ -15,9 +15,9 @@ pub struct PyTuple {
 /// ```moonbit
 /// test "PyTuple::new" {
 ///   let tuple = PyTuple::new(3)
-///             ..set!(0, PyInteger::from(1))
-///             ..set!(1, PyFloat::from(2.0))
-///             ..set!(2, PyString::from("three"));
+///             ..set(0, PyInteger::from(1))
+///             ..set(1, PyFloat::from(2.0))
+///             ..set(2, PyString::from("three"));
 ///
 ///   inspect!(tuple, content="(1, 2.0, \'three\')")
 /// }
@@ -63,8 +63,8 @@ fn PyTuple::create_by_ref_unchecked(obj_ref : @cpython.PyObjectRef) -> PyTuple {
 ///   assert_eq!(tuple.len(), 3);
 /// }
 /// ```
-pub fn PyTuple::len(self : PyTuple) -> Int {
-  @cpython.pytuple_size(self.obj_ref()).to_int()
+pub fn PyTuple::len(self : PyTuple) -> UInt64 {
+  @cpython.pytuple_size(self.obj_ref())
 }
 
 ///| Get the item at the given index.
@@ -77,9 +77,9 @@ pub fn PyTuple::len(self : PyTuple) -> Int {
 /// ```moonbit
 /// test "PyTuple::get" {
 ///   let tuple = PyTuple::new(3)
-///             ..set!(0, PyInteger::from(1))
-///             ..set!(1, PyFloat::from(2.0))
-///             ..set!(2, PyString::from("three"));
+///             ..set(0, PyInteger::from(1))
+///             ..set(1, PyFloat::from(2.0))
+///             ..set(2, PyString::from("three"));
 ///
 ///   inspect!(tuple, content="(1, 2.0, \'three\')")
 ///   inspect!(tuple.get(0).unwrap(), content="PyInteger(1)")
@@ -99,7 +99,7 @@ pub fn PyTuple::len(self : PyTuple) -> Int {
 /// print(tuple[1]) # Output: 2.0
 /// print(tuple[2]) # Output: three
 pub fn PyTuple::get(self : PyTuple, idx : Int) -> PyObjectEnum? {
-  @option.when(idx >= 0 && idx < self.len(), fn() {
+  @option.when(idx >= 0 && idx.to_uint64() < self.len(), fn() {
     @cpython.pytuple_get_item(self.obj_ref(), idx.to_uint64())
     |> PyObject::create
     |> PyObjectEnum::create
@@ -116,9 +116,9 @@ pub fn PyTuple::get(self : PyTuple, idx : Int) -> PyObjectEnum? {
 /// ```moonbit
 /// test "PyTuple::op_get" {
 ///    let tuple = PyTuple::new(3)
-///              ..set!(0, PyInteger::from(1))
-///              ..set!(1, PyFloat::from(2.0))
-///              ..set!(2, PyString::from("three"));
+///              ..set(0, PyInteger::from(1))
+///              ..set(1, PyFloat::from(2.0))
+///              ..set(2, PyString::from("three"));
 ///
 ///   inspect!(tuple[0], content="PyInteger(1)")
 ///   inspect!(tuple[1], content="PyFloat(2.0)")
@@ -139,9 +139,9 @@ pub fn PyTuple::op_get(self : PyTuple, idx : Int) -> PyObjectEnum {
 /// ```moonbit
 /// test "PyTuple::set" {
 ///   let tuple = PyTuple::new(3)
-///             ..set!(0, PyInteger::from(1))
-///             ..set!(1, PyFloat::from(2.0))
-///             ..set!(2, PyString::from("three"));
+///             ..set(0, PyInteger::from(1))
+///             ..set(1, PyFloat::from(2.0))
+///             ..set(2, PyString::from("three"));
 ///
 ///   inspect!(tuple, content="(10, 2.0, \'three\')")
 /// }
@@ -149,8 +149,8 @@ pub fn PyTuple::set[T : IsPyObject](
   self : PyTuple,
   idx : Int,
   item : T
-) -> Unit!PyRuntimeError {
-  guard idx >= 0 && idx < self.len() else { raise IndexOutOfBoundsError }
+) -> Unit {
+  guard idx >= 0 && idx.to_uint64() < self.len()
   let _ = @cpython.pytuple_set_item(
     self.obj_ref(),
     idx.to_uint64(),
@@ -169,9 +169,9 @@ pub fn PyTuple::set[T : IsPyObject](
 /// ```moonbit
 /// test "PyTuple::op_set" {
 ///   let tuple = PyTuple::new(3)
-///             ..set!(0, PyInteger::from(1))
-///             ..set!(1, PyFloat::from(2.0))
-///             ..set!(2, PyString::from("three"));
+///             ..set(0, PyInteger::from(1))
+///             ..set(1, PyFloat::from(2.0))
+///             ..set(2, PyString::from("three"));
 ///
 ///   inspect!(tuple, content="(1, 2.0, \'three\')")
 /// }
@@ -181,7 +181,7 @@ pub fn PyTuple::op_set[T : IsPyObject](
   idx : Int,
   item : T
 ) -> Unit {
-  self.set?(idx, item).unwrap()
+  self.set(idx, item)
 }
 
 ///|

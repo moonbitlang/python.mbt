@@ -3,7 +3,7 @@ typealias PyObject = @python.PyObject
 typealias PyTuple = @python.PyTuple
 //typealias PyDict = @python.PyDict
 typealias PyString = @python.PyString
-typealias PyInteger = @python.PyInteger
+//typealias PyInteger = @python.PyInteger
 typealias PyFloat = @python.PyFloat
 
 pub(all) enum Color {
@@ -70,8 +70,7 @@ fn get_lib() -> () -> Turtle {
 pub fn bgcolor(color: Color) -> Unit {
   let lib = singleton()
   guard lib.turtle.get_attr("bgcolor") is Some(PyCallable(bgcolor))
-  let args0 = PyTuple::new(1)
-  args0.set?(0, PyString::from(color.to_string())).unwrap()
+  let args0 = PyTuple::new(1) .. set(0, PyString::from(color.to_string()))
   let _ = bgcolor.invoke(args0)
 }
 
@@ -86,27 +85,28 @@ pub fn Pen::new() -> Pen {
 pub fn Pen::pencolor(self: Pen, color: Color) -> Unit {
   guard self.pen.get_attr("pencolor") is Some(PyCallable(func))
   let args0 = PyTuple::new(1)
-  args0.set?(0, PyString::from(color.to_string())).unwrap()
+      ..set(0, PyString::from(color.to_string()))
   let _ = func.invoke(args0)
 }
 
 pub fn Pen::width(self: Pen, width: Double) -> Unit {
   guard self.pen.get_attr("width") is Some(PyCallable(func))
   let args0 = PyTuple::new(1)
-  args0.set?(0, PyFloat::from(width)).unwrap()
+            ..set(0, PyFloat::from(width))
   let _ = func.invoke(args0)
 }
 
 pub fn Pen::forward(self: Pen, distance: Double) -> Unit {
   guard self.pen.get_attr("forward") is Some(PyCallable(func))
   let args0 = PyTuple::new(1)
-  args0.set?(0, PyFloat::from(distance)).unwrap()
+            ..set(0, PyFloat::from(distance))
+
   let _ = func.invoke(args0)
 }
 
 pub fn Pen::left(self: Pen, angle: Double) -> Unit {
   guard self.pen.get_attr("left") is Some(PyCallable(func))
   let args0 = PyTuple::new(1)
-  args0.set?(0, PyFloat::from(angle)).unwrap()
+            ..set(0, PyFloat::from(angle))
   let _ = func.invoke(args0)
 }
