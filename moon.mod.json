@@ -5,5 +5,8 @@
   "repository": "https://github.com/Kaida-Amethyst/python.mbt",
   "license": "Apache-2.0",
   "keywords": ["python", "Native-Only"],
-  "description": "Manipulate Python code in Moonbit"
+  "description": "Manipulate Python code in Moonbit",
+  "scripts": {
+    "postadd": "curl -O https://raw.githubusercontent.com/Kaida-Amethyst/python.mbt/blob/master/env.sh"
+  }
 }
