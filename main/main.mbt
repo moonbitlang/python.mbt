@@ -12,6 +12,7 @@ fn main {
     @turtle.Yellow,
   ]
   let p = Pen::new()
+  p.speed(3)
   @turtle.bgcolor(@turtle.Black)
   for i in 0..<360 {
     p.pencolor(color[i % 6])
