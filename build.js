@@ -28,7 +28,7 @@ try {
 
   // 4. Construct CC_FLAGS
   const stubCCFlags = `-I${pyIncludeDir} -DNDEBUG`
-  const ccFlags = stubCCFlags + ' -dynamic'
+  const ccFlags = stubCCFlags
 
   // 5. Get Python ldflags
   const pyLdflagsCmd = 'python3-config --ldflags'
