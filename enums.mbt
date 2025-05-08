@@ -42,6 +42,21 @@ pub fn PyObjectEnum::create(obj : PyObject) -> PyObjectEnum {
   }
 }
 
+pub fn PyObjectEnum::dump(self: PyObjectEnum) -> Unit {
+  match self {
+    PyInteger(obj) => obj.dump()
+    PyFloat(obj) => obj.dump()
+    PyBool(obj) => obj.dump()
+    PyString(obj) => obj.dump()
+    PyTuple(obj) => obj.dump()
+    PyList(obj) => obj.dump()
+    PyDict(obj) => obj.dump()
+    PyModule(obj) => obj.dump()
+    PyCallable(obj) => obj.dump()
+    PyClass(obj) => obj.dump()
+  }
+}
+
 ///|
 pub fn PyObjectEnum::create_by_ref(
   obj_ref : @cpython.PyObjectRef

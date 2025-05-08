@@ -1,97 +1,45 @@
 ///|
-typealias PyModule = @python.PyModule
-
-///|
-typealias PyObject = @python.PyObject
-
-///|
-typealias PyTuple = @python.PyTuple
-
-//typealias PyDict = @python.PyDict
-///|
-typealias PyString = @python.PyString
-
-///|
-typealias PyInteger = @python.PyInteger
-
-///|
-typealias PyFloat = @python.PyFloat
-
-///|
-pub(all) enum Color {
-  Red
-  Green
-  Blue
-  Purple
-  Orange
-  Yellow
-  Black
-} derive(Show)
-
-///|
-pub fn Color::to_pystr(self : Color) -> PyString {
-  let s = self.to_string().to_lower()
-  PyString::from(s)
-}
-
-///|
-pub type! TurtleError {
-  LoadTurtleError
-} derive(Show)
-
-///|
-pub struct Turtle {
-  priv turtle : PyModule
-}
-
-///|
 pub struct Pen {
   priv pen : PyObject
+  methods: Map[String,PyCallable]
 }
 
-///|
-fn new() -> Turtle!Error {
-  guard @python.pyimport("turtle") is Some(turtle) else {
-    raise LoadTurtleError
-  }
-  Turtle::{ turtle, }
-}
-
-///|
-let singleton : () -> Turtle = get_lib()
-
-///|
-fn get_lib() -> () -> Turtle {
-  @python.init_py()
-  let lib = match new?() {
-    Ok(lib) => lib
-    Err(e) => {
-      println(e)
-      panic()
+fn Pen::get_method(self : Pen, name : String) -> PyCallable? {
+  match self.methods.get(name) {
+    Some(m) => Some(m)
+    None => match self.pen.get_attr(name) {
+      Some(PyCallable(m)) => Some(m)
+      _ => None
     }
   }
-  fn() { lib }
 }
 
 ///|
-pub fn bgcolor(color : Color) -> Unit {
+pub fn Pen::new() -> Pen {
   let lib = singleton()
-  guard lib.turtle.get_attr("bgcolor") is Some(PyCallable(bgcolor))
-  let args = PyTuple::new(1)..set(0, PyString::from(color.to_string()))
-  let _ = bgcolor.invoke(args~)
-
+  guard lib.turtle.get_attr("Pen") is Some(PyCallable(createPen))
+  guard createPen.invoke() is Some(PyClass(pen))
+  Pen::{ pen, methods:Map::new()}
 }
 
 ///|
 pub fn Pen::home(self : Pen) -> Unit {
-  guard self.pen.get_attr("home") is Some(PyCallable(func))
+  guard self.get_method("home") is Some(func)
   let _ = func.invoke()
+  ()
+}
+
+///|
+pub fn Pen::pensize(self : Pen, size : Double) -> Unit {
+  guard self.get_method("pensize") is Some(func)
+  let args = PyTuple::new(1)..set(0, PyFloat::from(size))
+  let _ = func.invoke(args~)
 
 }
 
 ///|
 pub fn Pen::xcor(self : Pen) -> Double {
-  guard self.pen.get_attr("xcor") is Some(PyCallable(func))
+  guard self.get_method("xcor") is Some(func)
   let res = func.invoke()
   guard res is Some(PyFloat(x))
   x.to_double()
@@ -141,13 +89,6 @@ pub fn Pen::speed(self : Pen, v : Int) -> Unit {
 
 }
 
-///|
-pub fn Pen::new() -> Pen {
-  let lib = singleton()
-  guard lib.turtle.get_attr("Pen") is Some(PyCallable(createPen))
-  guard createPen.invoke() is Some(PyClass(pen))
-  Pen::{ pen, }
-}
 
 ///|
 pub fn Pen::pencolor(self : Pen, color : Color) -> Unit {
@@ -208,5 +149,44 @@ pub fn Pen::right(self : Pen, angle : Double) -> Unit {
   guard self.pen.get_attr("right") is Some(PyCallable(func))
   let args = PyTuple::new(1)..set(0, PyFloat::from(angle))
   let _ = func.invoke(args~)
+
+}
+
+pub fn Pen::goto(self : Pen, x : Double, y : Double) -> Unit {
+  guard self.pen.get_attr("goto") is Some(PyCallable(func))
+  let args = PyTuple::new(2)..set(0, PyFloat::from(x))..set(1, PyFloat::from(y))
+  let _ = func.invoke(args~)
+
+}
+
+pub fn Pen::hide(self : Pen) -> Unit {
+  guard self.pen.get_attr("hideturtle") is Some(PyCallable(func))
+  let _ = func.invoke()
+
+}
+
+pub fn Pen::penup(self : Pen) -> Unit {
+  guard self.pen.get_attr("penup") is Some(PyCallable(func))
+  let _ = func.invoke()
+
+}
+
+pub fn Pen::pendown(self : Pen) -> Unit {
+  guard self.pen.get_attr("pendown") is Some(PyCallable(func))
+  let _ = func.invoke()
+
+}
+
+pub fn Pen::dot(self : Pen, size : Double, color : Color) -> Unit {
+  guard self.get_method("dot") is Some(func)
+  let args = PyTuple::new(2)..set(0, PyFloat::from(size))..set(1, PyString::from(color.to_string()))
+  guard func.invoke(args~) is Some(PyClass(r))
+  r.drop()
+  ()
+}
+
+pub fn Pen::clear(self : Pen) -> Unit {
+  guard self.pen.get_attr("clear") is Some(PyCallable(func))
+  let _ = func.invoke()
 
 }

@@ -1,3 +1,6 @@
+
+
+```moonbit
 typealias Screen = @turtle.Screen
 typealias Pen = @turtle.Pen
 fnalias @math.(sin, cos)
@@ -73,7 +76,6 @@ fn main {
              ..tracer(0)
 
   let rod = Pen::new()..hide()..speed(0)..pensize(3)..pencolor(Silver)
-  let tail = Pen::new()..hide()..speed(0)..pensize(1)..pencolor(Blue)
   let masses = Pen::new()..hide()..speed(0)
 
   let (pivot_x, pivot_y) = (0.0, 200.0)
@@ -88,18 +90,12 @@ fn main {
   // --- 设置初始物理量 ---
   let phys = PhysicState::{m1, m2, l1, l2, pivot_x, pivot_y}
 
-  let trail_pts : @queue.T[(Double, Double)] = @queue.new()
-
   // 函数式循环，更清晰
   loop theta1 , theta2, omega1, omega2, 0.0 {
     theta1, theta2, omega1, omega2, total_time if total_time < 30.0 => {
       let (positions, updates) = animate(phys, theta1, theta2, omega1, omega2)
       let Position((x1, y1, x2, y2)) = positions
       let Update((theta1, theta2, omega1, omega2)) = updates
-      trail_pts.push((x2, y2))
-      if trail_pts.length() > 30 {
-        let _ = trail_pts.pop()
-      }
 
       rod.clear()
       masses.clear()
@@ -116,21 +112,6 @@ fn main {
       // --- 绘制球 (质量m2) ---
       masses..penup()..goto(x2, y2).dot(20, Blue)
 
-      tail.clear()
-      let trail_pts_arr = trail_pts.iter().collect()
-      for i, pt in trail_pts_arr {
-        let (x, y) = pt
-        let alpha = i.to_double() / trail_pts.length().to_double()
-        let width = 1.0 + 2.0 * alpha
-        //let brightness = alpha
-        //tail.pensize(width)..color(brightness*0.2, brightness*0.5, brightness)
-        tail..pensize(width).pencolor(Blue)
-        if i > 0 {
-            let (prev_x, prev_y) = trail_pts_arr[i - 1]
-            tail..penup()..goto(prev_x, prev_y)..pendown().goto(x, y)
-        }
-      }
-
       // --- 更新屏幕 ---
       screen.update()
       @time.sleep(Dt)
@@ -139,3 +120,4 @@ fn main {
     _,_,_,_,_ => break
   }
 }
+```

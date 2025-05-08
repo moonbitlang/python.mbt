@@ -34,6 +34,10 @@ fn PyCallable::create_by_ref_unchecked(
   PyCallable::{ obj: PyObject::create(obj) }
 }
 
+pub fn PyCallable::dump(self: PyCallable) -> Unit {
+  self.obj.dump()
+}
+
 ///|
 pub fn PyCallable::invoke(
   self : PyCallable,
@@ -45,9 +49,9 @@ pub fn PyCallable::invoke(
       @cpython.py_object_call(self.obj_ref(), args.obj_ref(), kwargs.obj_ref()),
     )
   } else {
-    PyObject::create(
-      @cpython.py_object_call_object(self.obj_ref(), args.obj_ref()),
-    )
+    let obj_ref = @cpython.py_object_call_object(self.obj_ref(), args.obj_ref())
+    let o = PyObject::create(obj_ref)
+    o
   }
   @option.unless(obj.is_null(), fn() { PyObjectEnum::create(obj) })
 }

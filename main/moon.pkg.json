@@ -2,7 +2,8 @@
   "is-main": true,
   "import": [
     "Kaida-Amethyst/python",
-    "Kaida-Amethyst/python/turtle"
+    "Kaida-Amethyst/python/turtle",
+    "Kaida-Amethyst/python/time"
   ],
   "link" : {
     "native" : {

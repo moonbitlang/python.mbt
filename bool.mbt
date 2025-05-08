@@ -32,6 +32,10 @@ fn PyBool::create_by_ref_unchecked(obj_ref : @cpython.PyObjectRef) -> PyBool {
   PyBool::{ obj: PyObject::create(obj_ref) }
 }
 
+pub fn PyBool::dump(self : PyBool) -> Unit {
+  self.obj.dump()
+}
+
 ///| Create a python boolean object from moonbit bool.
 ///
 /// ## Example
