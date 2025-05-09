@@ -1,11 +1,4 @@
 {
   "is-main": true,
-  "import": ["Kaida-Amethyst/python", "Kaida-Amethyst/python/turtle", "Kaida-Amethyst/python/time"],
-  "link": {
-    "native": {
-      "cc": "${build.CC}",
-      "cc-flags": "${build.CC_FLAGS}",
-      "cc-link-flags": "${build.CC_LINK_FLAGS}"
-    }
-  }
+  "import": ["Kaida-Amethyst/python", "Kaida-Amethyst/python/turtle", "Kaida-Amethyst/python/time"]
 }

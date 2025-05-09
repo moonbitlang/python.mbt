@@ -46,17 +46,24 @@ try {
     : pyIncludeDir
 
   // 8. Assemble the variables
-  const vars = {
-    PY_VERSION: pyVersion,
-    CC: cc,
-    CC_FLAGS: ccFlags,
-    STUB_CC_FLAGS: stubCCFlags,
-    CC_LINK_FLAGS: ccLinkFlags,
-    C_INCLUDE_PATH: cIncludePath,
+  const output = {
+    vars: {
+      PY_VERSION: pyVersion,
+      CC: cc,
+      CC_FLAGS: ccFlags,
+      STUB_CC_FLAGS: stubCCFlags,
+      CC_LINK_FLAGS: ccLinkFlags,
+      C_INCLUDE_PATH: cIncludePath,
+    },
+    link_configs: [
+      {
+        package: 'Kaida-Amethyst/python/cpython',
+        link_flags: ccLinkFlags,
+      },
+    ],
   }
 
-  // 9. Output the JSON
-  console.log(JSON.stringify({ vars }, null, 2)) // Pretty print for readability
+  console.log(JSON.stringify(output, null, 2))
 } catch (error) {
   // Catch any unexpected errors during setup or JSON stringification
   console.error('An unexpected error occurred:', error.message)
