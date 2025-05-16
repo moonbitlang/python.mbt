@@ -79,6 +79,11 @@ pub fn PyBool::is_true(self : PyBool) -> Bool {
   @cpython.py_object_is_true(obj)
 }
 
+///|
+pub fn PyBool::to_bool(self: PyBool) -> Bool {
+  self.is_true()
+}
+
 ///| Return `true` if it is false, using python interpreter.
 ///
 /// ## Example

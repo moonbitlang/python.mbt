@@ -2,6 +2,6 @@
   "is-main": false,
   "supported-targets" : ["native"],
   "native-stub" : [
-    "warp.c"
+    "wrap.c"
   ]
 }
