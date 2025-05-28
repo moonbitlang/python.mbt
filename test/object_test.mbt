@@ -92,7 +92,7 @@ test "PyList Test" {
 ///|
 test "PyTuple Test" {
   let tuple = PyTuple::new(3)
-    ..set(0, PyInteger::from(1))
+   tuple..set(0, PyInteger::from(1))
     ..set(1, PyFloat::from(2.0))
     ..set(2, PyString::from("three"))
   inspect!(tuple.type_name(), content="tuple")
@@ -109,7 +109,7 @@ test "PyTuple Test" {
 ///|
 test "PyDict Test" {
   let dict = PyDict::new()
-    ..set("one", PyInteger::from(1))
+  dict..set("one", PyInteger::from(1))
     ..set("two", PyFloat::from(2.0))
     ..set("three", PyBool::from(true))
   inspect!(dict.type_name(), content="dict")
@@ -124,12 +124,12 @@ test "PyDict Test" {
   inspect!(dict.keys(), content="[\'one\', \'two\', \'three\']")
   inspect!(dict.values(), content="[1, 2.0, True]")
   let dict = PyDict::new()
-    ..setByObj!(PyInteger::from(1), PyInteger::from(1))
+  dict..setByObj!(PyInteger::from(1), PyInteger::from(1))
     ..setByObj!(PyInteger::from(2), PyInteger::from(4))
     ..setByObj!(PyInteger::from(3), PyInteger::from(9))
   inspect!(dict, content="{1: 1, 2: 4, 3: 9}")
   let list = PyList::new()
-    ..append(PyInteger::from(3))
+  list..append(PyInteger::from(3))
     ..append(PyInteger::from(2))
   let e = dict.setByObj?(list, PyInteger::from(42))
   inspect!(e, content="Err(KeyIsUnHashableError)")
