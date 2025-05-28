@@ -19,6 +19,7 @@ typealias PyInteger = @python.PyInteger
 ///|
 typealias PyFloat = @python.PyFloat
 
+///|
 typealias PyCallable = @python.PyCallable
 
 ///|

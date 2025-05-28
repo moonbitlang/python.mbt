@@ -82,7 +82,8 @@ pub fn Window::new() -> Window {
 ///|
 pub fn Window::set_title(self : Window, title : String) -> Unit {
   guard self.window.get_attr("title") is Some(PyCallable(setTitle))
-  let args = PyTuple::new(1)..set(0, PyString::from(title))
+  let args = PyTuple::new(1)
+  args..set(0, PyString::from(title))
   let _ = setTitle.invoke(args~)
 
 }
@@ -98,8 +99,10 @@ pub fn Window::mainloop(self : Window) -> Unit {
 pub fn Label::new(window : Window, text : String) -> Label {
   let lib = singleton()
   guard lib.tkinter.get_attr("Label") is Some(PyCallable(createLabel))
-  let args = PyTuple::new(1)..set(0, window.window)
-  let kwargs = PyDict::new()..set("text", PyString::from(text))
+  let args = PyTuple::new(1)
+  args..set(0, window.window)
+  let kwargs = PyDict::new()
+  kwargs..set("text", PyString::from(text))
   guard createLabel.invoke(args~, kwargs~) is Some(PyClass(label))
   Label::{ label, }
 }

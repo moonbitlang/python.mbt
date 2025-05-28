@@ -1,4 +1,3 @@
-
 ///| Represents common colors used for drawing.
 /// Deriving Show provides a default to_string() which can be converted to lowercase for Python.
 pub(all) enum Color {
@@ -22,11 +21,10 @@ pub(all) enum Color {
   Violet
 } derive(Show)
 
-/// Converts the Color enum to a lowercase string representation suitable for Python turtle.
+///| Converts the Color enum to a lowercase string representation suitable for Python turtle.
 /// - self: The Color enum value.
 /// Returns: The color name as a PyString.
 pub fn Color::to_pystr(self : Color) -> PyString {
   let s = self.to_string().to_lower()
   PyString::from(s)
 }
-

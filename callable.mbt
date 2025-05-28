@@ -34,7 +34,8 @@ fn PyCallable::create_by_ref_unchecked(
   PyCallable::{ obj: PyObject::create(obj) }
 }
 
-pub fn PyCallable::dump(self: PyCallable) -> Unit {
+///|
+pub fn PyCallable::dump(self : PyCallable) -> Unit {
   self.obj.dump()
 }
 

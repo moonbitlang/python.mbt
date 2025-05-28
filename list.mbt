@@ -100,7 +100,7 @@ pub fn PyList::len(self : PyList) -> Int {
 ///
 /// print(list)  # Output: [1, 2.0, 'hello']
 /// ```
-pub fn PyList::append[T : IsPyObject](self : PyList, item : T) -> Unit {
+pub fn[T : IsPyObject] PyList::append(self : PyList, item : T) -> Unit {
   let _ = @cpython.py_list_append(self.obj_ref(), item.obj_ref())
 
 }
@@ -135,7 +135,7 @@ pub fn PyList::append[T : IsPyObject](self : PyList, item : T) -> Unit {
 ///   inspect!(list, content="[1, 2.0, \'three\']")
 /// }
 /// ```
-pub fn PyList::from[T : IsPyObject](items : Array[T]) -> PyList {
+pub fn[T : IsPyObject] PyList::from(items : Array[T]) -> PyList {
   let pylist = PyList::new()
   items.each(fn(item) { pylist.append(item) })
   pylist
@@ -211,7 +211,7 @@ pub fn PyList::op_get(self : PyList, idx : Int) -> PyObjectEnum {
 ///   inspect!(list, content="[42, 2.0, \'hello\']")
 /// }
 /// ```
-pub fn PyList::set[T : IsPyObject](
+pub fn[T : IsPyObject] PyList::set(
   self : PyList,
   idx : Int,
   item : T
@@ -244,7 +244,7 @@ pub fn PyList::set[T : IsPyObject](
 ///  inspect!(list, content="[42, 2.0, \'hello\']")
 /// }
 /// ```
-pub fn PyList::op_set[T : IsPyObject](
+pub fn[T : IsPyObject] PyList::op_set(
   self : PyList,
   idx : Int,
   item : T

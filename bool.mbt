@@ -32,6 +32,7 @@ fn PyBool::create_by_ref_unchecked(obj_ref : @cpython.PyObjectRef) -> PyBool {
   PyBool::{ obj: PyObject::create(obj_ref) }
 }
 
+///|
 pub fn PyBool::dump(self : PyBool) -> Unit {
   self.obj.dump()
 }
@@ -80,7 +81,7 @@ pub fn PyBool::is_true(self : PyBool) -> Bool {
 }
 
 ///|
-pub fn PyBool::to_bool(self: PyBool) -> Bool {
+pub fn PyBool::to_bool(self : PyBool) -> Bool {
   self.is_true()
 }
 
