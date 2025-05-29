@@ -1,0 +1,14 @@
+{
+  "is-main": true,
+  "import": [
+    "Kaida-Amethyst/python",
+    "Kaida-Amethyst/python/turtle",
+    "Kaida-Amethyst/python/time"
+  ],
+  "link" : {
+    "native" : {
+      "cc" : "$CC",
+      "cc-link-flags" : "$CC_LINK_FLAGS"
+    }
+  }
+}
