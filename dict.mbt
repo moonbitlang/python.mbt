@@ -34,9 +34,10 @@ pub fn PyDict::create_by_ref(
 /// ```moonbit
 /// test "PyDict::new" {
 ///   let dict = PyDict::new()
-///            ..set("one", PyInteger::from(1))
-///            ..set("two", PyFloat::from(2.0))
-///            ..set("three", PyBool::from(true));
+///   dict
+///   ..set("one", PyInteger::from(1))
+///   ..set("two", PyFloat::from(2.0))
+///   ..set("three", PyBool::from(true));
 ///
 ///   inspect!(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
 /// }
@@ -60,9 +61,10 @@ pub fn PyDict::new() -> PyDict {
 /// ```moonbit
 /// test "PyDict::len" {
 ///   let dict = PyDict::new()
-///        ..set("one", PyInteger::from(1))
-///        ..set("two", PyFloat::from(2.0))
-///        ..set("three", PyString::from("three"));
+///   dict
+///   ..set("one", PyInteger::from(1))
+///   ..set("two", PyFloat::from(2.0))
+///   ..set("three", PyString::from("three"));
 ///
 ///   assert_eq!(dict.len(), 3);
 /// }
@@ -80,9 +82,10 @@ pub fn PyDict::len(self : PyDict) -> Int {
 /// ```moonbit
 /// test "PyDict::get" {
 ///   let dict = PyDict::new()
-///        ..set("one", PyInteger::from(1))
-///        ..set("two", PyFloat::from(2.0))
-///        ..set("three", PyBool::from(true));
+///   dict
+///   ..set("one", PyInteger::from(1))
+///   ..set("two", PyFloat::from(2.0))
+///   ..set("three", PyBool::from(true));
 ///
 ///   inspect!(dict.get("one").unwrap(), content="PyInteger(1)")
 ///   inspect!(dict.get("two"), content="Some(PyFloat(2.0))")
@@ -115,9 +118,10 @@ pub fn PyDict::getByObj(self : PyDict, key : PyObject) -> PyObjectEnum? {
 /// ```moonbit
 /// test "PyDict::op_get" {
 ///   let dict = PyDict::new()
-///     ..set("one", PyInteger::from(1))
-///     ..set("two", PyFloat::from(2.0))
-///     ..set("three", PyBool::from(true));
+///   dict
+///   ..set("one", PyInteger::from(1))
+///   ..set("two", PyFloat::from(2.0))
+///   ..set("three", PyBool::from(true));
 ///
 ///   inspect!(dict["one"], content="PyInteger(1)")
 ///   inspect!(dict["two"], content="PyFloat(2.0)")
@@ -135,9 +139,10 @@ pub fn PyDict::op_get(self : PyDict, key : String) -> PyObjectEnum {
 /// ```moonbit
 /// test "PyDict::set" {
 ///   let dict = PyDict::new()
-///     ..set("one", PyInteger::from(1))
-///     ..set("two", PyFloat::from(2.0))
-///     ..set("three", PyBool::from(true));
+///   dict
+///   ..set("one", PyInteger::from(1))
+///   ..set("two", PyFloat::from(2.0))
+///   ..set("three", PyBool::from(true));
 ///  
 ///   inspect!(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
 /// }
@@ -169,9 +174,10 @@ pub fn[V : IsPyObject] PyDict::set(
 /// ```moonbit
 /// test "PyDict::setByObj" {
 ///   let dict = PyDict::new()
-///            ..setByObj!(PyInteger::from(1), PyInteger::from(1))
-///            ..setByObj!(PyInteger::from(2), PyInteger::from(4))
-///            ..setByObj!(PyInteger::from(3), PyInteger::from(9))
+///   dict
+///   ..setByObj!(PyInteger::from(1), PyInteger::from(1))
+///   ..setByObj!(PyInteger::from(2), PyInteger::from(4))
+///   ..setByObj!(PyInteger::from(3), PyInteger::from(9))
 ///
 ///   inspect!(dict, content="{1: 1, 2: 4, 3: 9}")
 /// }
@@ -258,9 +264,10 @@ pub fn PyDict::containsObj(self : PyDict, key : PyObject) -> Bool {
 /// ```moonbit
 /// test "PyDict::keys" {
 ///   let dict = PyDict::new()
-///        ..set("one", PyInteger::from(1))
-///        ..set("two", PyFloat::from(2.0))
-///        ..set("three", PyBool::from(true));
+///   dict
+///   ..set("one", PyInteger::from(1))
+///   ..set("two", PyFloat::from(2.0))
+///   ..set("three", PyBool::from(true));
 ///
 ///   inspect!(dict.keys(), content="[\'one\', \'two\', \'three\']")
 /// }
@@ -288,9 +295,10 @@ pub fn PyDict::keys(self : PyDict) -> PyList {
 /// ```moonbit
 /// test "PyDict::values" {
 ///  let dict = PyDict::new()
-///       ..set("one", PyInteger::from(1))
-///       ..set("two", PyFloat::from(2.0))
-///       ..set("three", PyBool::from(true));
+///  dict
+///  ..set("one", PyInteger::from(1))
+///  ..set("two", PyFloat::from(2.0))
+///  ..set("three", PyBool::from(true));
 ///
 ///   inspect!(dict.values(), content="[1, 2.0, True]")
 /// }
@@ -318,9 +326,10 @@ pub fn PyDict::values(self : PyDict) -> PyList {
 /// ```moonbit
 /// test "PyDict::items" {
 ///   let dict = PyDict::new()
-///     ..set("one", PyInteger::from(1))
-///     ..set("two", PyFloat::from(2.0))
-///     ..set("three", PyBool::from(true));
+///   dict
+///   ..set("one", PyInteger::from(1))
+///   ..set("two", PyFloat::from(2.0))
+///   ..set("three", PyBool::from(true));
 ///
 ///   inspect!(dict.items(), content="[('one', 1), ('two', 2.0), ('three', True)]")
 /// }
