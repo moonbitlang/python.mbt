@@ -26,7 +26,8 @@ test "Module Test" {
   // print(counter) # Output: Counter({3: 3, 2: 2, 1: 1})
   // ```
   let list = [1L, 2, 2, 3, 3, 3].map(PyInteger::from) |> PyList::from
-  let args = PyTuple::new(1)..set(0, list)
+  let args = PyTuple::new(1)
+  args..set(0, list)
   guard counter.invoke(args~) is Some(PyDict(cnt))
   inspect!(cnt, content="Counter({3: 3, 2: 2, 1: 1})")
 

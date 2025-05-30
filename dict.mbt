@@ -151,7 +151,7 @@ pub fn PyDict::op_get(self : PyDict, key : String) -> PyObjectEnum {
 /// d['two'] = 2.0
 /// d['three'] = True
 /// ```
-pub fn PyDict::set[V : IsPyObject](
+pub fn[V : IsPyObject] PyDict::set(
   self : PyDict,
   key : String,
   val : V
@@ -187,7 +187,7 @@ pub fn PyDict::set[V : IsPyObject](
 /// 
 /// print(d) # Output: {1: 1, 2: 4, 3: 9}
 /// ```
-pub fn PyDict::setByObj[K : IsPyObject, V : IsPyObject](
+pub fn[K : IsPyObject, V : IsPyObject] PyDict::setByObj(
   self : PyDict,
   key : K,
   val : V
@@ -226,7 +226,7 @@ pub fn PyDict::setByObj[K : IsPyObject, V : IsPyObject](
 /// d['two'] = 2.0
 /// d['three'] = True
 /// ```
-pub fn PyDict::op_set[V : IsPyObject](
+pub fn[V : IsPyObject] PyDict::op_set(
   self : PyDict,
   key : String,
   val : V

@@ -42,7 +42,8 @@ pub fn PyObjectEnum::create(obj : PyObject) -> PyObjectEnum {
   }
 }
 
-pub fn PyObjectEnum::dump(self: PyObjectEnum) -> Unit {
+///|
+pub fn PyObjectEnum::dump(self : PyObjectEnum) -> Unit {
   match self {
     PyInteger(obj) => obj.dump()
     PyFloat(obj) => obj.dump()

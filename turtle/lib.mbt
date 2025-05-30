@@ -7,7 +7,9 @@ typealias PyObject = @python.PyObject
 ///|
 typealias PyTuple = @python.PyTuple
 
-//typealias PyDict = @python.PyDict
+///|
+typealias PyDict = @python.PyDict
+
 ///|
 typealias PyString = @python.PyString
 
@@ -17,6 +19,7 @@ typealias PyInteger = @python.PyInteger
 ///|
 typealias PyFloat = @python.PyFloat
 
+///|
 typealias PyCallable = @python.PyCallable
 
 ///|
@@ -57,7 +60,8 @@ fn get_lib() -> () -> Turtle {
 pub fn bgcolor(color : Color) -> Unit {
   let lib = singleton()
   guard lib.turtle.get_attr("bgcolor") is Some(PyCallable(bgcolor))
-  let args = PyTuple::new(1)..set(0, PyString::from(color.to_string()))
+  let args = PyTuple::new(1)
+  args..set(0, PyString::from(color.to_string()))
   let _ = bgcolor.invoke(args~)
   ()
 }

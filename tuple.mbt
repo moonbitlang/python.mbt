@@ -145,7 +145,7 @@ pub fn PyTuple::op_get(self : PyTuple, idx : Int) -> PyObjectEnum {
 ///
 ///   inspect!(tuple, content="(10, 2.0, \'three\')")
 /// }
-pub fn PyTuple::set[T : IsPyObject](
+pub fn[T : IsPyObject] PyTuple::set(
   self : PyTuple,
   idx : Int,
   item : T
@@ -176,7 +176,7 @@ pub fn PyTuple::set[T : IsPyObject](
 ///   inspect!(tuple, content="(1, 2.0, \'three\')")
 /// }
 /// ```
-pub fn PyTuple::op_set[T : IsPyObject](
+pub fn[T : IsPyObject] PyTuple::op_set(
   self : PyTuple,
   idx : Int,
   item : T
