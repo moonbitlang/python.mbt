@@ -1,7 +1,4 @@
 {
   "is-main": false,
-  "import": [
-    "Kaida-Amethyst/python",
-    "Kaida-Amethyst/python/cpython"
-  ],
+  "import": ["Kaida-Amethyst/python", "Kaida-Amethyst/python/cpython"]
 }
