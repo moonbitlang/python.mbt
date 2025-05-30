@@ -62,6 +62,6 @@ pub fn bgcolor(color : Color) -> Unit {
   guard lib.turtle.get_attr("bgcolor") is Some(PyCallable(bgcolor))
   let args = PyTuple::new(1)
   args..set(0, PyString::from(color.to_string()))
-  let _ = bgcolor.invoke(args~)
+  let _ = bgcolor.invoke?(args~)
   ()
 }

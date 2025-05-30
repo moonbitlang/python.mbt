@@ -59,7 +59,7 @@ pub fn sleep(seconds : Double) -> Unit {
   guard lib.time.get_attr("sleep") is Some(PyCallable(f))
   let args = PyTuple::new(1)
   args..set(0, PyFloat::from(seconds))
-  let _ = f.invoke(args~)
+  let _ = f.invoke?(args~)
   ()
 }
 
@@ -72,7 +72,7 @@ pub fn time() -> Double {
     println("Error: Could not get time.time function") // Placeholder error value
     return 0.0
   }
-  guard f.invoke() is Some(PyFloat(t)) else {
+  guard f.invoke?().unwrap() is Some(PyFloat(t)) else {
     println("Error: time.time did not return a float") // Placeholder error value
     return 0.0
   }
@@ -87,7 +87,7 @@ pub fn time_ns() -> Int64 {
     println("Error: Could not get time.time_ns function") // Placeholder error value
     return 0L
   }
-  guard f.invoke() is Some(PyInteger(t)) else {
+  guard f.invoke?().unwrap() is Some(PyInteger(t)) else {
     println("Error: time.time_ns did not return an integer") // Placeholder error value
     return 0L
   }
@@ -102,7 +102,7 @@ pub fn monotonic() -> Double {
     println("Error: Could not get time.monotonic function")
     return 0.0
   }
-  guard f.invoke() is Some(PyFloat(t)) else {
+  guard f.invoke?().unwrap() is Some(PyFloat(t)) else {
     println("Error: time.monotonic did not return a float")
     return 0.0
   }
@@ -117,7 +117,7 @@ pub fn monotonic_ns() -> Int64 {
     println("Error: Could not get time.monotonic_ns function")
     return 0L
   }
-  guard f.invoke() is Some(PyInteger(t)) else {
+  guard f.invoke?().unwrap() is Some(PyInteger(t)) else {
     println("Error: time.monotonic_ns did not return an integer")
     return 0L
   }
@@ -132,7 +132,7 @@ pub fn perf_counter() -> Double {
     println("Error: Could not get time.perf_counter function")
     return 0.0
   }
-  guard f.invoke() is Some(PyFloat(t)) else {
+  guard f.invoke?().unwrap() is Some(PyFloat(t)) else {
     println("Error: time.perf_counter did not return a float")
     return 0.0
   }
@@ -147,7 +147,7 @@ pub fn perf_counter_ns() -> Int64 {
     println("Error: Could not get time.perf_counter_ns function")
     return 0L
   }
-  guard f.invoke() is Some(PyInteger(t)) else {
+  guard f.invoke?().unwrap() is Some(PyInteger(t)) else {
     println("Error: time.perf_counter_ns did not return an integer")
     return 0L
   }
@@ -162,7 +162,7 @@ pub fn process_time() -> Double {
     println("Error: Could not get time.process_time function")
     return 0.0
   }
-  guard f.invoke() is Some(PyFloat(t)) else {
+  guard f.invoke?().unwrap() is Some(PyFloat(t)) else {
     println("Error: time.process_time did not return a float")
     return 0.0
   }
@@ -177,7 +177,7 @@ pub fn process_time_ns() -> Int64 {
     println("Error: Could not get time.process_time_ns function")
     return 0L
   }
-  guard f.invoke() is Some(PyInteger(t)) else {
+  guard f.invoke?().unwrap() is Some(PyInteger(t)) else {
     println("Error: time.process_time_ns did not return an integer")
     return 0L
   }
@@ -197,9 +197,9 @@ pub fn ctime(secs_option : Double?) -> String {
     Some(secs) => {
       let args = PyTuple::new(1)
       args..set(0, PyFloat::from(secs))
-      f.invoke(args~)
+      f.invoke?(args~).unwrap()
     }
-    None => f.invoke() // Call without arguments
+    None => f.invoke?().unwrap() // Call without arguments
   }
   guard result is Some(PyString(s)) else {
     println("Error: time.ctime did not return a string") // Placeholder error value

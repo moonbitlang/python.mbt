@@ -268,3 +268,10 @@ pub fn py_callable_check(a : PyObjectRef) -> Bool {
 pub fn PyObjectRef::is_callable(self : PyObjectRef) -> Bool {
   __py_callable_check(self) != 0
 }
+
+extern "C" fn __py_none_check(obj : PyObjectRef) -> Int = "py_none_check";
+
+pub fn py_none_check(obj : PyObjectRef) -> Bool {
+  __py_none_check(obj) != 0
+}
+
