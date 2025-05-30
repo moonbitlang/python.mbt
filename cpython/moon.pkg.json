@@ -1,7 +1,7 @@
 {
   "is-main": false,
   "supported-targets": ["native"],
-  "native-stub": ["warp.c"],
+  "native-stub": ["wrap.c"],
   "link": {
     "native": {
       "stub-cc": "${build.CC}",
