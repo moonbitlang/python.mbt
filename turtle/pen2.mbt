@@ -170,10 +170,7 @@ pub fn Pen::pencolor(self : Pen, color : Color) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(
-    0,
-    PyString::from(color.to_string().to_lower()),
-  ) // Ensure lowercase
+  args..set(0, PyString::from(color.to_string().to_lower())) // Ensure lowercase
   let _ = func.invoke(args~)
 
 }
@@ -323,12 +320,13 @@ pub fn Pen::dot(self : Pen, size : Double, color : Color) -> Unit {
     return
   }
   let args = PyTuple::new(2)
-  args..set(0, PyFloat::from(size))
-    ..set(1, PyString::from(color.to_string().to_lower())) // Ensure lowercase
+  args
+  ..set(0, PyFloat::from(size))
+  ..set(1, PyString::from(color.to_string().to_lower())) // Ensure lowercase
   // The return value of dot is the turtle object itself, which we ignore and drop.
   // The original code had a 'guard func.invoke(args~) is Some(PyClass(r)) r.drop()', which is correct for ignoring the return value.
   let _ = func.invoke(args~)
-   // Simpler way to ignore return value
+  // Simpler way to ignore return value
 }
 
 ///| Deletes the pen's drawings from the screen, but does not move the pen.
@@ -353,10 +351,7 @@ pub fn Pen::fillcolor(self : Pen, color : Color) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(
-    0,
-    PyString::from(color.to_string().to_lower()),
-  )
+  args..set(0, PyString::from(color.to_string().to_lower()))
   let _ = func.invoke(args~)
 
 }
@@ -370,10 +365,7 @@ pub fn Pen::color(self : Pen, color : Color) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(
-    0,
-    PyString::from(color.to_string().to_lower()),
-  )
+  args..set(0, PyString::from(color.to_string().to_lower()))
   let _ = func.invoke(args~)
 
 }
@@ -451,7 +443,7 @@ pub fn Pen::circle(
     return
   }
   let args = PyTuple::new(1)
-    args..set(0, PyFloat::from(radius))
+  args..set(0, PyFloat::from(radius))
   let kwargs = PyDict::new()
   match extent {
     Some(e) => kwargs.set("extent", PyFloat::from(e))
@@ -537,10 +529,7 @@ pub fn Pen::shape(self : Pen, name : Shape) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(
-    0,
-    PyString::from(name.to_string().to_lower()),
-  ) // Assuming Shape enum with Show derived
+  args..set(0, PyString::from(name.to_string().to_lower())) // Assuming Shape enum with Show derived
   let _ = func.invoke(args~)
 
 }

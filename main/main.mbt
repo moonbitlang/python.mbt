@@ -111,7 +111,7 @@ fn main {
 
   // 函数式循环，更清晰
   loop theta1, theta2, omega1, omega2, 0.0 {
-    theta1, theta2, omega1, omega2, total_time if total_time < 10.0 => {
+    theta1, theta2, omega1, omega2, total_time if total_time < 3.0 => {
       let (positions, updates) = animate(phys, theta1, theta2, omega1, omega2)
       let Position((x1, y1, x2, y2)) = positions
       let Update((theta1, theta2, omega1, omega2)) = updates

@@ -15,8 +15,7 @@ pub fn Screen::new() -> Screen {
 pub fn Screen::setup(self : Screen, width : Double, height : Double) -> Unit {
   guard self.screen.get_attr("setup") is Some(PyCallable(setup))
   let args = PyTuple::new(2)
-  args..set(0, PyFloat::from(width))
-    ..set(1, PyFloat::from(height))
+  args..set(0, PyFloat::from(width))..set(1, PyFloat::from(height))
   let _ = setup.invoke(args~)
 
 }
