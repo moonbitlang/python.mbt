@@ -8,5 +8,6 @@
   "description": "Manipulate Python code in Moonbit",
   "scripts": {
     "postadd": "curl -O https://raw.githubusercontent.com/Kaida-Amethyst/python.mbt/blob/master/env.sh"
-  }
+  },
+  "--moonbit-unstable-prebuild": "build.js"
 }

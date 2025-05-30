@@ -1,12 +1,4 @@
 {
   "is-main": false,
-  "import": [
-    "Kaida-Amethyst/python/cpython"
-  ],
-  "link" : {
-    "native" : {
-      "cc" : "$CC",
-      "cc-link-flags" : "$CC_LINK_FLAGS"
-    }
-  }
+  "import": ["Kaida-Amethyst/python/cpython"]
 }
