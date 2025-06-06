@@ -1,5 +1,14 @@
 ///|
-typealias @python.(PyModule, PyObject, PyTuple, PyDict, PyString, PyInteger, PyFloat, PyCallable)
+typealias @python.(
+  PyModule,
+  PyObject,
+  PyTuple,
+  PyDict,
+  PyString,
+  PyInteger,
+  PyFloat,
+  PyCallable
+)
 
 ///|
 pub type! TurtleError {

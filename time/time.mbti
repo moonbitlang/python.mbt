@@ -1,0 +1,37 @@
+package "Kaida-Amethyst/python/time"
+
+// Values
+fn ctime(Double?) -> String
+
+fn monotonic() -> Double
+
+fn monotonic_ns() -> Int64
+
+fn perf_counter() -> Double
+
+fn perf_counter_ns() -> Int64
+
+fn process_time() -> Double
+
+fn process_time_ns() -> Int64
+
+fn sleep(Double) -> Unit
+
+fn time() -> Double
+
+fn time_ns() -> Int64
+
+// Types and methods
+pub struct TimeModule {
+  // private fields
+}
+
+pub type! TurtleError {
+  LoadTimeModuleError
+}
+impl Show for TurtleError
+
+// Type aliases
+
+// Traits
+

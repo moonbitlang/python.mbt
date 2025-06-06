@@ -1,5 +1,7 @@
+///|
 typealias @python.(PyInteger, PyList, PyTuple)
 
+///|
 fn main {
   // It's equivalent to `nums = [1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4]`
   let nums = [1L, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4]
@@ -11,9 +13,8 @@ fn main {
 
   // It's equivalent to `from collections import Counter`
   guard collections.get_attr("Counter") is Some(PyCallable(counter))
-
   let args = PyTuple::new(1)
-  args.. set(0, py_nums)
+  args..set(0, py_nums)
 
   // It's equivalent to `cnt = Counter(nums)`
   guard counter.invoke?(args~) is Ok(Some(cnt))

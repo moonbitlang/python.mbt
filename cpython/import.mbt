@@ -54,7 +54,7 @@ extern "C" fn __py_import_import_module(name : Bytes) -> PyObjectRef = "PyImport
 //extern "C" fn __py_import_import_module(name: Bytes) -> PyObjectRef = "py_import_import_module"
 ///|
 pub fn py_import_import_module(name : String) -> PyObjectRef {
-  let cstr = ToCStr::to_cstr(name);
+  let cstr = ToCStr::to_cstr(name)
   __py_import_import_module(cstr)
 }
 

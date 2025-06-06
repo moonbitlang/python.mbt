@@ -333,6 +333,8 @@ fn py_module_new(CStr) -> PyObjectRef
 
 fn py_module_new_object(PyObjectRef) -> PyObjectRef
 
+fn py_none_check(PyObjectRef) -> Bool
+
 fn py_object_as_file_descriptor(PyObjectRef) -> Int
 
 fn py_object_ascii(PyObjectRef) -> PyObjectRef
@@ -605,20 +607,18 @@ type CWStr
 type PyCodeObjectRef
 
 type PyObjectRef
-impl PyObjectRef {
-  dump(Self) -> Unit
-  is_bool(Self) -> Bool
-  is_callable(Self) -> Bool
-  is_dict(Self) -> Bool
-  is_float(Self) -> Bool
-  is_function(Self) -> Bool
-  is_int(Self) -> Bool
-  is_list(Self) -> Bool
-  is_module(Self) -> Bool
-  is_null(Self) -> Bool
-  is_set(Self) -> Bool
-  is_string(Self) -> Bool
-}
+fn PyObjectRef::dump(Self) -> Unit
+fn PyObjectRef::is_bool(Self) -> Bool
+fn PyObjectRef::is_callable(Self) -> Bool
+fn PyObjectRef::is_dict(Self) -> Bool
+fn PyObjectRef::is_float(Self) -> Bool
+fn PyObjectRef::is_function(Self) -> Bool
+fn PyObjectRef::is_int(Self) -> Bool
+fn PyObjectRef::is_list(Self) -> Bool
+fn PyObjectRef::is_module(Self) -> Bool
+fn PyObjectRef::is_null(Self) -> Bool
+fn PyObjectRef::is_set(Self) -> Bool
+fn PyObjectRef::is_string(Self) -> Bool
 
 type PyThreadStateRef
 

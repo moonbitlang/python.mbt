@@ -6,10 +6,8 @@ package "Kaida-Amethyst/python/tkinter"
 pub struct Label {
   // private fields
 }
-impl Label {
-  new(Window, String) -> Self
-  pack(Self) -> Unit
-}
+fn Label::new(Window, String) -> Self
+fn Label::pack(Self) -> Unit
 
 pub struct Tkinter {
   // private fields
@@ -23,11 +21,9 @@ impl Show for TkinterError
 pub struct Window {
   // private fields
 }
-impl Window {
-  mainloop(Self) -> Unit
-  new() -> Self
-  set_title(Self, String) -> Unit
-}
+fn Window::mainloop(Self) -> Unit
+fn Window::new() -> Self
+fn Window::set_title(Self, String) -> Unit
 
 // Type aliases
 
