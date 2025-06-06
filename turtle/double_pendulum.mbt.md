@@ -1,5 +1,5 @@
 
-```mbt
+```moonbit-no-run
 ///
 typealias @turtle.(Screen, Pen)
 
