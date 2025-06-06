@@ -1,0 +1,159 @@
+name: check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  merge_group:
+
+jobs:
+  python-check:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+      fail-fast: false
+    runs-on: ${{ matrix.os }}
+    continue-on-error: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Verify Python installation
+        run: |
+          python3 --version
+          python3 -c "import sys; print(f'Python {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}')"
+
+      # TODO: remove bleeding
+      - name: Install Moonbit
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s bleeding
+          echo "$HOME/.moon/bin" >> $GITHUB_PATH
+
+      - name: Moon version
+        run: |
+          moon version --all
+          moonrun --version
+
+      - name: Moon check
+        run: moon check --deny-warn
+
+      - name: Moon info
+        run: |
+          moon info --target native
+          git diff --exit-code
+
+      - name: Format diff
+        run: |
+          moon fmt
+          git diff --exit-code
+
+      - name: Set ulimit and run moon test
+        run: |
+          ulimit -s 8176
+          moon test --target native
+          moon test --target native --release
+
+      - name: Moon test --target native --doc
+        run: |
+          moon test --target native --doc
+
+  typo-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      FORCE_COLOR: 1
+      TYPOS_VERSION: v1.19.0
+    steps:
+      - name: Download typos
+        run: curl -LsSf https://github.com/crate-ci/typos/releases/download/$TYPOS_VERSION/typos-$TYPOS_VERSION-x86_64-unknown-linux-musl.tar.gz | tar zxf - -C ${CARGO_HOME:-~/.cargo}/bin
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Check typos
+        run: typos
+
+  license-header-check:
+    runs-on: ubuntu-latest
+    env:
+      HAWKEYE_VERSION: v5.8.1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download HawkEye
+        run: curl --proto '=https' --tlsv1.2 -LsSf https://github.com/korandoru/hawkeye/releases/download/$HAWKEYE_VERSION/hawkeye-installer.sh | sh
+      - name: Check License Header
+        run: |
+          hawkeye check
+
+  moon-json-format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check `moon.*.json` format
+        shell: bash
+        run: |
+          _passed=0;
+          for f in $(find . -type f -name "moon.*.json"); do
+            if ! jq '.' $f > /dev/null; then
+              echo $f;
+              _passed=1;
+            fi
+          done
+          (exit $_passed)
+
+  bleeding-check:
+    continue-on-error: true
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Install Moonbit (bleeding)
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s bleeding
+          echo "$HOME/.moon/bin" >> $GITHUB_PATH
+
+      - name: Moon version
+        run: |
+          moon version --all
+          moonrun --version
+
+      - name: Set ulimit and run moon test
+        run: |
+          ulimit -s 8176
+          moon test --target native
+          moon test --target native --release
+
+      - name: Moon test --target native --doc
+        run: |
+          moon test --target native --doc
+
+      - name: Moon check --target native
+        run: moon check --target native
+
+      - name: Moon info
+        run: |
+          moon info --target native
+          git diff
+
+      - name: Format diff
+        run: |
+          moon fmt
+          git diff 
