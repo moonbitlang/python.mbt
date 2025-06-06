@@ -1,24 +1,21 @@
 
 ```mbt
-///|
-typealias Screen = @turtle.Screen
+///
+typealias @turtle.(Screen, Pen)
 
-///|
-typealias Pen = @turtle.Pen
-
-///|
+///
 fnalias @math.(sin, cos)
 
-///|
+///
 const PI : Double = @math.PI
 
-///|
+///
 const G : Double = 600
 
-///|
+///
 const Dt : Double = 1.0 / 60.0
 
-///|
+///
 struct PhysicState {
   m1 : Double
   m2 : Double
@@ -29,13 +26,13 @@ struct PhysicState {
 }
 
 // 快速定义类型
-///|
+///
 type Position (Double, Double, Double, Double)
 
-///|
+///
 type Update (Double, Double, Double, Double)
 
-///|
+///
 fn animate(
   phys : PhysicState,
   theta1 : Double,
@@ -87,7 +84,7 @@ fn animate(
   (position, update)
 }
 
-///|
+///
 fn run() -> Unit {
   let screen = Screen::new()
   screen
