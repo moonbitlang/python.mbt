@@ -1,23 +1,5 @@
 ///|
-typealias PyModule = @python.PyModule
-
-///|
-//typealias PyObject = @python.PyObject
-
-///|
-typealias PyTuple = @python.PyTuple
-
-///|
-typealias PyFloat = @python.PyFloat
-
-///|
-//typealias PyInteger = @python.PyInteger
-
-///|
-//typealias PyString = @python.PyString
-
-///|
-//typealias PyCallable = @python.PyCallable
+typealias @python.(PyModule, PyTuple, PyFloat)
 
 ///|
 pub struct TimeModule {

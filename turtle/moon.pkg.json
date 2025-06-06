@@ -1,6 +1,5 @@
 {
   "import": [
-    "Kaida-Amethyst/python",
-    "Kaida-Amethyst/python/time"
+    "Kaida-Amethyst/python"
   ]
 }

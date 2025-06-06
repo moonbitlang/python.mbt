@@ -1,23 +1,5 @@
 ///|
-typealias PyInteger = @python.PyInteger
-
-///|
-typealias PyFloat = @python.PyFloat
-
-///|
-typealias PyString = @python.PyString
-
-///|
-typealias PyList = @python.PyList
-
-///|
-typealias PyTuple = @python.PyTuple
-
-///|
-typealias PyBool = @python.PyBool
-
-///|
-typealias PyDict = @python.PyDict
+typealias @python.(PyInteger, PyFloat, PyString, PyList, PyTuple, PyBool, PyDict)
 
 ///|
 test "PyInteger Test" {

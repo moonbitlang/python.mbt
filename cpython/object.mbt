@@ -32,7 +32,7 @@ extern "C" fn __py_object_get_attr_string(
 
 ///|
 pub fn py_object_get_attr_string(a : PyObjectRef, b : String) -> PyObjectRef {
-  let b = b.to_cstr()
+  let b = ToCStr::to_cstr(b)
   __py_object_get_attr_string(a, b)
 }
 
@@ -49,7 +49,7 @@ pub fn py_object_set_attr_string(
   b : String,
   c : PyObjectRef
 ) -> Int {
-  let b = b.to_cstr()
+  let b = ToCStr::to_cstr(b)
   __py_object_set_attr_string(a, b, c)
 }
 
@@ -58,7 +58,7 @@ extern "C" fn __py_object_has_attr_string(a : PyObjectRef, b : Bytes) -> Int = "
 
 ///|
 pub fn py_object_has_attr_string(a : PyObjectRef, b : String) -> Int {
-  let b = b.to_cstr()
+  let b = ToCStr::to_cstr(b)
   __py_object_has_attr_string(a, b)
 }
 

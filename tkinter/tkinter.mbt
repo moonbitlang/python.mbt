@@ -13,19 +13,7 @@
 //}
 
 ///|
-typealias PyModule = @python.PyModule
-
-///|
-typealias PyObject = @python.PyObject
-
-///|
-typealias PyTuple = @python.PyTuple
-
-///|
-typealias PyDict = @python.PyDict
-
-///|
-typealias PyString = @python.PyString
+typealias @python.(PyModule, PyObject, PyTuple, PyDict, PyString)
 
 ///|
 pub type! TkinterError {

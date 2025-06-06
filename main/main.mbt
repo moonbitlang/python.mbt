@@ -1,8 +1,5 @@
 ///|
-typealias Screen = @turtle.Screen
-
-///|
-typealias Pen = @turtle.Pen
+typealias @turtle.(Screen, Pen)
 
 ///|
 fnalias @math.(sin, cos)
