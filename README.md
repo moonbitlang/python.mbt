@@ -41,9 +41,6 @@ brew install python@3.13
 ```bash
 # Verify Python version
 python3 --version
-
-# Locate development headers
-python3-config --prefix
 ```
 
 ## 🔧 Project Configuration
@@ -67,38 +64,8 @@ Add to your project's `moon.pkg.json`:
 {
   "import": [
     "Kaida-Amethyst/python"
-  ],
-  "link": {
-    "native": {
-      "cc": "$CC",
-      "cc-flags": "$CC_FLAGS",
-      "cc-link-flags": "$CC_LINK_FLAGS"
-    }
-  }
+  ]
 }
-```
-
-### Environment Variables
-
-**Linux/macOS** (`env.sh`):
-
-```bash
-#!/bin/bash
-export PY_VERSION=$(python3 -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
-export CC=clang  # Recommended for better performance
-export CC_FLAGS="-I$(python3-config --prefix)/include/python$PY_VERSION -O2 -DNDEBUG"
-export CC_LINK_FLAGS="$(python3-config --ldflags) -lpython$PY_VERSION"
-export C_INCLUDE_PATH="$(python3-config --prefix)/include/python$PY_VERSION:$C_INCLUDE_PATH"
-```
-
-**Windows PowerShell** (`env.ps1`):
-
-```powershell
-$PY_PATH = (python -c "import sys; print(sys.prefix)") | Out-String
-$env:PY_VERSION = python -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"
-$env:CC = "clang"
-$env:CC_FLAGS = "-I$($PY_PATH.Trim())\include -O2 -DNDEBUG"
-$env:CC_LINK_FLAGS = "-L$($PY_PATH.Trim())\libs -lpython$env:PY_VERSION"
 ```
 
 ## 🚀 Quick Start
@@ -106,9 +73,7 @@ $env:CC_LINK_FLAGS = "-L$($PY_PATH.Trim())\libs -lpython$env:PY_VERSION"
 ### Example: Using collections.Counter
 
 ```moonbit
-typealias PyInteger = @python.PyInteger
-typealias PyList = @python.PyList
-typealias PyTuple = @python.PyTuple
+typealias @python.(PyInteger, PyList, PyTuple)
 
 fn main {
   // It's equivalent to `nums = [1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4]`
@@ -126,12 +91,18 @@ fn main {
   args.. set(0, py_nums)
 
   // It's equivalent to `cnt = Counter(nums)`
-  let cnt = counter.invoke(args~).unwrap()
-  guard cnt is @python.PyDict(cnt)
+  guard counter.invoke?(args~) is Ok(Some(cnt))
+  guard cnt is PyDict(cnt)
 
   // `print(cnt)`
-  println(cnt) // Output: Counter({4: 4, 3: 3, 2: 2, 1: 2})
+  println(cnt) // Output: Counter({4: 4, 3: 3, 1: 2, 2: 2})
 }
+```
+
+### Running the Example
+
+```bash
+moon run main --target native
 ```
 
 Equivalent Python implementation:
@@ -140,7 +111,7 @@ Equivalent Python implementation:
 from collections import Counter
 
 l = [1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4]
-print(Counter(l))  # Counter({4: 4, 3: 3, 2: 2, 1: 2})
+print(Counter(l))  # Counter({4: 4, 3: 3, 1: 2, 2: 2})
 ```
 
 ## 🤝 Contributing
@@ -198,11 +169,7 @@ brew install python@3.13
 ```bash
 # 验证Python版本
 python3 --version
-
-# 获取Python开发头文件路径
-python3-config --prefix
 ```
-
 
 ## 🔧 项目配置
 
@@ -225,38 +192,8 @@ moon add Kaida-Amethyst/python
 {
   "import": [
     "Kaida-Amethyst/python"
-  ],
-  "link": {
-    "native": {
-      "cc": "$CC",
-      "cc-flags": "$CC_FLAGS",
-      "cc-link-flags": "$CC_LINK_FLAGS"
-    }
-  }
+  ]
 }
-```
-
-### 环境变量配置
-
-**Linux/macOS** (`env.sh`)：
-
-```bash
-#!/bin/bash
-export PY_VERSION=$(python3 -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
-export CC=clang  # 推荐使用clang以获得更好性能
-export CC_FLAGS="-I$(python3-config --prefix)/include/python$PY_VERSION -O2 -DNDEBUG"
-export CC_LINK_FLAGS="$(python3-config --ldflags) -lpython$PY_VERSION"
-export C_INCLUDE_PATH="$(python3-config --prefix)/include/python$PY_VERSION:$C_INCLUDE_PATH"
-```
-
-**Windows PowerShell** (`env.ps1`)：
-
-```powershell
-$PY_PATH = (python -c "import sys; print(sys.prefix)") | Out-String
-$env:PY_VERSION = python -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"
-$env:CC = "clang"
-$env:CC_FLAGS = "-I$($PY_PATH.Trim())\include -O2 -DNDEBUG"
-$env:CC_LINK_FLAGS = "-L$($PY_PATH.Trim())\libs -lpython$env:PY_VERSION"
 ```
 
 ## 🚀 快速入门
@@ -264,9 +201,7 @@ $env:CC_LINK_FLAGS = "-L$($PY_PATH.Trim())\libs -lpython$env:PY_VERSION"
 一个使用python 中Counter的例子
 
 ```moonbit
-typealias PyInteger = @python.PyInteger
-typealias PyList = @python.PyList
-typealias PyTuple = @python.PyTuple
+typealias @python.(PyInteger, PyList, PyTuple)
 
 fn main {
   // It's equivalent to `nums = [1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4]`
@@ -284,12 +219,18 @@ fn main {
   args.. set(0, py_nums)
 
   // It's equivalent to `cnt = Counter(nums)`
-  let cnt = counter.invoke(args~).unwrap()
-  guard cnt is @python.PyDict(cnt)
+  guard counter.invoke?(args~) is Ok(Some(cnt))
+  guard cnt is PyDict(cnt)
 
   // `print(cnt)`
-  println(cnt) // Output: Counter({4: 4, 3: 3, 2: 2, 1: 2})
+  println(cnt) // Output: Counter({4: 4, 3: 3, 1: 2, 2: 2})
 }
+```
+
+### 运行示例
+
+```bash
+moon run main --target native
 ```
 
 等效Python代码：
@@ -297,13 +238,9 @@ fn main {
 ```python
 from collections import Counter
 
-l = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4]
-print(l) # [1, 2, 2, 3, 3, 3, 4, 4, 4, 4]
-
-cnt = Counter(l)
-print(cnt) # Out: Counter({1: 2, 2: 2, 3: 3, 4: 4})
+l = [1, 1, 2, 2, 3, 3, 3, 4, 4, 4, 4]
+print(Counter(l))  # Counter({4: 4, 3: 3, 1: 2, 2: 2})
 ```
-
 
 ## 🤝 参与贡献
 
