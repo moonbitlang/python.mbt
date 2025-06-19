@@ -1,4 +1,5 @@
 // Import
+
 ///|
 pub extern "C" fn py_import_get_magic_number() -> Int = "PyImport_GetMagicNumber"
 
@@ -52,6 +53,7 @@ pub extern "C" fn py_import_add_module(name : CStr) -> PyObjectRef = "PyImport_A
 extern "C" fn __py_import_import_module(name : Bytes) -> PyObjectRef = "PyImport_ImportModule"
 
 //extern "C" fn __py_import_import_module(name: Bytes) -> PyObjectRef = "py_import_import_module"
+
 ///|
 pub fn py_import_import_module(name : String) -> PyObjectRef {
   let cstr = ToCStr::to_cstr(name)

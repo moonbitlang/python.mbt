@@ -1,6 +1,7 @@
 // ========================================
 // Dict
 // ========================================
+
 ///|
 pub struct PyDict {
   priv obj : PyObject
@@ -8,7 +9,7 @@ pub struct PyDict {
 
 ///| Create a python dict object.
 /// If the python object is not a dict, it will raise a TypeMisMatchError.
-pub fn PyDict::create(obj : PyObject) -> PyDict!PyRuntimeError {
+pub fn PyDict::create(obj : PyObject) -> PyDict raise PyRuntimeError {
   guard obj.is_dict() else { raise TypeMisMatchError }
   PyDict::{ obj, }
 }
@@ -22,7 +23,7 @@ fn PyDict::create_unchecked(obj : PyObject) -> PyDict {
 /// If the python object is not a dict, it will raise a TypeMisMatchError.
 pub fn PyDict::create_by_ref(
   obj : @cpython.PyObjectRef
-) -> PyDict!PyRuntimeError {
+) -> PyDict raise PyRuntimeError {
   guard @cpython.py_dict_check(obj) else { raise TypeMisMatchError }
   PyDict::{ obj: PyObject::create(obj) }
 }
@@ -197,7 +198,7 @@ pub fn[K : IsPyObject, V : IsPyObject] PyDict::setByObj(
   self : PyDict,
   key : K,
   val : V
-) -> Unit!PyRuntimeError {
+) -> Unit raise PyRuntimeError {
   let dict = self.obj_ref()
   @cpython.py_err_clear()
   let _ = @cpython.py_dict_set_item(dict, key.obj_ref(), val.obj_ref())

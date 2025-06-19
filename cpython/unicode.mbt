@@ -1,4 +1,5 @@
 // Unicode
+
 ///|
 pub extern "C" fn py_unicode_from_unicode(
   u : CWStr,
@@ -21,6 +22,7 @@ pub fn py_unicode_from_string(s : String) -> PyObjectRef {
 }
 
 // PyAPI_FUNC(const char *) PyUnicode_AsUTF8(PyObject *unicode);
+
 ///|
 extern "C" fn __py_unicode_as_utf8(u : PyObjectRef) -> CStr = "PyUnicode_AsUTF8"
 

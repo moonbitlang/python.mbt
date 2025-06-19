@@ -7,12 +7,12 @@ pub struct TimeModule {
 }
 
 ///|
-pub type! TurtleError {
+pub suberror TurtleError {
   LoadTimeModuleError
 } derive(Show)
 
 ///|
-fn new() -> TimeModule!Error {
+fn new() -> TimeModule raise Error {
   guard @python.pyimport("time") is Some(time) else {
     raise LoadTimeModuleError
   }

@@ -1,6 +1,7 @@
 // ========================================
 // PyInteger
 // ========================================
+
 ///|
 pub struct PyInteger {
   priv obj : PyObject
@@ -8,7 +9,7 @@ pub struct PyInteger {
 
 ///| Create a python integer object from a python object.
 /// If 
-pub fn PyInteger::create(obj : PyObject) -> PyInteger!PyRuntimeError {
+pub fn PyInteger::create(obj : PyObject) -> PyInteger raise PyRuntimeError {
   guard obj.is_int() else { raise TypeMisMatchError }
   PyInteger::{ obj, }
 }
@@ -21,7 +22,7 @@ pub fn PyInteger::create_unchecked(obj : PyObject) -> PyInteger {
 ///|
 pub fn PyInteger::create_by_ref(
   obj : @cpython.PyObjectRef
-) -> PyInteger!PyRuntimeError {
+) -> PyInteger raise PyRuntimeError {
   guard @cpython.py_int_check(obj) else { raise TypeMisMatchError }
   PyInteger::{ obj: PyObject::create(obj) }
 }

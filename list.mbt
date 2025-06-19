@@ -1,6 +1,7 @@
 // ========================================
 // py_list
 // ========================================
+
 ///|
 pub struct PyList {
   priv obj : PyObject
@@ -23,7 +24,7 @@ pub fn PyList::new() -> PyList {
 
 ///| Create a python list object from a pyobject.
 /// If the pyobject is not a list, it will raise a TypeMisMatchError.
-pub fn PyList::create(obj : PyObject) -> PyList!PyRuntimeError {
+pub fn PyList::create(obj : PyObject) -> PyList raise PyRuntimeError {
   guard obj.is_list() else { raise TypeMisMatchError }
   PyList::{ obj, }
 }
@@ -37,7 +38,7 @@ fn PyList::create_unchecked(obj : PyObject) -> PyList {
 /// If the pyobject is not a list, it will raise a TypeMisMatchError.
 pub fn PyList::create_by_ref(
   obj : @cpython.PyObjectRef
-) -> PyList!PyRuntimeError {
+) -> PyList raise PyRuntimeError {
   guard @cpython.py_list_check(obj) else { raise TypeMisMatchError }
   PyList::{ obj: PyObject::create(obj) }
 }
@@ -106,6 +107,7 @@ pub fn[T : IsPyObject] PyList::append(self : PyList, item : T) -> Unit {
 }
 
 // Review: The following code is available, but I don't think it is necessary.
+
 ///| Sort the elements inside the list, using python's built-in sort.
 //pub fn PyList::sort(self: PyList) -> Unit {
 //  let _ = @cpython.py_list_sort(self.obj_ref())
@@ -215,7 +217,7 @@ pub fn[T : IsPyObject] PyList::set(
   self : PyList,
   idx : Int,
   item : T
-) -> Unit!PyRuntimeError {
+) -> Unit raise PyRuntimeError {
   guard idx >= 0 && idx < self.len() else { raise IndexOutOfBoundsError }
   let _ = @cpython.py_list_set_item(
     self.obj_ref(),

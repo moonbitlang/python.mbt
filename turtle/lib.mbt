@@ -11,7 +11,7 @@ typealias @python.(
 )
 
 ///|
-pub type! TurtleError {
+pub suberror TurtleError {
   LoadTurtleError
 } derive(Show)
 
@@ -21,7 +21,7 @@ pub struct Turtle {
 }
 
 ///|
-fn new() -> Turtle!Error {
+fn new() -> Turtle raise Error {
   guard @python.pyimport("turtle") is Some(turtle) else {
     raise LoadTurtleError
   }
