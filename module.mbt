@@ -35,6 +35,10 @@ fn PyModule::create_by_ref_unchecked(
   PyModule::{ obj: PyObject::create(obj_ref), name: None, attrs: Map::new() }
 }
 
+///|
+test {
+  ignore(PyModule::create_by_ref_unchecked)
+}
 // REVIEW: what if user call pyimport twice or more?
 
 ///| Import a python module

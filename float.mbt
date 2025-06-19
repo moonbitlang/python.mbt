@@ -29,6 +29,11 @@ fn PyFloat::create_by_ref_unchecked(obj : @cpython.PyObjectRef) -> PyFloat {
   PyFloat::{ obj: PyObject::create(obj) }
 }
 
+///|
+test {
+  ignore(PyFloat::create_by_ref_unchecked)
+}
+
 ///| Create a PyFloat from a Double value.
 ///
 /// ## Example

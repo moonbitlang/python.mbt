@@ -32,6 +32,11 @@ fn PyInteger::create_by_ref_unchecked(obj : @cpython.PyObjectRef) -> PyInteger {
   PyInteger::{ obj: PyObject::create(obj) }
 }
 
+///|
+test {
+  ignore(PyInteger::create_by_ref_unchecked)
+}
+
 ///| Create a PyInteger from an integer.
 ///
 /// ## Example

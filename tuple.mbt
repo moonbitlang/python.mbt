@@ -54,6 +54,11 @@ fn PyTuple::create_by_ref_unchecked(obj_ref : @cpython.PyObjectRef) -> PyTuple {
   PyTuple::{ obj: PyObject::create(obj_ref) }
 }
 
+///|
+test {
+  ignore(PyTuple::create_by_ref_unchecked)
+}
+
 ///| Return the size of the tuple.
 ///
 /// ## Example:

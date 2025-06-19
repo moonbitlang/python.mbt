@@ -35,6 +35,11 @@ fn PyString::create_by_ref_unchecked(
   PyString::{ obj: PyObject::create(obj_ref) }
 }
 
+///|
+test {
+  ignore(PyString::create_by_ref_unchecked)
+}
+
 ///| Create a PyString from a string
 ///
 /// ## Example
