@@ -1,4 +1,5 @@
 // code cs
+
 ///|
 pub extern "C" fn py_codec_register(search_function : PyObjectRef) -> Int = "PyCodec_Register"
 

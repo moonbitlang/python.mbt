@@ -1,4 +1,5 @@
 // Abstract
+
 ///| Call a callable Python object 'callable' with arguments given by the
 /// tuple 'args' and keywords arguments given by the dictionary 'kwargs'.
 ///
@@ -488,6 +489,7 @@ pub extern "C" fn pysequence_list(obj : PyObjectRef) -> PyObjectRef = "PySequenc
 pub extern "C" fn pysequence_fast(obj : PyObjectRef, msg : CStr) -> PyObjectRef = "PySequence_Fast"
 
 // PyAPI_FUNC(Py_ssize_t) PySequence_Count(py_object *o, PyObject *value);
+
 ///|
 pub extern "C" fn pysequence_count(
   obj : PyObjectRef,
@@ -504,6 +506,7 @@ pub extern "C" fn pysequence_contains(
 ) -> Int = "PySequence_Contains"
 
 // PyAPI_FUNC(Py_ssize_t) PySequence_Index(py_object *o, PyObject *value);
+
 ///|
 pub extern "C" fn pysequence_index(
   obj : PyObjectRef,

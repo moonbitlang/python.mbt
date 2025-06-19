@@ -1,5 +1,5 @@
 ///|
-pub type! PyRuntimeError {
+pub suberror PyRuntimeError {
   TypeMisMatchError
   IndexOutOfBoundsError
   KeyIsUnHashableError

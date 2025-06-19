@@ -9,5 +9,6 @@
   "scripts": {
     "postadd": "curl -O https://raw.githubusercontent.com/Kaida-Amethyst/python.mbt/blob/master/env.sh"
   },
-  "--moonbit-unstable-prebuild": "build.js"
+  "--moonbit-unstable-prebuild": "build.js",
+  "preferred-target" : "native"
 }

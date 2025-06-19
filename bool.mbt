@@ -1,6 +1,7 @@
 // ========================================
 // PyBool
 // ========================================
+
 ///|
 pub struct PyBool {
   priv obj : PyObject
@@ -8,7 +9,7 @@ pub struct PyBool {
 
 ///| Create a python boolean object from a python object.
 /// If the object is not a boolean, it will raise a TypeMisMatchError.
-pub fn PyBool::create(obj : PyObject) -> PyBool!PyRuntimeError {
+pub fn PyBool::create(obj : PyObject) -> PyBool raise PyRuntimeError {
   guard obj.is_bool() else { raise TypeMisMatchError }
   PyBool::{ obj, }
 }
@@ -22,7 +23,7 @@ fn PyBool::create_unchecked(obj : PyObject) -> PyBool {
 /// If the object is not a boolean, it will raise a TypeMisMatchError.
 pub fn PyBool::create_by_ref(
   obj_ref : @cpython.PyObjectRef
-) -> PyBool!PyRuntimeError {
+) -> PyBool raise PyRuntimeError {
   guard @cpython.py_bool_check(obj_ref) else { raise TypeMisMatchError }
   PyBool::{ obj: PyObject::create(obj_ref) }
 }

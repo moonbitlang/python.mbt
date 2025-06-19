@@ -1,4 +1,5 @@
 // Iter
+
 ///|
 pub extern "C" fn py_seq_iter_new(a : PyObjectRef) -> PyObjectRef = "PySeqIter_New"
 

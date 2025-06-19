@@ -96,6 +96,7 @@ pub extern "C" fn py_object_generic_set_attr(
 
 // pub extern "C" fn py_object_hash(a: PyObjectRef) -> Py_hash_t = "PyObject_Hash"
 // pub extern "C" fn py_object_hash_not_implemented(a: PyObjectRef) -> Py_hash_t = "PyObject_HashNotImplemented"
+
 ///|
 extern "C" fn __py_object_is_true(a : PyObjectRef) -> Int = "PyObject_IsTrue"
 

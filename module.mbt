@@ -1,6 +1,7 @@
 // ========================================
 // Import
 // ========================================
+
 ///|
 pub struct PyModule {
   priv obj : PyObject
@@ -9,7 +10,7 @@ pub struct PyModule {
 }
 
 ///|
-pub fn PyModule::create(obj : PyObject) -> PyModule!PyRuntimeError {
+pub fn PyModule::create(obj : PyObject) -> PyModule raise PyRuntimeError {
   guard obj.is_module() else { raise TypeMisMatchError }
   PyModule::{ obj, name: None, attrs: Map::new() }
 }
@@ -22,7 +23,7 @@ fn PyModule::create_unchecked(obj : PyObject) -> PyModule {
 ///|
 pub fn PyModule::create_by_ref(
   obj_ref : @cpython.PyObjectRef
-) -> PyModule!PyRuntimeError {
+) -> PyModule raise PyRuntimeError {
   guard @cpython.py_module_check(obj_ref) else { raise TypeMisMatchError }
   PyModule::{ obj: PyObject::create(obj_ref), name: None, attrs: Map::new() }
 }
@@ -35,6 +36,7 @@ fn PyModule::create_by_ref_unchecked(
 }
 
 // REVIEW: what if user call pyimport twice or more?
+
 ///| Import a python module
 ///
 /// ## Example

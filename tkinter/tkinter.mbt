@@ -16,7 +16,7 @@
 typealias @python.(PyModule, PyObject, PyTuple, PyDict, PyString)
 
 ///|
-pub type! TkinterError {
+pub suberror TkinterError {
   LoadTkinterError
 } derive(Show)
 
@@ -36,7 +36,7 @@ pub struct Label {
 }
 
 ///|
-fn new() -> Tkinter!Error {
+fn new() -> Tkinter raise Error {
   guard @python.pyimport("tkinter") is Some(tkinter) else {
     raise LoadTkinterError
   }
