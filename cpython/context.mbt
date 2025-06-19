@@ -23,20 +23,20 @@ pub extern "C" fn py_context_var_new(
 
 ///|
 pub extern "C" fn py_context_var_get(
-  var : PyObjectRef,
+  pyvar : PyObjectRef,
   default_value : PyObjectRef,
   value : ArrayPyObjectRef
 ) -> Int = "PyContextVar_Get"
 
 ///|
 pub extern "C" fn py_context_var_set(
-  var : PyObjectRef,
+  pyvar : PyObjectRef,
   value : PyObjectRef
 ) -> PyObjectRef = "PyContextVar_Set"
 
 ///|
 pub extern "C" fn py_context_var_reset(
-  var : PyObjectRef,
+  pyvar : PyObjectRef,
   token : PyObjectRef
 ) -> Int = "PyContextVar_Reset"
 
