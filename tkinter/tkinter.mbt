@@ -49,9 +49,8 @@ let singleton : () -> Tkinter = get_lib()
 ///|
 fn get_lib() -> () -> Tkinter {
   @python.init_py()
-  let lib = match new?() {
-    Ok(lib) => lib
-    Err(e) => {
+  let lib = new() catch {
+    e => {
       println(e)
       panic()
     }
@@ -63,7 +62,7 @@ fn get_lib() -> () -> Tkinter {
 pub fn Window::new() -> Window {
   let lib = singleton()
   guard lib.tkinter.get_attr("Tk") is Some(PyCallable(createWindow))
-  guard createWindow.invoke?().unwrap() is Some(PyClass(window))
+  guard (try? createWindow.invoke()).unwrap() is Some(PyClass(window))
   Window::{ window, }
 }
 
@@ -72,14 +71,14 @@ pub fn Window::set_title(self : Window, title : String) -> Unit {
   guard self.window.get_attr("title") is Some(PyCallable(setTitle))
   let args = PyTuple::new(1)
   args..set(0, PyString::from(title))
-  let _ = setTitle.invoke?(args~)
+  let _ = try? setTitle.invoke(args~)
 
 }
 
 ///|
 pub fn Window::mainloop(self : Window) -> Unit {
   guard self.window.get_attr("mainloop") is Some(PyCallable(mainloop))
-  let _ = mainloop.invoke?()
+  let _ = try? mainloop.invoke()
 
 }
 
@@ -91,13 +90,14 @@ pub fn Label::new(window : Window, text : String) -> Label {
   args..set(0, window.window)
   let kwargs = PyDict::new()
   kwargs..set("text", PyString::from(text))
-  guard createLabel.invoke?(args~, kwargs~).unwrap() is Some(PyClass(label))
+  guard (try? createLabel.invoke(args~, kwargs~)).unwrap()
+    is Some(PyClass(label))
   Label::{ label, }
 }
 
 ///|
 pub fn Label::pack(self : Label) -> Unit {
   guard self.label.get_attr("pack") is Some(PyCallable(pack))
-  let _ = pack.invoke?()
+  let _ = try? pack.invoke()
 
 }

@@ -56,6 +56,12 @@ fn CStr::to_string_with_length(self : CStr, len : UInt) -> String {
 }
 
 ///|
+test {
+  ignore(CStr::to_string_with_length)
+  ignore(CWStr::from)
+}
+
+///|
 fn CWStr::from(s : String) -> CWStr {
   moonbit_str_to_cw_str(s)
 }
@@ -68,6 +74,12 @@ fn CWStr::to_string(self : CWStr) -> String {
 ///|
 fn CWStr::to_string_with_length(self : CWStr, len : UInt) -> String {
   cw_str_to_moonbit_str_with_length(self, len)
+}
+
+///|
+test {
+  ignore(CWStr::to_string_with_length)
+  ignore(CWStr::to_string)
 }
 
 ///|

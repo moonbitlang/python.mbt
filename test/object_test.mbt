@@ -123,6 +123,6 @@ test "PyDict Test" {
   inspect(dict, content="{1: 1, 2: 4, 3: 9}")
   let list = PyList::new()
   list..append(PyInteger::from(3))..append(PyInteger::from(2))
-  let e = dict.setByObj?(list, PyInteger::from(42))
+  let e = try? dict.setByObj(list, PyInteger::from(42))
   inspect(e, content="Err(KeyIsUnHashableError)")
 }

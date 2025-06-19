@@ -251,7 +251,9 @@ pub fn[T : IsPyObject] PyList::op_set(
   idx : Int,
   item : T
 ) -> Unit {
-  self.set?(idx, item).unwrap()
+  self.set(idx, item) catch {
+    _ => panic()
+  }
 }
 
 ///| Let python interpreter print the list directly.

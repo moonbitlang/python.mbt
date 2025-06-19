@@ -17,7 +17,7 @@ fn main {
   args..set(0, py_nums)
 
   // It's equivalent to `cnt = Counter(nums)`
-  guard counter.invoke?(args~) is Ok(Some(cnt))
+  guard (try? counter.invoke(args~)) is Ok(Some(cnt))
   guard cnt is PyDict(cnt)
 
   // `print(cnt)`

@@ -34,9 +34,8 @@ let singleton : () -> Turtle = get_lib()
 ///|
 fn get_lib() -> () -> Turtle {
   @python.init_py()
-  let lib = match new?() {
-    Ok(lib) => lib
-    Err(e) => {
+  let lib = new() catch {
+    e => {
       println(e)
       panic()
     }
@@ -50,6 +49,6 @@ pub fn bgcolor(color : Color) -> Unit {
   guard lib.turtle.get_attr("bgcolor") is Some(PyCallable(bgcolor))
   let args = PyTuple::new(1)
   args..set(0, PyString::from(color.to_string()))
-  let _ = bgcolor.invoke?(args~)
+  let _ = try? bgcolor.invoke(args~)
   ()
 }
