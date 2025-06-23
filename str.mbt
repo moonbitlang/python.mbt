@@ -46,7 +46,7 @@ test {
 ///
 /// ```moonbit
 /// let s = @python.PyString::from("hello");
-/// inspect(s, content="\'hello\'");
+/// inspect(s, content="hello");
 /// ```
 pub fn PyString::from(s : String) -> PyString {
   PyString::{

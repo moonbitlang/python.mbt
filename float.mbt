@@ -40,7 +40,7 @@ test {
 ///
 /// ```moonbit
 /// let f = @python.PyFloat::from(3.5);
-/// inspect!(f, content="3.5")
+/// inspect(f, content="3.5")
 /// ```
 pub fn PyFloat::from(value : Double) -> PyFloat {
   PyFloat::{ obj: @cpython.py_float_from_double(value) |> PyObject::create }
@@ -52,7 +52,7 @@ pub fn PyFloat::from(value : Double) -> PyFloat {
 ///
 /// ```moonbit
 /// let f = @python.PyFloat::from(3.5);
-/// assert_eq!(f.to_double(), 3.5);
+/// assert_eq(f.to_double(), 3.5);
 /// ```
 pub fn PyFloat::to_double(self : PyFloat) -> Double {
   @cpython.py_float_as_double(self.obj_ref())

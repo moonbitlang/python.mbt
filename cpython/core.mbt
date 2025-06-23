@@ -29,16 +29,16 @@ extern "C" fn c_str_to_moonbit_str(s : CStr) -> String = "c_str_to_moonbit_str"
 extern "C" fn c_str_to_moonbit_str_with_length(s : CStr, len : UInt) -> String = "c_str_to_moonbit_str_with_length"
 
 ///|
-extern "C" fn moonbit_str_to_cw_str(s : String) -> CWStr = "moonbit_str_to_cw_str"
+//extern "C" fn moonbit_str_to_cw_str(s : String) -> CWStr = "moonbit_str_to_cw_str"
 
 ///|
-extern "C" fn cw_str_to_moonbit_str(s : CWStr) -> String = "cw_str_to_moonbit_str"
+//extern "C" fn cw_str_to_moonbit_str(s : CWStr) -> String = "cw_str_to_moonbit_str"
 
 ///|
-extern "C" fn cw_str_to_moonbit_str_with_length(
-  s : CWStr,
-  len : UInt
-) -> String = "cw_str_to_moonbit_str_with_length"
+//extern "C" fn cw_str_to_moonbit_str_with_length(
+//  s : CWStr,
+//  len : UInt
+//) -> String = "cw_str_to_moonbit_str_with_length"
 
 ///|
 fn CStr::from(s : String) -> CStr {
@@ -58,29 +58,29 @@ fn CStr::to_string_with_length(self : CStr, len : UInt) -> String {
 ///|
 test {
   ignore(CStr::to_string_with_length)
-  ignore(CWStr::from)
+  //ignore(CWStr::from)
 }
 
 ///|
-fn CWStr::from(s : String) -> CWStr {
-  moonbit_str_to_cw_str(s)
-}
+//fn CWStr::from(s : String) -> CWStr {
+//  moonbit_str_to_cw_str(s)
+//}
 
 ///|
-fn CWStr::to_string(self : CWStr) -> String {
-  cw_str_to_moonbit_str(self)
-}
+//fn CWStr::to_string(self : CWStr) -> String {
+//  cw_str_to_moonbit_str(self)
+//}
+//
+/////|
+//fn CWStr::to_string_with_length(self : CWStr, len : UInt) -> String {
+//  cw_str_to_moonbit_str_with_length(self, len)
+//}
 
 ///|
-fn CWStr::to_string_with_length(self : CWStr, len : UInt) -> String {
-  cw_str_to_moonbit_str_with_length(self, len)
-}
-
-///|
-test {
-  ignore(CWStr::to_string_with_length)
-  ignore(CWStr::to_string)
-}
+//test {
+//  ignore(CWStr::to_string_with_length)
+//  ignore(CWStr::to_string)
+//}
 
 ///|
 extern "C" fn py_object_is_null(obj : PyObjectRef) -> Int = "Moonbit_PyObjectRef_is_null"

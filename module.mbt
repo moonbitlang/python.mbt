@@ -46,11 +46,9 @@ test {
 /// ## Example
 ///
 /// ```moonbit
-/// test "Py Import" {
-///   let os = @python.pyimport("os")
+/// let os = @python.pyimport("os")
 ///
-///   assert_true(os is Some(_))
-/// }
+/// assert_true(os is Some(_))
 /// ```
 pub fn pyimport(name : String, print_err~ : Bool = false) -> PyModule? {
   let obj = @cpython.py_import_import_module(name)
@@ -71,11 +69,9 @@ pub fn pyimport(name : String, print_err~ : Bool = false) -> PyModule? {
 /// ## Example
 ///
 /// ```moonbit
-/// test "Py Import" {
-///   let os = @python.pyimport("os").unwrap()
+/// let os = @python.pyimport("os").unwrap()
 ///
-///   inspect(os.get_name(), content="os")
-/// }
+/// inspect(os.get_name(), content="os")
 /// ```
 pub fn PyModule::get_name(self : PyModule) -> String {
   if self.name is Some(n) {
@@ -106,19 +102,17 @@ pub fn PyModule::dump(self : PyModule) -> Unit {
 /// ## Example
 ///
 /// ```moonbit
-/// test "Py Import" {
-///   let collections = pyimport("collections").unwrap()
-///   guard collections.get_attr("Counter").unwrap() is PyCallable(counter)
+/// let collections = pyimport("collections").unwrap()
+/// guard collections.get_attr("Counter").unwrap() is PyCallable(counter)
 ///
-///   let list = [1L, 2L, 2L, 3L, 3L, 3L].map(PyInteger::from) |> PyList::from
-///   let args = PyTuple::new(1)
-///   args .. set(0, list)
-///   guard counter.invoke(args~) is Some(PyDict(cnt))
-///   inspect(cnt, content="Counter({3: 3, 2: 2, 1: 1})")
+/// let list = [1L, 2L, 2L, 3L, 3L, 3L].map(PyInteger::from) |> PyList::from
+/// let args = PyTuple::new(1)
+/// args .. set(0, list)
+/// guard counter.invoke(args~) is Some(PyDict(cnt))
+/// inspect(cnt, content="Counter({3: 3, 2: 2, 1: 1})")
 ///
-///   guard cnt.obj().get_attr("total") is Some(PyCallable(total))
-///   inspect(total.invoke().unwrap(), content="PyInteger(6)")
-/// }
+/// guard cnt.obj().get_attr("total") is Some(PyCallable(total))
+/// inspect(total.invoke().unwrap(), content="PyInteger(6)")
 /// ```
 /// 
 /// // The above code is equivalent to the following python code:
