@@ -21,7 +21,7 @@ pub struct PyTuple {
 ///   ..set(1, PyFloat::from(2.0))
 ///   ..set(2, PyString::from("three"));
 ///
-///   inspect!(tuple, content="(1, 2.0, \'three\')")
+///   inspect(tuple, content="(1, 2.0, \'three\')")
 /// }
 /// ```
 pub fn PyTuple::new(size : UInt64) -> PyTuple {
@@ -67,7 +67,7 @@ test {
 /// test "PyTuple::len" {
 ///   let tuple = PyTuple::new(3)
 ///
-///   assert_eq!(tuple.len(), 3);
+///   assert_eq(tuple.len(), 3);
 /// }
 /// ```
 pub fn PyTuple::len(self : PyTuple) -> UInt64 {
@@ -89,11 +89,11 @@ pub fn PyTuple::len(self : PyTuple) -> UInt64 {
 ///   ..set(1, PyFloat::from(2.0))
 ///   ..set(2, PyString::from("three"));
 ///
-///   inspect!(tuple, content="(1, 2.0, \'three\')")
-///   inspect!(tuple.get(0).unwrap(), content="PyInteger(1)")
-///   inspect!(tuple.get(1).unwrap(), content="PyFloat(2.0)")
-///   inspect!(tuple.get(2).unwrap(), content="PyString(three)")
-///   inspect!(tuple.get(3), content="None")
+///   inspect(tuple, content="(1, 2.0, \'three\')")
+///   inspect(tuple.get(0).unwrap(), content="PyInteger(1)")
+///   inspect(tuple.get(1).unwrap(), content="PyFloat(2.0)")
+///   inspect(tuple.get(2).unwrap(), content="PyString(three)")
+///   inspect(tuple.get(3), content="None")
 /// }
 /// ```
 ///
@@ -129,9 +129,9 @@ pub fn PyTuple::get(self : PyTuple, idx : Int) -> PyObjectEnum? {
 ///    ..set(1, PyFloat::from(2.0))
 ///    ..set(2, PyString::from("three"));
 ///
-///   inspect!(tuple[0], content="PyInteger(1)")
-///   inspect!(tuple[1], content="PyFloat(2.0)")
-///   inspect!(tuple[2], content="PyString(three)")
+///   inspect(tuple[0], content="PyInteger(1)")
+///   inspect(tuple[1], content="PyFloat(2.0)")
+///   inspect(tuple[2], content="PyString(three)")
 /// }
 /// ```
 pub fn PyTuple::op_get(self : PyTuple, idx : Int) -> PyObjectEnum {
@@ -153,7 +153,7 @@ pub fn PyTuple::op_get(self : PyTuple, idx : Int) -> PyObjectEnum {
 ///   ..set(1, PyFloat::from(2.0))
 ///   ..set(2, PyString::from("three"));
 ///
-///   inspect!(tuple, content="(10, 2.0, \'three\')")
+///   inspect(tuple, content="(10, 2.0, \'three\')")
 /// }
 pub fn[T : IsPyObject] PyTuple::set(
   self : PyTuple,
@@ -184,7 +184,7 @@ pub fn[T : IsPyObject] PyTuple::set(
 ///   ..set(1, PyFloat::from(2.0))
 ///   ..set(2, PyString::from("three"));
 ///
-///   inspect!(tuple, content="(1, 2.0, \'three\')")
+///   inspect(tuple, content="(1, 2.0, \'three\')")
 /// }
 /// ```
 pub fn[T : IsPyObject] PyTuple::op_set(

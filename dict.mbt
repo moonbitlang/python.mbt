@@ -33,15 +33,13 @@ pub fn PyDict::create_by_ref(
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyDict::new" {
-///   let dict = PyDict::new()
-///   dict
-///   ..set("one", PyInteger::from(1))
-///   ..set("two", PyFloat::from(2.0))
-///   ..set("three", PyBool::from(true));
+/// let dict = PyDict::new()
+/// dict
+/// ..set("one", PyInteger::from(1))
+/// ..set("two", PyFloat::from(2.0))
+/// ..set("three", PyBool::from(true));
 ///
-///   inspect!(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
-/// }
+/// inspect(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
 /// ```
 ///
 /// The above code is equivalent to:
@@ -60,15 +58,13 @@ pub fn PyDict::new() -> PyDict {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyDict::len" {
-///   let dict = PyDict::new()
-///   dict
-///   ..set("one", PyInteger::from(1))
-///   ..set("two", PyFloat::from(2.0))
-///   ..set("three", PyString::from("three"));
+/// let dict = PyDict::new()
+/// dict
+/// ..set("one", PyInteger::from(1))
+/// ..set("two", PyFloat::from(2.0))
+/// ..set("three", PyString::from("three"));
 ///
-///   assert_eq!(dict.len(), 3);
-/// }
+/// assert_eq(dict.len(), 3);
 /// ```
 pub fn PyDict::len(self : PyDict) -> Int {
   @cpython.py_dict_size(self.obj_ref()).to_int()
@@ -79,19 +75,15 @@ pub fn PyDict::len(self : PyDict) -> Int {
 /// ## Example
 ///
 /// ```moonbit
+/// let dict = PyDict::new()
+/// dict
+/// ..set("one", PyInteger::from(1))
+/// ..set("two", PyFloat::from(2.0))
+/// ..set("three", PyBool::from(true));
 ///
-/// ```moonbit
-/// test "PyDict::get" {
-///   let dict = PyDict::new()
-///   dict
-///   ..set("one", PyInteger::from(1))
-///   ..set("two", PyFloat::from(2.0))
-///   ..set("three", PyBool::from(true));
-///
-///   inspect!(dict.get("one").unwrap(), content="PyInteger(1)")
-///   inspect!(dict.get("two"), content="Some(PyFloat(2.0))")
-///   inspect!(dict.get("four"), content="None")
-/// }
+/// inspect(dict.get("one").unwrap(), content="PyInteger(1)")
+/// inspect(dict.get("two"), content="Some(PyFloat(2.0))")
+/// inspect(dict.get("four"), content="None")
 /// ```
 pub fn PyDict::get(self : PyDict, key : String) -> PyObjectEnum? {
   let dict = self.obj_ref()
@@ -117,17 +109,15 @@ pub fn PyDict::getByObj(self : PyDict, key : PyObject) -> PyObjectEnum? {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyDict::op_get" {
-///   let dict = PyDict::new()
-///   dict
-///   ..set("one", PyInteger::from(1))
-///   ..set("two", PyFloat::from(2.0))
-///   ..set("three", PyBool::from(true));
+/// let dict = PyDict::new()
+/// dict
+/// ..set("one", PyInteger::from(1))
+/// ..set("two", PyFloat::from(2.0))
+/// ..set("three", PyBool::from(true));
 ///
-///   inspect!(dict["one"], content="PyInteger(1)")
-///   inspect!(dict["two"], content="PyFloat(2.0)")
-///   inspect!(dict["three"], content="PyBool(True)")
-/// }
+/// inspect(dict["one"], content="PyInteger(1)")
+/// inspect(dict["two"], content="PyFloat(2.0)")
+/// inspect(dict["three"], content="PyBool(True)")
 /// ```
 pub fn PyDict::op_get(self : PyDict, key : String) -> PyObjectEnum {
   self.get(key).unwrap()
@@ -138,15 +128,13 @@ pub fn PyDict::op_get(self : PyDict, key : String) -> PyObjectEnum {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyDict::set" {
-///   let dict = PyDict::new()
-///   dict
-///   ..set("one", PyInteger::from(1))
-///   ..set("two", PyFloat::from(2.0))
-///   ..set("three", PyBool::from(true));
-///  
-///   inspect!(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
-/// }
+/// let dict = PyDict::new()
+/// dict
+/// ..set("one", PyInteger::from(1))
+/// ..set("two", PyFloat::from(2.0))
+/// ..set("three", PyBool::from(true));
+/// 
+/// inspect(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
 /// ```
 ///
 /// The above code is equivalent to:
@@ -173,15 +161,13 @@ pub fn[V : IsPyObject] PyDict::set(
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyDict::setByObj" {
-///   let dict = PyDict::new()
-///   dict
-///   ..setByObj!(PyInteger::from(1), PyInteger::from(1))
-///   ..setByObj!(PyInteger::from(2), PyInteger::from(4))
-///   ..setByObj!(PyInteger::from(3), PyInteger::from(9))
+/// let dict = PyDict::new()
+/// dict
+/// ..setByObj(PyInteger::from(1), PyInteger::from(1))
+/// ..setByObj(PyInteger::from(2), PyInteger::from(4))
+/// ..setByObj(PyInteger::from(3), PyInteger::from(9))
 ///
-///   inspect!(dict, content="{1: 1, 2: 4, 3: 9}")
-/// }
+/// inspect(dict, content="{1: 1, 2: 4, 3: 9}")
 /// ```
 ///
 /// The above code is equivalent to:
@@ -214,15 +200,13 @@ pub fn[K : IsPyObject, V : IsPyObject] PyDict::setByObj(
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyDict::set" {
-///   let dict = PyDict::new()
+/// let dict = PyDict::new()
 ///
-///   dict["one"] = PyInteger::from(1);
-///   dict["two"] = PyFloat::from(2.0);
-///   dict["three"] = PyBool::from(true);
-///  
-///   inspect!(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
-/// }
+/// dict["one"] = PyInteger::from(1);
+/// dict["two"] = PyFloat::from(2.0);
+/// dict["three"] = PyBool::from(true);
+/// 
+/// inspect(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
 /// ```
 ///
 /// The above code is equivalent to:
@@ -263,15 +247,13 @@ pub fn PyDict::containsObj(self : PyDict, key : PyObject) -> Bool {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyDict::keys" {
-///   let dict = PyDict::new()
-///   dict
-///   ..set("one", PyInteger::from(1))
-///   ..set("two", PyFloat::from(2.0))
-///   ..set("three", PyBool::from(true));
+/// let dict = PyDict::new()
+/// dict
+/// ..set("one", PyInteger::from(1))
+/// ..set("two", PyFloat::from(2.0))
+/// ..set("three", PyBool::from(true));
 ///
-///   inspect!(dict.keys(), content="[\'one\', \'two\', \'three\']")
-/// }
+/// inspect(dict.keys(), content="[\'one\', \'two\', \'three\']")
 /// ```
 ///
 /// The above code is equivalent to:
@@ -294,15 +276,13 @@ pub fn PyDict::keys(self : PyDict) -> PyList {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyDict::values" {
-///  let dict = PyDict::new()
-///  dict
-///  ..set("one", PyInteger::from(1))
-///  ..set("two", PyFloat::from(2.0))
-///  ..set("three", PyBool::from(true));
+/// let dict = PyDict::new()
+/// dict
+/// ..set("one", PyInteger::from(1))
+/// ..set("two", PyFloat::from(2.0))
+/// ..set("three", PyBool::from(true));
 ///
-///   inspect!(dict.values(), content="[1, 2.0, True]")
-/// }
+/// inspect(dict.values(), content="[1, 2.0, True]")
 /// ```
 ///
 /// The above code is equivalent to:
@@ -325,15 +305,13 @@ pub fn PyDict::values(self : PyDict) -> PyList {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyDict::items" {
-///   let dict = PyDict::new()
-///   dict
-///   ..set("one", PyInteger::from(1))
-///   ..set("two", PyFloat::from(2.0))
-///   ..set("three", PyBool::from(true));
+/// let dict = PyDict::new()
+/// dict
+/// ..set("one", PyInteger::from(1))
+/// ..set("two", PyFloat::from(2.0))
+/// ..set("three", PyBool::from(true));
 ///
-///   inspect!(dict.items(), content="[('one', 1), ('two', 2.0), ('three', True)]")
-/// }
+/// inspect(dict.items(), content="[('one', 1), ('two', 2.0), ('three', True)]")
 /// ```
 pub fn PyDict::items(self : PyDict) -> PyList {
   PyList::create_by_ref_unchecked(@cpython.py_dict_items(self.obj_ref()))

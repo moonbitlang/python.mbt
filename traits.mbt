@@ -15,25 +15,23 @@ impl IsPyObject with obj_ref(self) {
 /// ## Example
 ///
 /// ```moonbit
-/// test "type_name" {
-///   let t = PyBool::from(true);
-///   inspect!(t.type_name(), content="bool")
+/// let t = PyBool::from(true);
+/// inspect(t.type_name(), content="bool")
 ///
-///   let i = PyInteger::from(42);
-///   inspect!(i.type_name(), content="int")
+/// let i = PyInteger::from(42);
+/// inspect(i.type_name(), content="int")
 ///
-///   let f = PyFloat::from(3.14);
-///   inspect!(f.type_name(), content="float")
+/// let f = PyFloat::from(3.14);
+/// inspect(f.type_name(), content="float")
 ///
-///   let s = PyString::from("hello");
-///   inspect!(s.type_name(), content="str")
+/// let s = PyString::from("hello");
+/// inspect(s.type_name(), content="str")
 ///
-///   let tup = PyTuple::new(1)
-///   inspect!(tup.type_name(), content="tuple")
+/// let tup = PyTuple::new(1)
+/// inspect(tup.type_name(), content="tuple")
 ///
-///   let lst = PyList::new()
-///   inspect!(lst.type_name(), content="list")
-/// }
+/// let lst = PyList::new()
+/// inspect(lst.type_name(), content="list")
 /// ```
 ///
 /// The above code is equivalent to:

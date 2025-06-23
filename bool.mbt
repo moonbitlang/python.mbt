@@ -43,11 +43,9 @@ pub fn PyBool::dump(self : PyBool) -> Unit {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyBool::from" {
-///   let t = PyBool::from(true);
+/// let t = PyBool::from(true);
 ///
-///   inspect!(t, content="True")
-/// }
+/// inspect(t, content="True")
 /// ```
 ///
 /// The above code is equivalent to:
@@ -68,13 +66,11 @@ pub fn PyBool::from(value : Bool) -> PyBool {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyBool::is_true" {
-///   let t = PyBool::from(true);
-///   let f = PyBool::from(false);
+/// let t = PyBool::from(true);
+/// let f = PyBool::from(false);
 ///
-///   assert_true!(t.is_true());
-///   assert_false!(f.is_true());
-/// }
+/// assert_true(t.is_true());
+/// assert_false(f.is_true());
 /// ```
 pub fn PyBool::is_true(self : PyBool) -> Bool {
   let obj = self.obj_ref()
@@ -91,13 +87,11 @@ pub fn PyBool::to_bool(self : PyBool) -> Bool {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyBool::is_false" {
-///   let t = PyBool::from(true);
-///   let f = PyBool::from(false);
+/// let t = PyBool::from(true);
+/// let f = PyBool::from(false);
 ///
-///   assert_false!(t.is_false());
-///   assert_true!(f.is_false());
-/// }
+/// assert_false(t.is_false());
+/// assert_true(f.is_false());
 /// ```
 pub fn PyBool::is_false(self : PyBool) -> Bool {
   self.is_true() |> not
@@ -108,12 +102,10 @@ pub fn PyBool::is_false(self : PyBool) -> Bool {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyBool::not" {
-///   let t = PyBool::from(true);
-///   let f = t.not();
+/// let t = PyBool::from(true);
+/// let f = t.not();
 ///
-///   assert_true!(f.is_false());
-/// }
+/// assert_true(f.is_false());
 /// ```
 pub fn PyBool::not(self : PyBool) -> PyBool {
   if self.is_true() {

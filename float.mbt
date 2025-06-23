@@ -39,10 +39,8 @@ test {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyFloat::from" {
-///   let f = @python.PyFloat::from(3.5);
-///   inspect!(f, content="3.5")
-/// }
+/// let f = @python.PyFloat::from(3.5);
+/// inspect!(f, content="3.5")
 /// ```
 pub fn PyFloat::from(value : Double) -> PyFloat {
   PyFloat::{ obj: @cpython.py_float_from_double(value) |> PyObject::create }
@@ -53,10 +51,8 @@ pub fn PyFloat::from(value : Double) -> PyFloat {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyFloat::to_double" {
-///  let f = @python.PyFloat::from(3.5);
-///  assert_eq!(f.to_double(), 3.5);
-///  }
+/// let f = @python.PyFloat::from(3.5);
+/// assert_eq!(f.to_double(), 3.5);
 /// ```
 pub fn PyFloat::to_double(self : PyFloat) -> Double {
   @cpython.py_float_as_double(self.obj_ref())
@@ -66,15 +62,6 @@ pub fn PyFloat::to_double(self : PyFloat) -> Double {
 ///
 /// Different from use `println`, `dump` means we made python interpreter
 /// print the object directly.
-///
-/// ## Example
-///
-/// ```moonbit-no-test
-///   let f = @python.PyFloat::from(3.5);
-///   f.dump()
-/// ```
-///
-/// the code above will print: 3.5
 pub fn PyFloat::dump(self : PyFloat) -> Unit {
   PyObject::dump(self.obj)
 }

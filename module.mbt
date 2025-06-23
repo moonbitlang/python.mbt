@@ -49,7 +49,7 @@ test {
 /// test "Py Import" {
 ///   let os = @python.pyimport("os")
 ///
-///   assert_true!(os is Some(_))
+///   assert_true(os is Some(_))
 /// }
 /// ```
 pub fn pyimport(name : String, print_err~ : Bool = false) -> PyModule? {
@@ -74,7 +74,7 @@ pub fn pyimport(name : String, print_err~ : Bool = false) -> PyModule? {
 /// test "Py Import" {
 ///   let os = @python.pyimport("os").unwrap()
 ///
-///   inspect!(os.get_name(), content="os")
+///   inspect(os.get_name(), content="os")
 /// }
 /// ```
 pub fn PyModule::get_name(self : PyModule) -> String {
@@ -114,10 +114,10 @@ pub fn PyModule::dump(self : PyModule) -> Unit {
 ///   let args = PyTuple::new(1)
 ///   args .. set(0, list)
 ///   guard counter.invoke(args~) is Some(PyDict(cnt))
-///   inspect!(cnt, content="Counter({3: 3, 2: 2, 1: 1})")
+///   inspect(cnt, content="Counter({3: 3, 2: 2, 1: 1})")
 ///
 ///   guard cnt.obj().get_attr("total") is Some(PyCallable(total))
-///   inspect!(total.invoke().unwrap(), content="PyInteger(6)")
+///   inspect(total.invoke().unwrap(), content="PyInteger(6)")
 /// }
 /// ```
 /// 

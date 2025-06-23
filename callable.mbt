@@ -36,6 +36,7 @@ fn PyCallable::create_by_ref_unchecked(
 }
 
 ///|
+/// TODO: eliminate this test.
 test {
   ignore(PyCallable::create_by_ref_unchecked)
 }

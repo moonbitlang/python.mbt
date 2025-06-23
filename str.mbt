@@ -45,10 +45,9 @@ test {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyString::from" {
-///   let s = @python.PyString::from("hello");
-///   inspect(s, content="\'hello\'");
-/// }
+/// let s = @python.PyString::from("hello");
+/// inspect(s, content="\'hello\'");
+/// ```
 pub fn PyString::from(s : String) -> PyString {
   PyString::{
     obj: PyObject::create(@cpython.py_unicode_from_moonbit_string(s)),
@@ -59,15 +58,6 @@ pub fn PyString::from(s : String) -> PyString {
 ///
 /// Different from use `println`, `dump` means we made python interpreter
 /// print the object directly.
-///
-/// ## Example
-///
-/// ```moonbit-no-test
-///   let s = @python.PyString::from("hello");
-///   s.dump()
-/// ```
-///
-/// the code above will print: 'hello'
 pub fn PyString::dump(self : PyString) -> Unit {
   PyObject::dump(self.obj)
 }

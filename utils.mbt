@@ -20,7 +20,7 @@ fn init {
 ///
 /// ```moonbit
 /// let s = "\'os\'"
-/// inspect!(@python.strip_quot(s), content="os")
+/// inspect(@python.strip_quot(s), content="os")
 /// ```
 pub fn strip_quot(s : String) -> String {
   if s.has_prefix("\'") && s.has_suffix("\'") {

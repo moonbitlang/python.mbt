@@ -12,11 +12,9 @@ pub struct PyList {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyList::new" {
-///   let list = @python.PyList::new();
-///   inspect!(list, content="[]")
-///   assert_eq!(list.len(), 0);
-/// }
+/// let list = @python.PyList::new();
+/// inspect(list, content="[]")
+/// assert_eq(list.len(), 0);
 /// ```
 pub fn PyList::new() -> PyList {
   PyList::{ obj: @cpython.py_list_new(0) |> PyObject::create }
@@ -53,14 +51,12 @@ fn PyList::create_by_ref_unchecked(obj : @cpython.PyObjectRef) -> PyList {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyList::len" {
-///   let list = @python.PyList::new();
-///   list.append(@python.PyInteger::from(1));
-///   list.append(@python.PyFloat::from(2.0));
-///   list.append(@python.PyString::from("hello"));
+/// let list = @python.PyList::new();
+/// list.append(@python.PyInteger::from(1));
+/// list.append(@python.PyFloat::from(2.0));
+/// list.append(@python.PyString::from("hello"));
 ///
-///   assert_eq!(list.len(), 3);
-/// }
+/// assert_eq(list.len(), 3);
 /// ```
 ///
 /// The above code is equivalent to the following Python code:
@@ -82,13 +78,11 @@ pub fn PyList::len(self : PyList) -> Int {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyList::append" {
-///   let list = @python.PyList::new();
-///   list.append(@python.PyInteger::from(1));
-///   list.append(@python.PyFloat::from(2.0));
-///   list.append(@python.PyString::from("hello"));
-///   inspect!(list, content="[1, 2.0, \'hello\']")
-/// }
+/// let list = @python.PyList::new();
+/// list.append(@python.PyInteger::from(1));
+/// list.append(@python.PyFloat::from(2.0));
+/// list.append(@python.PyString::from("hello"));
+/// inspect(list, content="[1, 2.0, \'hello\']")
 /// ```
 ///
 /// The above code is equivalent to the following Python code:
@@ -123,19 +117,17 @@ pub fn[T : IsPyObject] PyList::append(self : PyList, item : T) -> Unit {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyList::from" {
-///   let arr: Array[&IsPyObject] = Array::new()
-///   let one = PyInteger::from(1);
-///   let two = PyFloat::from(2.0);
-///   let three = PyString::from("three");
+/// let arr: Array[&IsPyObject] = Array::new()
+/// let one = PyInteger::from(1);
+/// let two = PyFloat::from(2.0);
+/// let three = PyString::from("three");
 ///
-///   arr.push(one)
-///   arr.push(two)
-///   arr.push(three)
+/// arr.push(one)
+/// arr.push(two)
+/// arr.push(three)
 ///
-///   let list = PyList::from(arr);
-///   inspect!(list, content="[1, 2.0, \'three\']")
-/// }
+/// let list = PyList::from(arr);
+/// inspect(list, content="[1, 2.0, \'three\']")
 /// ```
 pub fn[T : IsPyObject] PyList::from(items : Array[T]) -> PyList {
   let pylist = PyList::new()
@@ -151,17 +143,15 @@ pub fn[T : IsPyObject] PyList::from(items : Array[T]) -> PyList {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyList::get" {
-///   let list = @python.PyList::new();
-///   list.append(@python.PyInteger::from(1));
-///   list.append(@python.PyFloat::from(2.0));
-///   list.append(@python.PyString::from("hello"));
+/// let list = @python.PyList::new();
+/// list.append(@python.PyInteger::from(1));
+/// list.append(@python.PyFloat::from(2.0));
+/// list.append(@python.PyString::from("hello"));
 ///
-///   inspect!(list.get(0).unwrap(), content="PyInteger(1)")
-///   inspect!(list.get(1), content="Some(PyFloat(2.0))")
-///   inspect!(list.get(3), content="None")
-///   inspect!(list.get(-1), content="None")
-/// }
+/// inspect(list.get(0).unwrap(), content="PyInteger(1)")
+/// inspect(list.get(1), content="Some(PyFloat(2.0))")
+/// inspect(list.get(3), content="None")
+/// inspect(list.get(-1), content="None")
 /// ```
 pub fn PyList::get(self : PyList, idx : Int) -> PyObjectEnum? {
   @option.when(idx >= 0 && idx < self.len(), fn() {
@@ -179,16 +169,14 @@ pub fn PyList::get(self : PyList, idx : Int) -> PyObjectEnum? {
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyList::op_get" {
-///   let list = @python.PyList::new();
-///   list.append(@python.PyInteger::from(1));
-///   list.append(@python.PyFloat::from(2.0));
-///   list.append(@python.PyString::from("hello"));
+/// let list = @python.PyList::new();
+/// list.append(@python.PyInteger::from(1));
+/// list.append(@python.PyFloat::from(2.0));
+/// list.append(@python.PyString::from("hello"));
 ///
-///   inspect!(list[0], content="PyInteger(1)")
-///   inspect!(list[1], content="PyFloat(2.0)")
-///   inspect!(list[2], content="PyString(hello)")
-/// }
+/// inspect(list[0], content="PyInteger(1)")
+/// inspect(list[1], content="PyFloat(2.0)")
+/// inspect(list[2], content="PyString(hello)")
 /// ```
 pub fn PyList::op_get(self : PyList, idx : Int) -> PyObjectEnum {
   self.get(idx).unwrap()
@@ -202,16 +190,14 @@ pub fn PyList::op_get(self : PyList, idx : Int) -> PyObjectEnum {
 /// ## Example
 /// 
 /// ```moonbit
-/// test "PyList::set" {
-///   let list = @python.PyList::new();
-///   list.append(@python.PyInteger::from(1));
-///   list.append(@python.PyFloat::from(2.0));
-///   list.append(@python.PyString::from("hello"));
-///   inspect!(list, content="[1, 2.0, \'hello\']")
+/// let list = @python.PyList::new();
+/// list.append(@python.PyInteger::from(1));
+/// list.append(@python.PyFloat::from(2.0));
+/// list.append(@python.PyString::from("hello"));
+/// inspect(list, content="[1, 2.0, \'hello\']")
 ///
-///   list.set!(0, @python.PyInteger::from(42));
-///   inspect!(list, content="[42, 2.0, \'hello\']")
-/// }
+/// list.set(0, @python.PyInteger::from(42));
+/// inspect(list, content="[42, 2.0, \'hello\']")
 /// ```
 pub fn[T : IsPyObject] PyList::set(
   self : PyList,
@@ -235,16 +221,14 @@ pub fn[T : IsPyObject] PyList::set(
 /// ## Example
 ///
 /// ```moonbit
-/// test "PyList::op_set" {
-///  let list = @python.PyList::new();
-///  list.append(@python.PyInteger::from(1));
-///  list.append(@python.PyFloat::from(2.0));
-///  list.append(@python.PyString::from("hello"));
-///  inspect!(list, content="[1, 2.0, \'hello\']")
+/// let list = @python.PyList::new();
+/// list.append(@python.PyInteger::from(1));
+/// list.append(@python.PyFloat::from(2.0));
+/// list.append(@python.PyString::from("hello"));
+/// inspect(list, content="[1, 2.0, \'hello\']")
 ///
-///  list[0] = @python.PyInteger::from(42);
-///  inspect!(list, content="[42, 2.0, \'hello\']")
-/// }
+/// list[0] = @python.PyInteger::from(42);
+/// inspect(list, content="[42, 2.0, \'hello\']")
 /// ```
 pub fn[T : IsPyObject] PyList::op_set(
   self : PyList,
