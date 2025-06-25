@@ -9,12 +9,14 @@ struct PyObjectWrap {
 
 void PyObjectDecref(void* wrap_ptr) {
   struct PyObjectWrap* wrap = (struct PyObjectWrap*)wrap_ptr;
+  PyGILState_STATE gstate = PyGILState_Ensure();
   fprintf(stderr, "PyObject Deleted!\n");
   if (wrap->obj_ref) {
     fprintf(stderr, "the deleted object is: ");
     PyObject_Print(wrap->obj_ref, stdout, 0);
     Py_DECREF(wrap->obj_ref);
   }
+  PyGILState_Release(gstate);
 }
 
 struct PyObjectWrap* newPyObject(PyObject* obj_ref) {

@@ -2,6 +2,7 @@
 pub fn init_py() -> Unit {
   if not(@cpython.py_is_initialized()) {
     @cpython.py_init()
+    @cpython.py_eval_init_threads()
     if not(@cpython.py_is_initialized()) {
       println("Python initialization failed")
       return

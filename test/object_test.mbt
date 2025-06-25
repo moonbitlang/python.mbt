@@ -117,9 +117,9 @@ test "PyDict Test" {
   inspect(dict.values(), content="[1, 2.0, True]")
   let dict = PyDict::new()
   dict
-  ..setByObj(PyInteger::from(1), PyFloat::from(1.0))
-  ..setByObj(PyInteger::from(2), PyFloat::from(4.0))
-  ..setByObj(PyInteger::from(3), PyFloat::from(9.0))
+  ..setByObj(PyInteger::from(1), PyFloat::from(1))
+  ..setByObj(PyInteger::from(2), PyFloat::from(4))
+  ..setByObj(PyInteger::from(3), PyFloat::from(9))
   inspect(dict, content="{1: 1.0, 2: 4.0, 3: 9.0}")
   let list = PyList::new()
   list..append(PyInteger::from(3))..append(PyInteger::from(2))
