@@ -151,6 +151,7 @@ pub fn[T : IsPyObject] PyTuple::set(
   idx : Int,
   item : T
 ) -> Unit {
+  item.obj_ref().incref()
   guard idx >= 0 && idx.to_uint64() < self.len()
   let _ = @cpython.pytuple_set_item(
     self.obj_ref(),

@@ -96,6 +96,7 @@ pub fn PyDict::get(self : PyDict, key : String) -> PyObjectEnum? {
 ///| Return the elements of the dict by its key, when the key is not string.
 pub fn PyDict::getByObj(self : PyDict, key : PyObject) -> PyObjectEnum? {
   let dict = self.obj_ref()
+  key.obj_ref().incref()
   let obj_ref = @cpython.py_dict_get_item(dict, key.obj_ref())
   @option.when(not(obj_ref.is_null()), fn() {
     PyObjectEnum::create_by_ref(obj_ref)
@@ -152,6 +153,7 @@ pub fn[V : IsPyObject] PyDict::set(
 ) -> Unit {
   let dict = self.obj_ref()
   let val = val.obj_ref()
+  val.incref()
   let _ = @cpython.py_dict_set_item_string(dict, key, val)
 
 }
@@ -187,6 +189,8 @@ pub fn[K : IsPyObject, V : IsPyObject] PyDict::setByObj(
 ) -> Unit raise PyRuntimeError {
   let dict = self.obj_ref()
   @cpython.py_err_clear()
+  key.obj_ref().incref()
+  val.obj_ref().incref()
   let _ = @cpython.py_dict_set_item(dict, key.obj_ref(), val.obj_ref())
   let e = @cpython.py_err_occurred()
   if not(e.is_null()) {
@@ -336,11 +340,7 @@ pub impl IsPyObject for PyDict with obj(self) {
 }
 
 ///|
-pub impl Show for PyDict with to_string(self) -> String {
-  self.obj.to_string()
-}
-
-///|
 pub impl Show for PyDict with output(self : PyDict, logger : &Logger) -> Unit {
-  logger.write_string(self.to_string())
+  let s = self.obj.to_string()
+  logger.write_string(s)
 }

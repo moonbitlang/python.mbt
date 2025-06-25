@@ -101,5 +101,13 @@ pub fn PyObjectRef::dump(self : PyObjectRef) -> Unit {
 ///|
 pub extern "C" fn py_incref(obj : PyObjectRef) = "py_incref"
 
+pub fn PyObjectRef::incref(self : PyObjectRef) -> Unit {
+  py_incref(self)
+}
+
 ///|
 pub extern "C" fn py_decref(obj : PyObjectRef) = "py_decref"
+
+pub fn PyObjectRef::decref(self : PyObjectRef) -> Unit {
+  py_decref(self)
+}

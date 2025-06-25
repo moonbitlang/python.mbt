@@ -3,6 +3,27 @@
 #include <stdlib.h>
 #include <string.h>
 
+struct PyObjectWrap {
+  PyObject* obj_ref;
+};
+
+void PyObjectDecref(void* wrap_ptr) {
+  struct PyObjectWrap* wrap = (struct PyObjectWrap*)wrap_ptr;
+  fprintf(stderr, "PyObject Deleted!\n");
+  if (wrap->obj_ref) {
+    fprintf(stderr, "the deleted object is: ");
+    PyObject_Print(wrap->obj_ref, stdout, 0);
+    Py_DECREF(wrap->obj_ref);
+  }
+}
+
+struct PyObjectWrap* newPyObject(PyObject* obj_ref) {
+  struct PyObjectWrap* wrap = 
+    moonbit_make_external_object(&PyObjectDecref, sizeof(struct PyObjectWrap));
+  wrap->obj_ref = obj_ref;
+  return wrap;
+}
+
 void *moonbit_str_to_c_str(moonbit_string_t ms) {
   int32_t len = Moonbit_array_length(ms);
   char *ptr = (char *)malloc(len + 1);

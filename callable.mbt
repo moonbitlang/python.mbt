@@ -53,6 +53,8 @@ pub fn PyCallable::invoke(
   kwargs~ : PyDict = PyDict::new(),
   print_err~ : Bool = false
 ) -> PyObjectEnum? raise PyRuntimeError {
+  args.obj_ref().incref()
+  kwargs.obj_ref().incref()
   let obj_ref = if kwargs.len() > 0 {
     @cpython.py_object_call(self.obj_ref(), args.obj_ref(), kwargs.obj_ref())
   } else {
@@ -80,11 +82,7 @@ pub impl IsPyObject for PyCallable with obj(self) -> PyObject {
 }
 
 ///|
-pub impl Show for PyCallable with to_string(self) {
-  self.obj.to_string()
-}
-
-///|
 pub impl Show for PyCallable with output(self, logger) {
-  logger.write_string(self.to_string())
+  let s = self.obj.to_string()
+  logger.write_string(s)
 }

@@ -7,7 +7,7 @@ pub trait IsPyObject {
 
 ///|
 impl IsPyObject with obj_ref(self) {
-  self.obj().obj
+  self.obj().obj_ref()
 }
 
 ///| Return the type name of the object.

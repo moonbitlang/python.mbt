@@ -96,6 +96,7 @@ pub fn PyList::len(self : PyList) -> Int {
 /// print(list)  # Output: [1, 2.0, 'hello']
 /// ```
 pub fn[T : IsPyObject] PyList::append(self : PyList, item : T) -> Unit {
+  item.obj_ref().incref()
   let _ = @cpython.py_list_append(self.obj_ref(), item.obj_ref())
 
 }
@@ -204,6 +205,7 @@ pub fn[T : IsPyObject] PyList::set(
   idx : Int,
   item : T
 ) -> Unit raise PyRuntimeError {
+  item.obj_ref().incref()
   guard idx >= 0 && idx < self.len() else { raise IndexOutOfBoundsError }
   let _ = @cpython.py_list_set_item(
     self.obj_ref(),

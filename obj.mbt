@@ -1,21 +1,22 @@
 ///|
 pub struct PyObject {
-  priv obj : @cpython.PyObjectRef
+  priv obj : @cpython.PyObject
 }
 
 ///|
 fn PyObject::obj_ref(self : PyObject) -> @cpython.PyObjectRef {
-  self.obj
+  self.obj.obj_ref
 }
 
 ///|
 pub fn PyObject::create(obj : @cpython.PyObjectRef) -> PyObject {
+  let obj = @cpython.PyObject::new(obj)
   PyObject::{ obj, }
 }
 
 ///|
 pub fn PyObject::is_null(self : PyObject) -> Bool {
-  self.obj.is_null()
+  self.obj_ref().is_null()
 }
 
 ///|
@@ -129,11 +130,7 @@ pub impl IsPyObject for PyObject with obj(self) {
 }
 
 ///|
-pub impl Show for PyObject with to_string(self : PyObject) -> String {
-  @cpython.py_object_moonbit_str(self.obj)
-}
-
-///|
 pub impl Show for PyObject with output(self : PyObject, logger : &Logger) -> Unit {
-  logger.write_string(self.to_string())
+  let s = @cpython.py_object_moonbit_str(self.obj_ref())
+  logger.write_string(s)
 }
