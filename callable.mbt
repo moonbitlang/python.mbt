@@ -68,7 +68,7 @@ pub fn PyCallable::invoke(
       raise InVokeError
     }
   }
-  @option.unless(@cpython.py_none_check(obj_ref), fn() {
+  unless(@cpython.py_none_check(obj_ref), fn() {
     let obj = PyObject::create(obj_ref)
     PyObjectEnum::create(obj)
   })

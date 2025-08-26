@@ -154,7 +154,7 @@ pub fn[T : IsPyObject] PyList::from(items : Array[T]) -> PyList {
 /// inspect(list.get(-1), content="None")
 /// ```
 pub fn PyList::get(self : PyList, idx : Int) -> PyObjectEnum? {
-  @option.when(idx >= 0 && idx < self.len(), fn() {
+  when(idx >= 0 && idx < self.len(), fn() {
     @cpython.py_list_get_item(self.obj_ref(), idx.to_int64())
     |> PyObject::create
     |> PyObjectEnum::create

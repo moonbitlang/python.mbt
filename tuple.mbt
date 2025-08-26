@@ -101,7 +101,7 @@ pub fn PyTuple::len(self : PyTuple) -> UInt64 {
 /// print(tuple[1]) # Output: 2.0
 /// print(tuple[2]) # Output: three
 pub fn PyTuple::get(self : PyTuple, idx : Int) -> PyObjectEnum? {
-  @option.when(idx >= 0 && idx.to_uint64() < self.len(), fn() {
+  when(idx >= 0 && idx.to_uint64() < self.len(), fn() {
     @cpython.pytuple_get_item(self.obj_ref(), idx.to_uint64())
     |> PyObject::create
     |> PyObjectEnum::create
