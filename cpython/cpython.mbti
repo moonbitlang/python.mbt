@@ -1,3 +1,4 @@
+// Generated using `moon info`, DON'T EDIT IT
 package "Kaida-Amethyst/python/cpython"
 
 // Values
@@ -596,6 +597,8 @@ fn pytuple_new(UInt64) -> PyObjectRef
 fn pytuple_set_item(PyObjectRef, UInt64, PyObjectRef) -> Int
 
 fn pytuple_size(PyObjectRef) -> UInt64
+
+// Errors
 
 // Types and methods
 type ArrayPyObjectRef

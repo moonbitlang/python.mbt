@@ -22,7 +22,7 @@ fn PyModule::create_unchecked(obj : PyObject) -> PyModule {
 
 ///|
 pub fn PyModule::create_by_ref(
-  obj_ref : @cpython.PyObjectRef
+  obj_ref : @cpython.PyObjectRef,
 ) -> PyModule raise PyRuntimeError {
   guard @cpython.py_module_check(obj_ref) else { raise TypeMisMatchError }
   PyModule::{ obj: PyObject::create(obj_ref), name: None, attrs: Map::new() }
@@ -30,7 +30,7 @@ pub fn PyModule::create_by_ref(
 
 ///|
 fn PyModule::create_by_ref_unchecked(
-  obj_ref : @cpython.PyObjectRef
+  obj_ref : @cpython.PyObjectRef,
 ) -> PyModule {
   PyModule::{ obj: PyObject::create(obj_ref), name: None, attrs: Map::new() }
 }
@@ -131,7 +131,7 @@ pub fn PyModule::dump(self : PyModule) -> Unit {
 pub fn PyModule::get_attr(
   self : PyModule,
   attr : String,
-  print_err~ : Bool = false
+  print_err~ : Bool = false,
 ) -> PyObjectEnum? {
   if self.attrs.contains(attr) {
     return self.attrs.get(attr)

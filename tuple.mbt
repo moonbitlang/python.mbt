@@ -41,7 +41,7 @@ fn PyTuple::create_unchecked(obj : PyObject) -> PyTuple {
 ///| Create a PyTuple object from a python object reference.
 /// If the python object is not a tuple, it will raise a TypeMisMatchError.
 pub fn PyTuple::create_by_ref(
-  obj_ref : @cpython.PyObjectRef
+  obj_ref : @cpython.PyObjectRef,
 ) -> PyTuple raise PyRuntimeError {
   guard @cpython.py_tuple_check(obj_ref) else { raise TypeMisMatchError }
   PyTuple::{ obj: PyObject::create(obj_ref) }
@@ -149,7 +149,7 @@ pub fn PyTuple::op_get(self : PyTuple, idx : Int) -> PyObjectEnum {
 pub fn[T : IsPyObject] PyTuple::set(
   self : PyTuple,
   idx : Int,
-  item : T
+  item : T,
 ) -> Unit {
   guard idx >= 0 && idx.to_uint64() < self.len()
   let _ = @cpython.pytuple_set_item(
@@ -179,7 +179,7 @@ pub fn[T : IsPyObject] PyTuple::set(
 pub fn[T : IsPyObject] PyTuple::op_set(
   self : PyTuple,
   idx : Int,
-  item : T
+  item : T,
 ) -> Unit {
   self.set(idx, item)
 }

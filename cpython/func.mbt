@@ -3,14 +3,14 @@
 ///|
 pub extern "C" fn py_function_new(
   a : PyObjectRef,
-  b : PyObjectRef
+  b : PyObjectRef,
 ) -> PyObjectRef = "PyFunction_New"
 
 ///|
 pub extern "C" fn py_function_new_with_qual_name(
   a : PyObjectRef,
   b : PyObjectRef,
-  c : PyObjectRef
+  c : PyObjectRef,
 ) -> PyObjectRef = "PyFunction_NewWithQualName"
 
 ///|
@@ -28,7 +28,7 @@ pub extern "C" fn py_function_get_defaults(a : PyObjectRef) -> PyObjectRef = "Py
 ///|
 pub extern "C" fn py_function_set_defaults(
   a : PyObjectRef,
-  b : PyObjectRef
+  b : PyObjectRef,
 ) -> Int = "PyFunction_SetDefaults"
 
 ///|
@@ -37,7 +37,7 @@ pub extern "C" fn py_function_get_kw_defaults(a : PyObjectRef) -> PyObjectRef = 
 ///|
 pub extern "C" fn py_function_set_kw_defaults(
   a : PyObjectRef,
-  b : PyObjectRef
+  b : PyObjectRef,
 ) -> Int = "PyFunction_SetKwDefaults"
 
 ///|
@@ -46,7 +46,7 @@ pub extern "C" fn py_function_get_closure(a : PyObjectRef) -> PyObjectRef = "PyF
 ///|
 pub extern "C" fn py_function_set_closure(
   a : PyObjectRef,
-  b : PyObjectRef
+  b : PyObjectRef,
 ) -> Int = "PyFunction_SetClosure"
 
 ///|
@@ -55,7 +55,7 @@ pub extern "C" fn py_function_get_annotations(a : PyObjectRef) -> PyObjectRef = 
 ///|
 pub extern "C" fn py_function_set_annotations(
   a : PyObjectRef,
-  b : PyObjectRef
+  b : PyObjectRef,
 ) -> Int = "PyFunction_SetAnnotations"
 
 ///|

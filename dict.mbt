@@ -22,7 +22,7 @@ fn PyDict::create_unchecked(obj : PyObject) -> PyDict {
 ///| Create a python dict object from a python object reference.
 /// If the python object is not a dict, it will raise a TypeMisMatchError.
 pub fn PyDict::create_by_ref(
-  obj : @cpython.PyObjectRef
+  obj : @cpython.PyObjectRef,
 ) -> PyDict raise PyRuntimeError {
   guard @cpython.py_dict_check(obj) else { raise TypeMisMatchError }
   PyDict::{ obj: PyObject::create(obj) }
@@ -88,18 +88,14 @@ pub fn PyDict::len(self : PyDict) -> Int {
 pub fn PyDict::get(self : PyDict, key : String) -> PyObjectEnum? {
   let dict = self.obj_ref()
   let obj_ref = @cpython.py_dict_get_item_string(dict, key)
-  when(not(obj_ref.is_null()), fn() {
-    PyObjectEnum::create_by_ref(obj_ref)
-  })
+  when(not(obj_ref.is_null()), fn() { PyObjectEnum::create_by_ref(obj_ref) })
 }
 
 ///| Return the elements of the dict by its key, when the key is not string.
 pub fn PyDict::getByObj(self : PyDict, key : PyObject) -> PyObjectEnum? {
   let dict = self.obj_ref()
   let obj_ref = @cpython.py_dict_get_item(dict, key.obj_ref())
-  when(not(obj_ref.is_null()), fn() {
-    PyObjectEnum::create_by_ref(obj_ref)
-  })
+  when(not(obj_ref.is_null()), fn() { PyObjectEnum::create_by_ref(obj_ref) })
 }
 
 ///| Return the elements of the dict by its key.
@@ -148,7 +144,7 @@ pub fn PyDict::op_get(self : PyDict, key : String) -> PyObjectEnum {
 pub fn[V : IsPyObject] PyDict::set(
   self : PyDict,
   key : String,
-  val : V
+  val : V,
 ) -> Unit {
   let dict = self.obj_ref()
   let val = val.obj_ref()
@@ -183,7 +179,7 @@ pub fn[V : IsPyObject] PyDict::set(
 pub fn[K : IsPyObject, V : IsPyObject] PyDict::setByObj(
   self : PyDict,
   key : K,
-  val : V
+  val : V,
 ) -> Unit raise PyRuntimeError {
   let dict = self.obj_ref()
   @cpython.py_err_clear()
@@ -220,7 +216,7 @@ pub fn[K : IsPyObject, V : IsPyObject] PyDict::setByObj(
 pub fn[V : IsPyObject] PyDict::op_set(
   self : PyDict,
   key : String,
-  val : V
+  val : V,
 ) -> Unit {
   self.set(key, val)
 }

@@ -14,20 +14,20 @@ pub extern "C" fn py_object_bytes(a : PyObjectRef) -> PyObjectRef = "PyObject_By
 pub extern "C" fn py_object_rich_compare(
   a : PyObjectRef,
   b : PyObjectRef,
-  c : Int
+  c : Int,
 ) -> PyObjectRef = "PyObject_RichCompare"
 
 ///|
 pub extern "C" fn py_object_rich_compare_bool(
   a : PyObjectRef,
   b : PyObjectRef,
-  c : Int
+  c : Int,
 ) -> Int = "PyObject_RichCompareBool"
 
 ///|
 extern "C" fn __py_object_get_attr_string(
   a : PyObjectRef,
-  b : Bytes
+  b : Bytes,
 ) -> PyObjectRef = "PyObject_GetAttrString"
 
 ///|
@@ -40,14 +40,14 @@ pub fn py_object_get_attr_string(a : PyObjectRef, b : String) -> PyObjectRef {
 extern "C" fn __py_object_set_attr_string(
   a : PyObjectRef,
   b : Bytes,
-  c : PyObjectRef
+  c : PyObjectRef,
 ) -> Int = "PyObject_SetAttrString"
 
 ///|
 pub fn py_object_set_attr_string(
   a : PyObjectRef,
   b : String,
-  c : PyObjectRef
+  c : PyObjectRef,
 ) -> Int {
   let b = ToCStr::to_cstr(b)
   __py_object_set_attr_string(a, b, c)
@@ -65,14 +65,14 @@ pub fn py_object_has_attr_string(a : PyObjectRef, b : String) -> Int {
 ///|
 pub extern "C" fn py_object_get_attr(
   a : PyObjectRef,
-  b : PyObjectRef
+  b : PyObjectRef,
 ) -> PyObjectRef = "PyObject_GetAttr"
 
 ///|
 pub extern "C" fn py_object_set_attr(
   a : PyObjectRef,
   b : PyObjectRef,
-  c : PyObjectRef
+  c : PyObjectRef,
 ) -> Int = "PyObject_SetAttr"
 
 ///|
@@ -84,14 +84,14 @@ pub extern "C" fn py_object_self_iter(a : PyObjectRef) -> PyObjectRef = "PyObjec
 ///|
 pub extern "C" fn py_object_generic_get_attr(
   a : PyObjectRef,
-  b : PyObjectRef
+  b : PyObjectRef,
 ) -> PyObjectRef = "PyObject_GenericGetAttr"
 
 ///|
 pub extern "C" fn py_object_generic_set_attr(
   a : PyObjectRef,
   b : PyObjectRef,
-  c : PyObjectRef
+  c : PyObjectRef,
 ) -> Int = "PyObject_GenericSetAttr"
 
 // pub extern "C" fn py_object_hash(a: PyObjectRef) -> Py_hash_t = "PyObject_Hash"

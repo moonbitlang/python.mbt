@@ -18,26 +18,26 @@ pub extern "C" fn py_context_exit(a : PyObjectRef) -> Int = "PyContext_Exit"
 ///|
 pub extern "C" fn py_context_var_new(
   name : CStr,
-  default_value : PyObjectRef
+  default_value : PyObjectRef,
 ) -> PyObjectRef = "PyContextVar_New"
 
 ///|
 pub extern "C" fn py_context_var_get(
   pyvar : PyObjectRef,
   default_value : PyObjectRef,
-  value : ArrayPyObjectRef
+  value : ArrayPyObjectRef,
 ) -> Int = "PyContextVar_Get"
 
 ///|
 pub extern "C" fn py_context_var_set(
   pyvar : PyObjectRef,
-  value : PyObjectRef
+  value : PyObjectRef,
 ) -> PyObjectRef = "PyContextVar_Set"
 
 ///|
 pub extern "C" fn py_context_var_reset(
   pyvar : PyObjectRef,
-  token : PyObjectRef
+  token : PyObjectRef,
 ) -> Int = "PyContextVar_Reset"
 
 ///|

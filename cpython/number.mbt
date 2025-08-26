@@ -38,7 +38,7 @@ pub extern "C" fn py_float_from_string(obj : PyObjectRef) -> PyObjectRef = "PyFl
 ///|
 pub extern "C" fn py_complex_from_doubles(
   real : Double,
-  imag : Double
+  imag : Double,
 ) -> PyObjectRef = "PyComplex_FromDoubles"
 
 ///|

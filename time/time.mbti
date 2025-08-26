@@ -1,3 +1,4 @@
+// Generated using `moon info`, DON'T EDIT IT
 package "Kaida-Amethyst/python/time"
 
 // Values
@@ -21,15 +22,16 @@ fn time() -> Double
 
 fn time_ns() -> Int64
 
+// Errors
+pub suberror TurtleError {
+  LoadTimeModuleError
+}
+impl Show for TurtleError
+
 // Types and methods
 pub struct TimeModule {
   // private fields
 }
-
-pub type! TurtleError {
-  LoadTimeModuleError
-}
-impl Show for TurtleError
 
 // Type aliases
 

@@ -3,7 +3,7 @@
 ///|
 pub extern "C" fn py_method_new(
   a : PyObjectRef,
-  b : PyObjectRef
+  b : PyObjectRef,
 ) -> PyObjectRef = "PyMethod_New"
 
 ///|

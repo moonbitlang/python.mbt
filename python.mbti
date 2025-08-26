@@ -1,3 +1,4 @@
+// Generated using `moon info`, DON'T EDIT IT
 package "Kaida-Amethyst/python"
 
 import(
@@ -7,16 +8,25 @@ import(
 // Values
 fn init_py() -> Unit
 
-fn pyimport(String, print_err~ : Bool = ..) -> PyModule?
+fn pyimport(String, print_err? : Bool) -> PyModule?
 
 fn strip_quot(String) -> String
+
+// Errors
+pub suberror PyRuntimeError {
+  TypeMisMatchError
+  IndexOutOfBoundsError
+  KeyIsUnHashableError
+  InVokeError
+}
+impl Show for PyRuntimeError
 
 // Types and methods
 pub struct PyBool {
   // private fields
 }
-fn PyBool::create(PyObject) -> Self!PyRuntimeError
-fn PyBool::create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
+fn PyBool::create(PyObject) -> Self raise PyRuntimeError
+fn PyBool::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeError
 fn PyBool::dump(Self) -> Unit
 fn PyBool::from(Bool) -> Self
 fn PyBool::is_false(Self) -> Bool
@@ -29,10 +39,10 @@ impl Show for PyBool
 pub struct PyCallable {
   // private fields
 }
-fn PyCallable::create(PyObject) -> Self!PyRuntimeError
-fn PyCallable::create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
+fn PyCallable::create(PyObject) -> Self raise PyRuntimeError
+fn PyCallable::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeError
 fn PyCallable::dump(Self) -> Unit
-fn PyCallable::invoke(Self, args~ : PyTuple = .., kwargs~ : PyDict = .., print_err~ : Bool = ..) -> PyObjectEnum?!PyRuntimeError
+fn PyCallable::invoke(Self, args? : PyTuple, kwargs? : PyDict, print_err? : Bool) -> PyObjectEnum? raise PyRuntimeError
 impl IsPyObject for PyCallable
 impl Show for PyCallable
 
@@ -41,8 +51,8 @@ pub struct PyDict {
 }
 fn PyDict::contains(Self, String) -> Bool
 fn PyDict::containsObj(Self, PyObject) -> Bool
-fn PyDict::create(PyObject) -> Self!PyRuntimeError
-fn PyDict::create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
+fn PyDict::create(PyObject) -> Self raise PyRuntimeError
+fn PyDict::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeError
 fn PyDict::drop(Self) -> Unit
 fn PyDict::dump(Self) -> Unit
 fn PyDict::get(Self, String) -> PyObjectEnum?
@@ -54,7 +64,7 @@ fn PyDict::new() -> Self
 fn PyDict::op_get(Self, String) -> PyObjectEnum
 fn[V : IsPyObject] PyDict::op_set(Self, String, V) -> Unit
 fn[V : IsPyObject] PyDict::set(Self, String, V) -> Unit
-fn[K : IsPyObject, V : IsPyObject] PyDict::setByObj(Self, K, V) -> Unit!PyRuntimeError
+fn[K : IsPyObject, V : IsPyObject] PyDict::setByObj(Self, K, V) -> Unit raise PyRuntimeError
 fn PyDict::values(Self) -> PyList
 impl IsPyObject for PyDict
 impl Show for PyDict
@@ -62,8 +72,8 @@ impl Show for PyDict
 pub struct PyFloat {
   // private fields
 }
-fn PyFloat::create(PyObject) -> Self!PyRuntimeError
-fn PyFloat::create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
+fn PyFloat::create(PyObject) -> Self raise PyRuntimeError
+fn PyFloat::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeError
 fn PyFloat::drop(Self) -> Unit
 fn PyFloat::dump(Self) -> Unit
 fn PyFloat::from(Double) -> Self
@@ -74,8 +84,8 @@ impl Show for PyFloat
 pub struct PyInteger {
   // private fields
 }
-fn PyInteger::create(PyObject) -> Self!PyRuntimeError
-fn PyInteger::create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
+fn PyInteger::create(PyObject) -> Self raise PyRuntimeError
+fn PyInteger::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeError
 fn PyInteger::create_unchecked(PyObject) -> Self
 fn PyInteger::drop(Self) -> Unit
 fn PyInteger::dump(Self) -> Unit
@@ -89,8 +99,8 @@ pub struct PyList {
   // private fields
 }
 fn[T : IsPyObject] PyList::append(Self, T) -> Unit
-fn PyList::create(PyObject) -> Self!PyRuntimeError
-fn PyList::create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
+fn PyList::create(PyObject) -> Self raise PyRuntimeError
+fn PyList::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeError
 fn PyList::drop(Self) -> Unit
 fn PyList::dump(Self) -> Unit
 fn[T : IsPyObject] PyList::from(Array[T]) -> Self
@@ -99,17 +109,17 @@ fn PyList::len(Self) -> Int
 fn PyList::new() -> Self
 fn PyList::op_get(Self, Int) -> PyObjectEnum
 fn[T : IsPyObject] PyList::op_set(Self, Int, T) -> Unit
-fn[T : IsPyObject] PyList::set(Self, Int, T) -> Unit!PyRuntimeError
+fn[T : IsPyObject] PyList::set(Self, Int, T) -> Unit raise PyRuntimeError
 impl IsPyObject for PyList
 impl Show for PyList
 
 pub struct PyModule {
   // private fields
 }
-fn PyModule::create(PyObject) -> Self!PyRuntimeError
-fn PyModule::create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
+fn PyModule::create(PyObject) -> Self raise PyRuntimeError
+fn PyModule::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeError
 fn PyModule::dump(Self) -> Unit
-fn PyModule::get_attr(Self, String, print_err~ : Bool = ..) -> PyObjectEnum?
+fn PyModule::get_attr(Self, String, print_err? : Bool) -> PyObjectEnum?
 fn PyModule::get_name(Self) -> String
 impl IsPyObject for PyModule
 impl Show for PyModule
@@ -120,7 +130,7 @@ pub struct PyObject {
 fn PyObject::create(@cpython.PyObjectRef) -> Self
 fn PyObject::drop(Self) -> Unit
 fn PyObject::dump(Self) -> Unit
-fn PyObject::get_attr(Self, String, print_err~ : Bool = ..) -> PyObjectEnum?
+fn PyObject::get_attr(Self, String, print_err? : Bool) -> PyObjectEnum?
 fn PyObject::is_bool(Self) -> Bool
 fn PyObject::is_callable(Self) -> Bool
 fn PyObject::is_dict(Self) -> Bool
@@ -153,19 +163,11 @@ fn PyObjectEnum::create_by_ref(@cpython.PyObjectRef) -> Self
 fn PyObjectEnum::dump(Self) -> Unit
 impl Show for PyObjectEnum
 
-pub type! PyRuntimeError {
-  TypeMisMatchError
-  IndexOutOfBoundsError
-  KeyIsUnHashableError
-  InVokeError
-}
-impl Show for PyRuntimeError
-
 pub struct PyString {
   // private fields
 }
-fn PyString::create(PyObject) -> Self!PyRuntimeError
-fn PyString::create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
+fn PyString::create(PyObject) -> Self raise PyRuntimeError
+fn PyString::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeError
 fn PyString::drop(Self) -> Unit
 fn PyString::dump(Self) -> Unit
 fn PyString::from(String) -> Self
@@ -175,8 +177,8 @@ impl Show for PyString
 pub struct PyTuple {
   // private fields
 }
-fn PyTuple::create(PyObject) -> Self!PyRuntimeError
-fn PyTuple::create_by_ref(@cpython.PyObjectRef) -> Self!PyRuntimeError
+fn PyTuple::create(PyObject) -> Self raise PyRuntimeError
+fn PyTuple::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeError
 fn PyTuple::drop(Self) -> Unit
 fn PyTuple::dump(Self) -> Unit
 fn PyTuple::get(Self, Int) -> PyObjectEnum?

@@ -60,7 +60,7 @@ pub fn PyObjectEnum::dump(self : PyObjectEnum) -> Unit {
 
 ///|
 pub fn PyObjectEnum::create_by_ref(
-  obj_ref : @cpython.PyObjectRef
+  obj_ref : @cpython.PyObjectRef,
 ) -> PyObjectEnum {
   let obj = PyObject::create(obj_ref)
   PyObjectEnum::create(obj)

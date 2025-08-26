@@ -15,7 +15,7 @@ pub extern "C" fn py_set_clear(set : PyObjectRef) -> Int = "PySet_Clear"
 ///|
 pub extern "C" fn py_set_contains(
   anyset : PyObjectRef,
-  key : PyObjectRef
+  key : PyObjectRef,
 ) -> Int = "PySet_Contains"
 
 ///|

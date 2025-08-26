@@ -1,3 +1,4 @@
+// Generated using `moon info`, DON'T EDIT IT
 package "Kaida-Amethyst/python/turtle"
 
 import(
@@ -6,6 +7,12 @@ import(
 
 // Values
 fn bgcolor(Color) -> Unit
+
+// Errors
+pub suberror TurtleError {
+  LoadTurtleError
+}
+impl Show for TurtleError
 
 // Types and methods
 pub(all) enum Color {
@@ -37,10 +44,10 @@ pub struct Pen {
 }
 fn Pen::backward(Self, Double) -> Unit
 fn Pen::begin_fill(Self) -> Unit
-fn Pen::circle(Self, Double, extent~ : Double? = .., steps~ : Int? = ..) -> Unit
+fn Pen::circle(Self, Double, extent? : Double?, steps? : Int?) -> Unit
 fn Pen::clear(Self) -> Unit
 fn Pen::clearstamp(Self, Int) -> Unit
-fn Pen::clearstamps(Self, n~ : Int? = ..) -> Unit
+fn Pen::clearstamps(Self, n? : Int?) -> Unit
 fn Pen::color(Self, Color) -> Unit
 fn Pen::dot(Self, Double, Color) -> Unit
 fn Pen::end_fill(Self) -> Unit
@@ -63,7 +70,7 @@ fn Pen::radians(Self) -> Double
 fn Pen::reset(Self) -> Unit
 fn Pen::right(Self, Double) -> Unit
 fn Pen::shape(Self, Shape) -> Unit
-fn Pen::shapesize(Self, stretch_width~ : Double? = .., stretch_len~ : Double? = .., outline~ : Int? = ..) -> Unit
+fn Pen::shapesize(Self, stretch_width? : Double?, stretch_len? : Double?, outline? : Int?) -> Unit
 fn Pen::show(Self) -> Unit
 fn Pen::speed(Self, Speed) -> Unit
 fn Pen::stamp(Self) -> Int
@@ -102,11 +109,6 @@ pub(all) enum Speed {
 pub struct Turtle {
   // private fields
 }
-
-pub type! TurtleError {
-  LoadTurtleError
-}
-impl Show for TurtleError
 
 // Type aliases
 

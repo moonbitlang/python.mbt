@@ -9,7 +9,7 @@ pub extern "C" fn py_file_from_fd(
   encoding : CStr,
   errors : CStr,
   newline : CStr,
-  line_buffering : Int
+  line_buffering : Int,
 ) -> PyObjectRef = "PyFile_FromFd"
 
 ///|
@@ -19,7 +19,7 @@ pub extern "C" fn py_file_get_line(a : PyObjectRef, b : Int) -> PyObjectRef = "P
 pub extern "C" fn py_file_write_object(
   a : PyObjectRef,
   b : PyObjectRef,
-  c : Int
+  c : Int,
 ) -> Int = "PyFile_WriteObject"
 
 ///|

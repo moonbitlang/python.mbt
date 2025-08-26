@@ -4,7 +4,7 @@
 pub extern "C" fn py_eval_call_object_with_keywords(
   callable : PyObjectRef,
   args : PyObjectRef,
-  kwargs : PyObjectRef
+  kwargs : PyObjectRef,
 ) -> PyObjectRef = "PyEval_CallObjectWithKeywords"
 
 // pub extern "C" fn py_eval_call_function(callable: PyObjectRef, format: CStr, ...) -> PyObjectRef = "PyEval_CallFunction" // 可变参数 ...

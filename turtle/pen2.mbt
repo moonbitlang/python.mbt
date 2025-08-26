@@ -436,7 +436,7 @@ pub fn Pen::circle(
   self : Pen,
   radius : Double,
   extent~ : Double? = None,
-  steps~ : Int? = None
+  steps~ : Int? = None,
 ) -> Unit {
   guard self.get_method("circle") is Some(func) else {
     println("Failed to get Pen::circle method")
@@ -543,7 +543,7 @@ pub fn Pen::shapesize(
   self : Pen,
   stretch_width~ : Double? = None,
   stretch_len~ : Double? = None,
-  outline~ : Int? = None
+  outline~ : Int? = None,
 ) -> Unit {
   guard self.get_method("shapesize") is Some(func) else {
     println("Failed to get Pen::shapesize method")

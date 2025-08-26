@@ -9,14 +9,14 @@ pub extern "C" fn py_import_get_magic_tag() -> CStr = "PyImport_GetMagicTag"
 ///|
 pub extern "C" fn py_import_exec_code_module(
   name : CStr,
-  co : PyObjectRef
+  co : PyObjectRef,
 ) -> PyObjectRef = "PyImport_ExecCodeModule"
 
 ///|
 pub extern "C" fn py_import_exec_code_module_ex(
   name : CStr,
   co : PyObjectRef,
-  pathname : CStr
+  pathname : CStr,
 ) -> PyObjectRef = "PyImport_ExecCodeModuleEx"
 
 ///|
@@ -24,7 +24,7 @@ pub extern "C" fn py_import_exec_code_module_with_pathnames(
   name : CStr,
   co : PyObjectRef,
   pathname : CStr,
-  cpathname : CStr
+  cpathname : CStr,
 ) -> PyObjectRef = "PyImport_ExecCodeModuleWithPathnames"
 
 ///|
@@ -32,7 +32,7 @@ pub extern "C" fn py_import_exec_code_module_object(
   name : PyObjectRef,
   co : PyObjectRef,
   pathname : PyObjectRef,
-  cpathname : PyObjectRef
+  cpathname : PyObjectRef,
 ) -> PyObjectRef = "PyImport_ExecCodeModuleObject"
 
 ///|
@@ -43,7 +43,7 @@ pub extern "C" fn py_import_get_module(name : PyObjectRef) -> PyObjectRef = "PyI
 
 ///|
 pub extern "C" fn py_import_add_module_object(
-  name : PyObjectRef
+  name : PyObjectRef,
 ) -> PyObjectRef = "PyImport_AddModuleObject"
 
 ///|
@@ -69,7 +69,7 @@ pub extern "C" fn py_import_import_module_level(
   globals : PyObjectRef,
   locals : PyObjectRef,
   fromlist : PyObjectRef,
-  level : Int
+  level : Int,
 ) -> PyObjectRef = "PyImport_ImportModuleLevel"
 
 ///|
@@ -78,7 +78,7 @@ pub extern "C" fn py_import_import_module_level_object(
   globals : PyObjectRef,
   locals : PyObjectRef,
   fromlist : PyObjectRef,
-  level : Int
+  level : Int,
 ) -> PyObjectRef = "PyImport_ImportModuleLevelObject"
 
 ///|
@@ -95,7 +95,7 @@ pub extern "C" fn py_import_cleanup() = "PyImport_Cleanup"
 
 ///|
 pub extern "C" fn py_import_import_frozen_module_object(
-  name : PyObjectRef
+  name : PyObjectRef,
 ) -> Int = "PyImport_ImportFrozenModuleObject"
 
 ///|

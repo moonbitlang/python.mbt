@@ -22,7 +22,7 @@ fn PyCallable::create_unchecked(obj : PyObject) -> PyCallable {
 ///| Create a python callable object from a PyObjectRef.
 /// If the object is not callable, a TypeMisMatchError is raised.
 pub fn PyCallable::create_by_ref(
-  obj : @cpython.PyObjectRef
+  obj : @cpython.PyObjectRef,
 ) -> PyCallable raise PyRuntimeError {
   guard @cpython.py_callable_check(obj) else { raise TypeMisMatchError }
   PyCallable::{ obj: PyObject::create(obj) }
@@ -30,7 +30,7 @@ pub fn PyCallable::create_by_ref(
 
 ///|
 fn PyCallable::create_by_ref_unchecked(
-  obj : @cpython.PyObjectRef
+  obj : @cpython.PyObjectRef,
 ) -> PyCallable {
   PyCallable::{ obj: PyObject::create(obj) }
 }
@@ -51,7 +51,7 @@ pub fn PyCallable::invoke(
   self : PyCallable,
   args~ : PyTuple = PyTuple::new(0),
   kwargs~ : PyDict = PyDict::new(),
-  print_err~ : Bool = false
+  print_err~ : Bool = false,
 ) -> PyObjectEnum? raise PyRuntimeError {
   let obj_ref = if kwargs.len() > 0 {
     @cpython.py_object_call(self.obj_ref(), args.obj_ref(), kwargs.obj_ref())

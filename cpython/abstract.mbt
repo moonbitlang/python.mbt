@@ -11,7 +11,7 @@
 pub extern "C" fn py_object_call(
   callable : PyObjectRef,
   args : PyObjectRef,
-  kwargs : PyObjectRef
+  kwargs : PyObjectRef,
 ) -> PyObjectRef = "PyObject_Call"
 
 ///| Call a callable Python object 'callable', with arguments given by the
@@ -23,7 +23,7 @@ pub extern "C" fn py_object_call(
 /// callable(*args).
 pub extern "C" fn py_object_call_object(
   callable : PyObjectRef,
-  args : PyObjectRef
+  args : PyObjectRef,
 ) -> PyObjectRef = "PyObject_CallObject"
 
 ///| Get the type of an object.
@@ -48,7 +48,7 @@ pub extern "C" fn py_object_size(obj : PyObjectRef) -> UInt64 = "PyObject_Size"
 /// This is the equivalent of the Python expression: o[key] */
 pub extern "C" fn py_object_get_item(
   obj : PyObjectRef,
-  key : PyObjectRef
+  key : PyObjectRef,
 ) -> PyObjectRef = "PyObject_GetItem"
 
 ///| Map the object 'key' to the value 'v' into 'o'.
@@ -59,7 +59,7 @@ pub extern "C" fn py_object_get_item(
 pub extern "C" fn py_object_set_item(
   obj : PyObjectRef,
   key : PyObjectRef,
-  value : PyObjectRef
+  value : PyObjectRef,
 ) -> Int = "py_object_SetItem"
 
 ///| Remove the mapping for the string 'key' from the object 'o'.
@@ -68,7 +68,7 @@ pub extern "C" fn py_object_set_item(
 /// This is equivalent to the Python statement: del o[key].
 pub extern "C" fn py_object_del_item_string(
   obj : PyObjectRef,
-  key : CStr
+  key : CStr,
 ) -> Int = "PyObject_DelItemString"
 
 ///| Delete the mapping for the object 'key' from the object 'o'.
@@ -77,14 +77,14 @@ pub extern "C" fn py_object_del_item_string(
 /// This is the equivalent of the Python statement: del o[key].
 pub extern "C" fn py_object_del_item(
   obj : PyObjectRef,
-  key : PyObjectRef
+  key : PyObjectRef,
 ) -> Int = "PyObject_DelItem"
 
 ///| Takes an arbitrary object and returns the result of calling
 /// obj.__format__(format_spec).
 pub extern "C" fn pyobkect_format(
   obj : PyObjectRef,
-  format_spec : PyObjectRef
+  format_spec : PyObjectRef,
 ) -> PyObjectRef = "PyObject_Format"
 
 ///| Takes an object and returns an iterator for it.
@@ -116,7 +116,7 @@ pub extern "C" fn pynumber_check(obj : PyObjectRef) -> Int = "PyNumber_Check"
 /// This is the equivalent of the Python expression: o1 + o2. */
 pub extern "C" fn pynumber_add(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_Add"
 
 ///| Returns the result of subtracting o2 from o1, or NULL on failure.
@@ -124,7 +124,7 @@ pub extern "C" fn pynumber_add(
 /// This is the equivalent of the Python expression: o1 - o2. */
 pub extern "C" fn pynumber_subtract(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_Subtract"
 
 ///| Returns the result of multiplying o1 and o2, or NULL on failure.
@@ -132,7 +132,7 @@ pub extern "C" fn pynumber_subtract(
 /// This is the equivalent of the Python expression: o1 * o2. */
 pub extern "C" fn pynumber_multiply(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_Multiply"
 
 ///| Returns the result of dividing o1 by o2 giving an integral result,
@@ -141,7 +141,7 @@ pub extern "C" fn pynumber_multiply(
 /// This is the equivalent of the Python expression: o1 // o2. */
 pub extern "C" fn pynumber_floor_divide(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_FloorDivide"
 
 ///| Returns the result of dividing o1 by o2 giving a float result, or NULL on
@@ -150,7 +150,7 @@ pub extern "C" fn pynumber_floor_divide(
 /// This is the equivalent of the Python expression: o1 / o2.
 pub extern "C" fn pynumber_true_divide(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_TrueDivide"
 
 ///| Returns the remainder of dividing o1 by o2, or NULL on failure.
@@ -158,7 +158,7 @@ pub extern "C" fn pynumber_true_divide(
 /// This is the equivalent of the Python expression: o1 % o2.
 pub extern "C" fn pynumber_remainder(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_Remainder"
 
 ///| See the built-in function divmod.
@@ -168,7 +168,7 @@ pub extern "C" fn pynumber_remainder(
 /// This is the equivalent of the Python expression: divmod(o1, o2).
 pub extern "C" fn pynumber_divmod(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_Divmod"
 
 ///| See the built-in function pow. Returns NULL on failure.
@@ -178,7 +178,7 @@ pub extern "C" fn pynumber_divmod(
 pub extern "C" fn pynumber_power(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
-  obj3 : PyObjectRef
+  obj3 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_Power"
 
 ///| Returns the negation of o on success, or NULL on failure.
@@ -206,7 +206,7 @@ pub extern "C" fn pynumber_invert(obj : PyObjectRef) -> PyObjectRef = "PyNumber_
 /// This is the equivalent of the Python expression: o1 << o2.
 pub extern "C" fn pynumber_lshift(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_Lshift"
 
 ///| Returns the result of right shifting o1 by o2 on success, or NULL on
@@ -215,7 +215,7 @@ pub extern "C" fn pynumber_lshift(
 /// This is the equivalent of the Python expression: o1 >> o2.
 pub extern "C" fn pynumber_rshift(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_Rshift"
 
 ///| Returns the result of bitwise and of o1 and o2 on success, or NULL on
@@ -224,7 +224,7 @@ pub extern "C" fn pynumber_rshift(
 /// This is the equivalent of the Python expression: o1 & o2.
 pub extern "C" fn pynumber_and(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_And"
 
 ///| Returns the bitwise exclusive or of o1 by o2 on success, or NULL on failure.
@@ -232,7 +232,7 @@ pub extern "C" fn pynumber_and(
 /// This is the equivalent of the Python expression: o1 ^ o2.
 pub extern "C" fn pynumber_xor(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_Xor"
 
 ///| Returns the result of bitwise or on o1 and o2 on success, or NULL on
@@ -241,7 +241,7 @@ pub extern "C" fn pynumber_xor(
 /// This is the equivalent of the Python expression: o1 | o2.
 pub extern "C" fn pynumber_or(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_Or"
 
 ///| Returns 1 if obj is an index integer (has the nb_index slot of the
@@ -260,7 +260,7 @@ pub extern "C" fn pynumber_index(obj : PyObjectRef) -> PyObjectRef = "PyNumber_I
 /// overflow error is cleared and the value is clipped.
 pub extern "C" fn pynumber_as_ssize_t(
   obj : PyObjectRef,
-  exc : PyObjectRef
+  exc : PyObjectRef,
 ) -> Int = "PyNumber_AsSsize_t"
 
 ///| Returns the object 'o' converted to an integer object on success, or NULL
@@ -281,7 +281,7 @@ pub extern "C" fn pynumber_float(obj : PyObjectRef) -> PyObjectRef = "PyNumber_F
 /// This is the equivalent of the Python expression: o1 += o2.
 pub extern "C" fn pynumber_inplace_add(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_InPlaceAdd"
 
 ///| Returns the result of subtracting o2 from o1, possibly in-place or
@@ -290,7 +290,7 @@ pub extern "C" fn pynumber_inplace_add(
 /// This is the equivalent of the Python expression: o1 -= o2.
 pub extern "C" fn pynumber_inplace_subtract(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_InPlaceSubtract"
 
 ///| Returns the result of multiplying o1 by o2, possibly in-place, or NULL on
@@ -299,13 +299,13 @@ pub extern "C" fn pynumber_inplace_subtract(
 /// This is the equivalent of the Python expression: o1 *= o2.
 pub extern "C" fn pynumber_inplace_multiply(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_InPlaceMultiply"
 
 ///|
 pub extern "C" fn pynumber_inplace_floor_divide(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_InPlaceFloorDivide"
 
 ///| Returns the result of dividing o1 by o2 giving a float result, possibly
@@ -314,7 +314,7 @@ pub extern "C" fn pynumber_inplace_floor_divide(
 /// This is the equivalent of the Python expression: o1 /= o2.
 pub extern "C" fn pynumber_inplace_true_divide(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_InPlaceTrueDivide"
 
 ///| Returns the remainder of dividing o1 by o2, possibly in-place, or NULL on
@@ -323,7 +323,7 @@ pub extern "C" fn pynumber_inplace_true_divide(
 /// This is the equivalent of the Python expression: o1 %= o2.
 pub extern "C" fn pynumber_inplace_remainder(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_InPlaceRemainder"
 
 ///| Returns the result of raising o1 to the power of o2, possibly in-place,
@@ -334,7 +334,7 @@ pub extern "C" fn pynumber_inplace_remainder(
 pub extern "C" fn pynumber_inplace_power(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
-  obj3 : PyObjectRef
+  obj3 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_InPlacePower"
 
 ///| Returns the result of left shifting o1 by o2, possibly in-place, or NULL
@@ -343,7 +343,7 @@ pub extern "C" fn pynumber_inplace_power(
 /// This is the equivalent of the Python expression: o1 <<= o2.
 pub extern "C" fn pynumber_inplace_lshift(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_InPlaceLshift"
 
 ///| Returns the result of right shifting o1 by o2, possibly in-place or NULL
@@ -352,7 +352,7 @@ pub extern "C" fn pynumber_inplace_lshift(
 /// This is the equivalent of the Python expression: o1 >>= o2.
 pub extern "C" fn pynumber_inplace_rshift(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_InPlaceRshift"
 
 ///| Returns the result of bitwise and of o1 and o2, possibly in-place, or NULL
@@ -361,7 +361,7 @@ pub extern "C" fn pynumber_inplace_rshift(
 /// This is the equivalent of the Python expression: o1 &= o2.
 pub extern "C" fn pynumber_inplace_and(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_InPlaceAnd"
 
 ///| Returns the bitwise exclusive or of o1 by o2, possibly in-place, or NULL
@@ -370,7 +370,7 @@ pub extern "C" fn pynumber_inplace_and(
 /// This is the equivalent of the Python expression: o1 ^= o2.
 pub extern "C" fn pynumber_inplace_xor(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_InPlaceXor"
 
 ///| Returns the result of bitwise or of o1 and o2, possibly in-place,
@@ -379,7 +379,7 @@ pub extern "C" fn pynumber_inplace_xor(
 /// This is the equivalent of the Python expression: o1 |= o2.
 pub extern "C" fn pynumber_inplace_or(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_InPlaceOr"
 
 ///| Returns the integer n converted to a string with a base, with a base
@@ -388,7 +388,7 @@ pub extern "C" fn pynumber_inplace_or(
 /// If n is not an int object, it is converted with PyNumber_Index first. */
 pub extern "C" fn pynumber_to_base(
   obj : PyObjectRef,
-  base : Int
+  base : Int,
 ) -> PyObjectRef = "PyNumber_ToBase"
 
 ///| Return 1 if the object provides sequence protocol, and zero
@@ -405,7 +405,7 @@ pub extern "C" fn pysequence_size(obj : PyObjectRef) -> Int = "PySequence_Size"
 /// This is the equivalent of the Python expression: o1 + o2. */
 pub extern "C" fn pysequence_concat(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PySequence_Concat"
 
 ///| Return the result of repeating sequence object 'o' 'count' times,
@@ -414,7 +414,7 @@ pub extern "C" fn pysequence_concat(
 /// This is the equivalent of the Python expression: o * count. */
 pub extern "C" fn pysequence_repeat(
   obj : PyObjectRef,
-  count : Int
+  count : Int,
 ) -> PyObjectRef = "PySequence_Repeat"
 
 ///| Return the ith element of o, or NULL on failure.
@@ -422,7 +422,7 @@ pub extern "C" fn pysequence_repeat(
 /// This is the equivalent of the Python expression: o[i].
 pub extern "C" fn pysequence_get_item(
   obj : PyObjectRef,
-  idx : UInt64
+  idx : UInt64,
 ) -> PyObjectRef = "PySequence_GetItem"
 
 ///| Return the slice of sequence object o between i1 and i2, or NULL on failure.
@@ -431,7 +431,7 @@ pub extern "C" fn pysequence_get_item(
 pub extern "C" fn pysequence_get_slice(
   obj : PyObjectRef,
   start : UInt64,
-  end : UInt64
+  end : UInt64,
 ) -> PyObjectRef = "PySequence_GetSlice"
 
 ///| Assign object 'v' to the ith element of the sequence 'o'. Raise an exception
@@ -441,7 +441,7 @@ pub extern "C" fn pysequence_get_slice(
 pub extern "C" fn pysequence_set_item(
   obj : PyObjectRef,
   idx : UInt64,
-  value : PyObjectRef
+  value : PyObjectRef,
 ) -> Int = "PySequence_SetItem"
 
 ///| Delete the 'i'-th element of the sequence 'v'. Returns -1 on failure.
@@ -457,7 +457,7 @@ pub extern "C" fn pysequence_set_slice(
   obj : PyObjectRef,
   start : UInt64,
   end : UInt64,
-  new_list : PyObjectRef
+  new_list : PyObjectRef,
 ) -> Int = "PySequence_SetSlice"
 
 ///| Delete the slice in sequence object 'o' from 'i1' to 'i2'.
@@ -467,7 +467,7 @@ pub extern "C" fn pysequence_set_slice(
 pub extern "C" fn pysequence_del_slice(
   obj : PyObjectRef,
   start : UInt64,
-  end : UInt64
+  end : UInt64,
 ) -> Int = "PySequence_DelSlice"
 
 ///| Returns the sequence 'o' as a tuple on success, and NULL on failure.
@@ -493,7 +493,7 @@ pub extern "C" fn pysequence_fast(obj : PyObjectRef, msg : CStr) -> PyObjectRef 
 ///|
 pub extern "C" fn pysequence_count(
   obj : PyObjectRef,
-  value : PyObjectRef
+  value : PyObjectRef,
 ) -> Int = "PySequence_Count"
 
 ///| Return 1 if 'ob' is in the sequence 'seq'; 0 if 'ob' is not in the sequence
@@ -502,7 +502,7 @@ pub extern "C" fn pysequence_count(
 /// Use __contains__ if possible, else _PySequence_IterSearch().
 pub extern "C" fn pysequence_contains(
   seq : PyObjectRef,
-  ob : PyObjectRef
+  ob : PyObjectRef,
 ) -> Int = "PySequence_Contains"
 
 // PyAPI_FUNC(Py_ssize_t) PySequence_Index(py_object *o, PyObject *value);
@@ -510,7 +510,7 @@ pub extern "C" fn pysequence_contains(
 ///|
 pub extern "C" fn pysequence_index(
   obj : PyObjectRef,
-  value : PyObjectRef
+  value : PyObjectRef,
 ) -> Int = "PySequence_Index"
 
 ///|  Append sequence 'o2' to sequence 'o1', in-place when possible. Return the
@@ -519,7 +519,7 @@ pub extern "C" fn pysequence_index(
 ///  This is the equivalent of the Python expression: o1 += o2. */
 pub extern "C" fn pysequence_inplace_concat(
   obj1 : PyObjectRef,
-  obj2 : PyObjectRef
+  obj2 : PyObjectRef,
 ) -> PyObjectRef = "PySequence_InPlaceConcat"
 
 ///| Repeat sequence 'o' by 'count', in-place when possible. Return the resulting
@@ -528,7 +528,7 @@ pub extern "C" fn pysequence_inplace_concat(
 /// This is the equivalent of the Python expression: o1 *= count.  */
 pub extern "C" fn pysequence_inplace_repeat(
   obj : PyObjectRef,
-  count : Int
+  count : Int,
 ) -> PyObjectRef = "PySequence_InPlaceRepeat"
 
 ///| Return 1 if the object provides mapping protocol, and 0 otherwise.
@@ -548,7 +548,7 @@ pub extern "C" fn pymapping_size(obj : PyObjectRef) -> Int = "PyMapping_Size"
 /// This function always succeeds. */
 pub extern "C" fn pymapping_has_key_string(
   obj : PyObjectRef,
-  key : CStr
+  key : CStr,
 ) -> Int = "PyMapping_HasKeyString"
 
 ///| Return 1 if the mapping object has the key 'key', and 0 otherwise.
@@ -558,7 +558,7 @@ pub extern "C" fn pymapping_has_key_string(
 /// This function always succeeds.
 pub extern "C" fn pymapping_has_key(
   obj : PyObjectRef,
-  key : PyObjectRef
+  key : PyObjectRef,
 ) -> Int = "PyMapping_HasKey"
 
 ///| On success, return a list or tuple of the keys in mapping object 'o'.
@@ -577,26 +577,26 @@ pub extern "C" fn pymapping_items(obj : PyObjectRef) -> PyObjectRef = "PyMapping
 ///|
 pub extern "C" fn pymapping_get_item_string(
   obj : PyObjectRef,
-  key : CStr
+  key : CStr,
 ) -> PyObjectRef = "PyMapping_GetItemString"
 
 ///|
 pub extern "C" fn pymapping_set_item_string(
   obj : PyObjectRef,
   key : CStr,
-  value : PyObjectRef
+  value : PyObjectRef,
 ) -> Int = "PyMapping_SetItemString"
 
 ///|
 pub extern "C" fn py_object_is_instance(
   obj : PyObjectRef,
-  typeorclass : PyObjectRef
+  typeorclass : PyObjectRef,
 ) -> Int = "PyObject_IsInstance"
 
 ///|
 pub extern "C" fn py_object_is_subclass(
   obj : PyObjectRef,
-  typeorclass : PyObjectRef
+  typeorclass : PyObjectRef,
 ) -> Int = "PyObject_IsSubclass"
 
 ///| PyObject repr to string

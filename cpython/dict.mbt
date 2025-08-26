@@ -6,20 +6,20 @@ pub extern "C" fn py_dict_new() -> PyObjectRef = "PyDict_New"
 ///|
 pub extern "C" fn py_dict_get_item(
   dict : PyObjectRef,
-  key : PyObjectRef
+  key : PyObjectRef,
 ) -> PyObjectRef = "PyDict_GetItem"
 
 ///|
 pub extern "C" fn py_dict_set_item(
   dict : PyObjectRef,
   key : PyObjectRef,
-  item : PyObjectRef
+  item : PyObjectRef,
 ) -> Int = "PyDict_SetItem"
 
 ///|
 pub extern "C" fn py_dict_del_item(
   dict : PyObjectRef,
-  key : PyObjectRef
+  key : PyObjectRef,
 ) -> Int = "PyDict_DelItem"
 
 ///|
@@ -46,7 +46,7 @@ pub extern "C" fn py_dict_copy(dict : PyObjectRef) -> PyObjectRef = "PyDict_Copy
 ///|
 pub extern "C" fn __py_dict_contains(
   dict : PyObjectRef,
-  key : PyObjectRef
+  key : PyObjectRef,
 ) -> Int = "PyDict_Contains"
 
 ///|
@@ -57,27 +57,27 @@ pub fn py_dict_contains(dict : PyObjectRef, key : PyObjectRef) -> Bool {
 ///|
 pub extern "C" fn py_dict_update(
   dict : PyObjectRef,
-  other : PyObjectRef
+  other : PyObjectRef,
 ) -> Int = "PyDict_Update"
 
 ///|
 pub extern "C" fn py_dict_merge(
   dict : PyObjectRef,
   other : PyObjectRef,
-  _override : Int
+  _override : Int,
 ) -> Int = "PyDict_Merge"
 
 ///|
 pub extern "C" fn py_dict_merge_from_seq2(
   dict : PyObjectRef,
   seq2 : PyObjectRef,
-  override_ : Int
+  override_ : Int,
 ) -> Int = "PyDict_MergeFromSeq2"
 
 ///|
 extern "C" fn __py_dict_get_item_string(
   dict : PyObjectRef,
-  key : CStr
+  key : CStr,
 ) -> PyObjectRef = "PyDict_GetItemString"
 
 ///|
@@ -90,14 +90,14 @@ pub fn py_dict_get_item_string(dict : PyObjectRef, key : String) -> PyObjectRef 
 extern "C" fn __py_dict_set_item_string(
   dict : PyObjectRef,
   key : CStr,
-  item : PyObjectRef
+  item : PyObjectRef,
 ) -> Int = "PyDict_SetItemString"
 
 ///|
 pub fn py_dict_set_item_string(
   dict : PyObjectRef,
   key : String,
-  item : PyObjectRef
+  item : PyObjectRef,
 ) -> Int {
   let key = CStr::from(key)
   __py_dict_set_item_string(dict, key, item)

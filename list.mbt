@@ -35,7 +35,7 @@ fn PyList::create_unchecked(obj : PyObject) -> PyList {
 ///| Create a python list object from a pyobject reference.
 /// If the pyobject is not a list, it will raise a TypeMisMatchError.
 pub fn PyList::create_by_ref(
-  obj : @cpython.PyObjectRef
+  obj : @cpython.PyObjectRef,
 ) -> PyList raise PyRuntimeError {
   guard @cpython.py_list_check(obj) else { raise TypeMisMatchError }
   PyList::{ obj: PyObject::create(obj) }
@@ -202,7 +202,7 @@ pub fn PyList::op_get(self : PyList, idx : Int) -> PyObjectEnum {
 pub fn[T : IsPyObject] PyList::set(
   self : PyList,
   idx : Int,
-  item : T
+  item : T,
 ) -> Unit raise PyRuntimeError {
   guard idx >= 0 && idx < self.len() else { raise IndexOutOfBoundsError }
   let _ = @cpython.py_list_set_item(
@@ -233,7 +233,7 @@ pub fn[T : IsPyObject] PyList::set(
 pub fn[T : IsPyObject] PyList::op_set(
   self : PyList,
   idx : Int,
-  item : T
+  item : T,
 ) -> Unit {
   self.set(idx, item) catch {
     _ => panic()

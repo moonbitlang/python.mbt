@@ -109,7 +109,7 @@ pub fn PyObject::type_name(self : PyObject) -> String {
 pub fn PyObject::get_attr(
   self : PyObject,
   attr : String,
-  print_err~ : Bool = false
+  print_err~ : Bool = false,
 ) -> PyObjectEnum? {
   let f = @cpython.py_object_get_attr_string(self.obj_ref(), attr)
   if f.is_null() {

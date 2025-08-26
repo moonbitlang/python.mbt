@@ -16,7 +16,7 @@ pub extern "C" fn py_code_new(
   l : PyObjectRef,
   m : PyObjectRef,
   n : Int,
-  o : PyObjectRef
+  o : PyObjectRef,
 ) -> PyCodeObjectRef = "PyCode_New"
 
 ///|
@@ -36,14 +36,14 @@ pub extern "C" fn py_code_new_with_pos_only_args(
   m : PyObjectRef,
   n : PyObjectRef,
   o : Int,
-  p : PyObjectRef
+  p : PyObjectRef,
 ) -> PyCodeObjectRef = "PyCode_NewWithPosOnlyArgs"
 
 ///|
 pub extern "C" fn py_code_new_empty(
   filename : CStr,
   funcname : CStr,
-  firstlineno : Int
+  firstlineno : Int,
 ) -> PyCodeObjectRef = "PyCode_NewEmpty"
 
 ///|

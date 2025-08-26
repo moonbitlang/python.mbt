@@ -3,13 +3,13 @@
 ///|
 pub extern "C" fn py_unicode_from_unicode(
   u : CWStr,
-  size : UInt64
+  size : UInt64,
 ) -> PyObjectRef = "PyUnicode_FromStringAndSize"
 
 ///|
 pub extern "C" fn py_unicode_from_string_and_size(
   u : CStr,
-  size : UInt64
+  size : UInt64,
 ) -> PyObjectRef = "PyUnicode_FromStringAndSize"
 
 ///|
@@ -42,7 +42,7 @@ pub fn py_unicode_as_utf8(u : PyObjectRef) -> String {
 extern "C" fn __py_unicode_from_kind_and_data(
   kind : Int,
   buffer : String,
-  size : UInt64
+  size : UInt64,
 ) -> PyObjectRef = "PyUnicode_FromKindAndData"
 
 ///|

@@ -15,5 +15,5 @@ pub extern "C" fn py_cell_set(a : PyObjectRef, b : PyObjectRef) -> Int = "PyCell
 pub extern "C" fn py_eval_eval_code(
   a : PyObjectRef,
   b : PyObjectRef,
-  c : PyObjectRef
+  c : PyObjectRef,
 ) -> PyObjectRef = "PyEval_EvalCode"

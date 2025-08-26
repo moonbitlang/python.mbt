@@ -22,7 +22,7 @@ fn PyBool::create_unchecked(obj : PyObject) -> PyBool {
 ///| Create a python boolean object from a python object reference.
 /// If the object is not a boolean, it will raise a TypeMisMatchError.
 pub fn PyBool::create_by_ref(
-  obj_ref : @cpython.PyObjectRef
+  obj_ref : @cpython.PyObjectRef,
 ) -> PyBool raise PyRuntimeError {
   guard @cpython.py_bool_check(obj_ref) else { raise TypeMisMatchError }
   PyBool::{ obj: PyObject::create(obj_ref) }
