@@ -8,6 +8,7 @@
 ///
 /// This is the equivalent of the Python expression:
 /// callable(*args, **kwargs).
+#owned(callable, args, kwargs)
 pub extern "C" fn py_object_call(
   callable : PyObjectRef,
   args : PyObjectRef,
@@ -21,6 +22,7 @@ pub extern "C" fn py_object_call(
 ///
 /// This is the equivalent of the Python expression:
 /// callable(*args).
+#owned(callable, args)
 pub extern "C" fn py_object_call_object(
   callable : PyObjectRef,
   args : PyObjectRef,
@@ -32,6 +34,7 @@ pub extern "C" fn py_object_call_object(
 /// 'o'. On failure, returns NULL.
 ///
 /// This is equivalent to the Python expression: type(o)
+#owned(obj)
 pub extern "C" fn py_object_type(obj : PyObjectRef) -> PyObjectRef = "PyObject_Type"
 
 ///| Return the size of object 'o'.  If the object 'o' provides both sequence and
@@ -40,12 +43,14 @@ pub extern "C" fn py_object_type(obj : PyObjectRef) -> PyObjectRef = "PyObject_T
 /// On error, -1 is returned.
 ///
 /// This is the equivalent to the Python expression: len(o) */
+#owned(obj)
 pub extern "C" fn py_object_size(obj : PyObjectRef) -> UInt64 = "PyObject_Size"
 
 ///| Return element of 'o' corresponding to the object 'key'. Return NULL
 /// on failure.
 ///
 /// This is the equivalent of the Python expression: o[key] */
+#owned(obj, key)
 pub extern "C" fn py_object_get_item(
   obj : PyObjectRef,
   key : PyObjectRef,
@@ -56,6 +61,7 @@ pub extern "C" fn py_object_get_item(
 /// Raise an exception and return -1 on failure; return 0 on success.
 ///
 /// This is the equivalent of the Python statement: o[key]=v. */
+#owned(obj, key, value)
 pub extern "C" fn py_object_set_item(
   obj : PyObjectRef,
   key : PyObjectRef,
@@ -66,6 +72,7 @@ pub extern "C" fn py_object_set_item(
 /// Returns -1 on failure.
 ///
 /// This is equivalent to the Python statement: del o[key].
+#owned(obj, key)
 pub extern "C" fn py_object_del_item_string(
   obj : PyObjectRef,
   key : CStr,
@@ -75,6 +82,7 @@ pub extern "C" fn py_object_del_item_string(
 /// Returns -1 on failure.
 ///
 /// This is the equivalent of the Python statement: del o[key].
+#owned(obj, key)
 pub extern "C" fn py_object_del_item(
   obj : PyObjectRef,
   key : PyObjectRef,
@@ -82,6 +90,7 @@ pub extern "C" fn py_object_del_item(
 
 ///| Takes an arbitrary object and returns the result of calling
 /// obj.__format__(format_spec).
+#owned(obj, format_spec)
 pub extern "C" fn pyobkect_format(
   obj : PyObjectRef,
   format_spec : PyObjectRef,
@@ -90,11 +99,13 @@ pub extern "C" fn pyobkect_format(
 ///| Takes an object and returns an iterator for it.
 /// This is typically a new iterator but if the argument is an iterator, this
 /// returns itself. */
+#owned(obj)
 pub extern "C" fn py_object_get_iter(obj : PyObjectRef) -> PyObjectRef = "PyObject_GetIter"
 
 ///| Returns 1 if the object 'obj' provides iterator protocols, and 0 otherwise.
 ///
 /// This function always succeeds. */
+#owned(obj)
 pub extern "C" fn pyiter_check(obj : PyObjectRef) -> Int = "PyIter_Check"
 
 ///| Takes an iterator object and calls its tp_iternext slot,
@@ -104,16 +115,19 @@ pub extern "C" fn pyiter_check(obj : PyObjectRef) -> Int = "PyIter_Check"
 /// exception.
 ///
 /// NULL with an exception means an error occurred. */
+#owned(iter)
 pub extern "C" fn pyiter_next(iter : PyObjectRef) -> PyObjectRef = "PyIter_Next"
 
 ///| Returns 1 if the object 'o' provides numeric protocols, and 0 otherwise.
 ///
 /// This function always succeeds. */
+#owned(obj)
 pub extern "C" fn pynumber_check(obj : PyObjectRef) -> Int = "PyNumber_Check"
 
 ///| Returns the result of adding o1 and o2, or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: o1 + o2. */
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_add(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -122,6 +136,7 @@ pub extern "C" fn pynumber_add(
 ///| Returns the result of subtracting o2 from o1, or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: o1 - o2. */
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_subtract(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -130,6 +145,7 @@ pub extern "C" fn pynumber_subtract(
 ///| Returns the result of multiplying o1 and o2, or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: o1 * o2. */
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_multiply(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -139,6 +155,7 @@ pub extern "C" fn pynumber_multiply(
 /// or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: o1 // o2. */
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_floor_divide(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -148,6 +165,7 @@ pub extern "C" fn pynumber_floor_divide(
 /// failure.
 ///
 /// This is the equivalent of the Python expression: o1 / o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_true_divide(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -156,6 +174,7 @@ pub extern "C" fn pynumber_true_divide(
 ///| Returns the remainder of dividing o1 by o2, or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: o1 % o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_remainder(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -166,6 +185,7 @@ pub extern "C" fn pynumber_remainder(
 /// Returns NULL on failure.
 ///
 /// This is the equivalent of the Python expression: divmod(o1, o2).
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_divmod(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -175,6 +195,7 @@ pub extern "C" fn pynumber_divmod(
 ///
 /// This is the equivalent of the Python expression: pow(o1, o2, o3),
 /// where o3 is optional.
+#owned(obj1, obj2, obj3)
 pub extern "C" fn pynumber_power(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
