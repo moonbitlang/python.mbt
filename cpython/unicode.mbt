@@ -13,6 +13,7 @@ pub extern "C" fn py_unicode_from_string_and_size(
 ) -> PyObjectRef = "PyUnicode_FromStringAndSize"
 
 ///|
+#owned(u)
 extern "C" fn __py_unicode_from_string(u : CStr) -> PyObjectRef = "PyUnicode_FromString"
 
 ///|
@@ -24,12 +25,15 @@ pub fn py_unicode_from_string(s : String) -> PyObjectRef {
 // PyAPI_FUNC(const char *) PyUnicode_AsUTF8(PyObject *unicode);
 
 ///|
+#owned(u)
 extern "C" fn __py_unicode_as_utf8(u : PyObjectRef) -> CStr = "PyUnicode_AsUTF8"
 
 ///|
+#owned(u)
 pub extern "C" fn py_unicode_as_utf16_string(u : PyObjectRef) -> PyObjectRef = "PyUnicode_AsUTF16String"
 
 ///|
+#owned(u)
 pub extern "C" fn py_unicode_as_moonbit_string(u : PyObjectRef) -> String = "py_unicode_as_moonbit_string"
 
 ///|
@@ -39,6 +43,7 @@ pub fn py_unicode_as_utf8(u : PyObjectRef) -> String {
 }
 
 ///|
+#borrow(buffer)
 extern "C" fn __py_unicode_from_kind_and_data(
   kind : Int,
   buffer : String,

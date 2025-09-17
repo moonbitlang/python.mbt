@@ -1,16 +1,21 @@
 ///|
+#owned(a)
 pub extern "C" fn py_object_repr(a : PyObjectRef) -> PyObjectRef = "PyObject_Repr"
 
 ///|
+#owned(a)
 pub extern "C" fn py_object_str(a : PyObjectRef) -> PyObjectRef = "PyObject_Str"
 
 ///|
+#owned(a)
 pub extern "C" fn py_object_ascii(a : PyObjectRef) -> PyObjectRef = "PyObject_ASCII"
 
 ///|
+#owned(a)
 pub extern "C" fn py_object_bytes(a : PyObjectRef) -> PyObjectRef = "PyObject_Bytes"
 
 ///|
+#owned(a, b)
 pub extern "C" fn py_object_rich_compare(
   a : PyObjectRef,
   b : PyObjectRef,
@@ -18,6 +23,7 @@ pub extern "C" fn py_object_rich_compare(
 ) -> PyObjectRef = "PyObject_RichCompare"
 
 ///|
+#owned(a, b)
 pub extern "C" fn py_object_rich_compare_bool(
   a : PyObjectRef,
   b : PyObjectRef,
@@ -25,6 +31,8 @@ pub extern "C" fn py_object_rich_compare_bool(
 ) -> Int = "PyObject_RichCompareBool"
 
 ///|
+#owned(a)
+#borrow(b)
 extern "C" fn __py_object_get_attr_string(
   a : PyObjectRef,
   b : Bytes,
@@ -37,6 +45,8 @@ pub fn py_object_get_attr_string(a : PyObjectRef, b : String) -> PyObjectRef {
 }
 
 ///|
+#owned(a, c)
+#borrow(b)
 extern "C" fn __py_object_set_attr_string(
   a : PyObjectRef,
   b : Bytes,
@@ -54,6 +64,8 @@ pub fn py_object_set_attr_string(
 }
 
 ///|
+#owned(a)
+#borrow(b)
 extern "C" fn __py_object_has_attr_string(a : PyObjectRef, b : Bytes) -> Int = "PyObject_HasAttrString"
 
 ///|
@@ -63,12 +75,14 @@ pub fn py_object_has_attr_string(a : PyObjectRef, b : String) -> Int {
 }
 
 ///|
+#owned(a, b)
 pub extern "C" fn py_object_get_attr(
   a : PyObjectRef,
   b : PyObjectRef,
 ) -> PyObjectRef = "PyObject_GetAttr"
 
 ///|
+#owned(a, b, c)
 pub extern "C" fn py_object_set_attr(
   a : PyObjectRef,
   b : PyObjectRef,
@@ -76,18 +90,22 @@ pub extern "C" fn py_object_set_attr(
 ) -> Int = "PyObject_SetAttr"
 
 ///|
+#owned(a, b)
 pub extern "C" fn py_object_has_attr(a : PyObjectRef, b : PyObjectRef) -> Int = "PyObject_HasAttr"
 
 ///|
+#owned(a)
 pub extern "C" fn py_object_self_iter(a : PyObjectRef) -> PyObjectRef = "PyObject_SelfIter"
 
 ///|
+#owned(a, b)
 pub extern "C" fn py_object_generic_get_attr(
   a : PyObjectRef,
   b : PyObjectRef,
 ) -> PyObjectRef = "PyObject_GenericGetAttr"
 
 ///|
+#owned(a, b, c)
 pub extern "C" fn py_object_generic_set_attr(
   a : PyObjectRef,
   b : PyObjectRef,
@@ -98,6 +116,7 @@ pub extern "C" fn py_object_generic_set_attr(
 // pub extern "C" fn py_object_hash_not_implemented(a: PyObjectRef) -> Py_hash_t = "PyObject_HashNotImplemented"
 
 ///|
+#owned(a)
 extern "C" fn __py_object_is_true(a : PyObjectRef) -> Int = "PyObject_IsTrue"
 
 ///|
@@ -106,24 +125,31 @@ pub fn py_object_is_true(a : PyObjectRef) -> Bool {
 }
 
 ///|
+#owned(a)
 pub extern "C" fn py_object_not(a : PyObjectRef) -> Int = "PyObject_Not"
 
 ///|
+#owned(a)
 pub extern "C" fn py_object_clear_weak_refs(a : PyObjectRef) = "PyObject_ClearWeakRefs"
 
 ///|
+#owned(a)
 pub extern "C" fn py_object_dir(a : PyObjectRef) -> PyObjectRef = "PyObject_Dir"
 
 ///|
+#owned(a)
 pub extern "C" fn py_repr_enter(a : PyObjectRef) -> Int = "Py_ReprEnter"
 
 ///|
+#owned(a)
 pub extern "C" fn py_repr_leave(a : PyObjectRef) = "Py_ReprLeave"
 
 ///|
+#owned(obj)
 pub extern "C" fn py_type(obj : PyObjectRef) -> PyTypeObjectRef = "py_type"
 
 ///|
+#owned(t)
 extern "C" fn __py_type_name(t : PyTypeObjectRef) -> CStr = "_PyType_Name"
 
 ///|
@@ -133,6 +159,7 @@ pub fn py_type_name(t : PyTypeObjectRef) -> String {
 }
 
 ///|
+#owned(obj)
 extern "C" fn __py_tuple_check(obj : PyObjectRef) -> Int = "py_tuple_check"
 
 ///|
@@ -141,6 +168,7 @@ pub fn py_tuple_check(obj : PyObjectRef) -> Bool {
 }
 
 ///|
+#owned(obj)
 extern "C" fn __py_list_check(obj : PyObjectRef) -> Int = "py_list_check"
 
 ///|
@@ -154,6 +182,7 @@ pub fn PyObjectRef::is_list(self : PyObjectRef) -> Bool {
 }
 
 ///|
+#owned(obj)
 extern "C" fn __py_dict_check(obj : PyObjectRef) -> Int = "py_dict_check"
 
 ///|
@@ -167,6 +196,7 @@ pub fn PyObjectRef::is_dict(self : PyObjectRef) -> Bool {
 }
 
 ///|
+#owned(obj)
 extern "C" fn __py_set_check(obj : PyObjectRef) -> Int = "py_set_check"
 
 ///|
@@ -180,6 +210,7 @@ pub fn PyObjectRef::is_set(self : PyObjectRef) -> Bool {
 }
 
 ///|
+#owned(obj)
 extern "C" fn __py_int_check(obj : PyObjectRef) -> Int = "py_int_check"
 
 ///|
@@ -193,6 +224,7 @@ pub fn PyObjectRef::is_int(self : PyObjectRef) -> Bool {
 }
 
 ///|
+#owned(obj)
 extern "C" fn __py_float_check(obj : PyObjectRef) -> Int = "py_float_check"
 
 ///|
@@ -206,6 +238,7 @@ pub fn PyObjectRef::is_float(self : PyObjectRef) -> Bool {
 }
 
 ///|
+#owned(obj)
 extern "C" fn __py_string_check(obj : PyObjectRef) -> Int = "py_string_check"
 
 ///|
@@ -219,6 +252,7 @@ pub fn PyObjectRef::is_string(self : PyObjectRef) -> Bool {
 }
 
 ///|
+#owned(obj)
 extern "C" fn __py_bool_check(obj : PyObjectRef) -> Int = "py_bool_check"
 
 ///|
@@ -232,6 +266,7 @@ pub fn PyObjectRef::is_bool(self : PyObjectRef) -> Bool {
 }
 
 ///|
+#owned(obj)
 extern "C" fn __py_module_check(obj : PyObjectRef) -> Int = "py_module_check"
 
 ///|
@@ -245,6 +280,7 @@ pub fn PyObjectRef::is_module(self : PyObjectRef) -> Bool {
 }
 
 ///|
+#owned(f)
 extern "C" fn __py_function_check(f : PyObjectRef) -> Int = "py_function_check"
 
 ///|
@@ -258,6 +294,7 @@ pub fn PyObjectRef::is_function(self : PyObjectRef) -> Bool {
 }
 
 ///|
+#owned(a)
 pub extern "C" fn __py_callable_check(a : PyObjectRef) -> Int = "PyCallable_Check"
 
 ///|
@@ -271,6 +308,7 @@ pub fn PyObjectRef::is_callable(self : PyObjectRef) -> Bool {
 }
 
 ///|
+#owned(obj)
 extern "C" fn __py_none_check(obj : PyObjectRef) -> Int = "py_none_check"
 
 ///|

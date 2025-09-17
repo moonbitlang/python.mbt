@@ -205,26 +205,31 @@ pub extern "C" fn pynumber_power(
 ///| Returns the negation of o on success, or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: -o.
+#owned(obj)
 pub extern "C" fn pynumber_negative(obj : PyObjectRef) -> PyObjectRef = "PyNumber_Negative"
 
 ///| Returns the positive of o on success, or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: +o.
+#owned(obj)
 pub extern "C" fn pynumber_positive(obj : PyObjectRef) -> PyObjectRef = "PyNumber_Positive"
 
 ///| Returns the absolute value of 'o', or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: abs(o).
+#owned(obj)
 pub extern "C" fn pynumber_absolute(obj : PyObjectRef) -> PyObjectRef = "PyNumber_Absolute"
 
 ///| Returns the bitwise negation of 'o' on success, or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: ~o.
+#owned(obj)
 pub extern "C" fn pynumber_invert(obj : PyObjectRef) -> PyObjectRef = "PyNumber_Invert"
 
 ///| Returns the result of left shifting o1 by o2 on success, or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: o1 << o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_lshift(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -234,6 +239,7 @@ pub extern "C" fn pynumber_lshift(
 /// failure.
 ///
 /// This is the equivalent of the Python expression: o1 >> o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_rshift(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -243,6 +249,7 @@ pub extern "C" fn pynumber_rshift(
 /// failure.
 ///
 /// This is the equivalent of the Python expression: o1 & o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_and(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -251,6 +258,7 @@ pub extern "C" fn pynumber_and(
 ///| Returns the bitwise exclusive or of o1 by o2 on success, or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: o1 ^ o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_xor(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -260,6 +268,7 @@ pub extern "C" fn pynumber_xor(
 /// failure.
 ///
 /// This is the equivalent of the Python expression: o1 | o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_or(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -267,10 +276,12 @@ pub extern "C" fn pynumber_or(
 
 ///| Returns 1 if obj is an index integer (has the nb_index slot of the
 /// tp_as_number structure filled in), and 0 otherwise.
+#owned(obj)
 pub extern "C" fn pyindex_check(obj : PyObjectRef) -> Int = "PyIndex_Check"
 
 ///| Returns the object 'o' converted to a Python int, or NULL with an exception
 /// raised on failure.
+#owned(obj)
 pub extern "C" fn pynumber_index(obj : PyObjectRef) -> PyObjectRef = "PyNumber_Index"
 
 ///| Returns the object 'o' converted to Py_ssize_t by going through
@@ -279,6 +290,7 @@ pub extern "C" fn pynumber_index(obj : PyObjectRef) -> PyObjectRef = "PyNumber_I
 /// If an overflow error occurs while converting the int to Py_ssize_t, then the
 /// second argument 'exc' is the error-type to return.  If it is NULL, then the
 /// overflow error is cleared and the value is clipped.
+#owned(obj, exc)
 pub extern "C" fn pynumber_as_ssize_t(
   obj : PyObjectRef,
   exc : PyObjectRef,
@@ -288,18 +300,21 @@ pub extern "C" fn pynumber_as_ssize_t(
 /// on failure.
 ///
 /// This is the equivalent of the Python expression: int(o).
+#owned(obj)
 pub extern "C" fn pynumber_long(obj : PyObjectRef) -> PyObjectRef = "PyNumber_Long"
 
 ///| Returns the object 'o' converted to a float object on success, or NULL
 /// on failure.
 ///
 /// This is the equivalent of the Python expression: float(o).
+#owned(obj)
 pub extern "C" fn pynumber_float(obj : PyObjectRef) -> PyObjectRef = "PyNumber_Float"
 
 ///| Returns the result of adding o2 to o1, possibly in-place, or NULL
 /// on failure.
 ///
 /// This is the equivalent of the Python expression: o1 += o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_inplace_add(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -309,6 +324,7 @@ pub extern "C" fn pynumber_inplace_add(
 /// NULL on failure.
 ///
 /// This is the equivalent of the Python expression: o1 -= o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_inplace_subtract(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -318,12 +334,14 @@ pub extern "C" fn pynumber_inplace_subtract(
 /// failure.
 ///
 /// This is the equivalent of the Python expression: o1 *= o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_inplace_multiply(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
 ) -> PyObjectRef = "PyNumber_InPlaceMultiply"
 
 ///|
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_inplace_floor_divide(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -333,6 +351,7 @@ pub extern "C" fn pynumber_inplace_floor_divide(
 /// in-place, or null on failure.
 ///
 /// This is the equivalent of the Python expression: o1 /= o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_inplace_true_divide(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -342,6 +361,7 @@ pub extern "C" fn pynumber_inplace_true_divide(
 /// failure.
 ///
 /// This is the equivalent of the Python expression: o1 %= o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_inplace_remainder(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -352,6 +372,7 @@ pub extern "C" fn pynumber_inplace_remainder(
 ///
 /// This is the equivalent of the Python expression: o1 **= o2,
 /// or o1 = pow(o1, o2, o3) if o3 is present.
+#owned(obj1, obj2, obj3)
 pub extern "C" fn pynumber_inplace_power(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -362,6 +383,7 @@ pub extern "C" fn pynumber_inplace_power(
 /// on failure.
 ///
 /// This is the equivalent of the Python expression: o1 <<= o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_inplace_lshift(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -371,6 +393,7 @@ pub extern "C" fn pynumber_inplace_lshift(
 /// on failure.
 ///
 /// This is the equivalent of the Python expression: o1 >>= o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_inplace_rshift(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -380,6 +403,7 @@ pub extern "C" fn pynumber_inplace_rshift(
 /// on failure.
 ///
 /// This is the equivalent of the Python expression: o1 &= o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_inplace_and(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -389,6 +413,7 @@ pub extern "C" fn pynumber_inplace_and(
 /// on failure.
 ///
 /// This is the equivalent of the Python expression: o1 ^= o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_inplace_xor(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -398,6 +423,7 @@ pub extern "C" fn pynumber_inplace_xor(
 /// or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: o1 |= o2.
+#owned(obj1, obj2)
 pub extern "C" fn pynumber_inplace_or(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -407,6 +433,7 @@ pub extern "C" fn pynumber_inplace_or(
 /// marker of 0b, 0o or 0x prefixed if applicable.
 ///
 /// If n is not an int object, it is converted with PyNumber_Index first. */
+#owned(obj)
 pub extern "C" fn pynumber_to_base(
   obj : PyObjectRef,
   base : Int,
@@ -416,14 +443,17 @@ pub extern "C" fn pynumber_to_base(
 /// otherwise.
 ///
 /// This function always succeeds.
+#owned(obj)
 pub extern "C" fn pysequence_check(obj : PyObjectRef) -> Int = "PySequence_Check"
 
-///| Return the size of sequence object o, or -1 on failure. */
+///| Return the size of sequence object o, or -1 on failure.
+#owned(obj)
 pub extern "C" fn pysequence_size(obj : PyObjectRef) -> Int = "PySequence_Size"
 
 ///| Return the concatenation of o1 and o2 on success, and NULL on failure.
 ///
 /// This is the equivalent of the Python expression: o1 + o2. */
+#owned(obj1, obj2)
 pub extern "C" fn pysequence_concat(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -433,6 +463,7 @@ pub extern "C" fn pysequence_concat(
 /// or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: o * count. */
+#owned(obj)
 pub extern "C" fn pysequence_repeat(
   obj : PyObjectRef,
   count : Int,
@@ -441,6 +472,7 @@ pub extern "C" fn pysequence_repeat(
 ///| Return the ith element of o, or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: o[i].
+#owned(obj)
 pub extern "C" fn pysequence_get_item(
   obj : PyObjectRef,
   idx : UInt64,
@@ -449,6 +481,7 @@ pub extern "C" fn pysequence_get_item(
 ///| Return the slice of sequence object o between i1 and i2, or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: o[i1:i2].
+#owned(obj)
 pub extern "C" fn pysequence_get_slice(
   obj : PyObjectRef,
   start : UInt64,
@@ -459,6 +492,7 @@ pub extern "C" fn pysequence_get_slice(
 /// and return -1 on failure; return 0 on success.
 ///
 /// This is the equivalent of the Python statement o[i] = v. */
+#owned(obj, value)
 pub extern "C" fn pysequence_set_item(
   obj : PyObjectRef,
   idx : UInt64,
@@ -468,12 +502,14 @@ pub extern "C" fn pysequence_set_item(
 ///| Delete the 'i'-th element of the sequence 'v'. Returns -1 on failure.
 ///
 /// This is the equivalent of the Python statement: del o[i]. */
+#owned(obj)
 pub extern "C" fn pysequence_del_item(obj : PyObjectRef, idx : UInt64) -> Int = "PySequence_DelItem"
 
 ///| Assign the sequence object 'v' to the slice in sequence object 'o',
 /// from 'i1' to 'i2'. Returns -1 on failure.
 ///
 /// This is the equivalent of the Python statement: o[i1:i2] = v. */
+#owned(obj, new_list)
 pub extern "C" fn pysequence_set_slice(
   obj : PyObjectRef,
   start : UInt64,
@@ -485,6 +521,7 @@ pub extern "C" fn pysequence_set_slice(
 /// Returns -1 on failure.
 ///
 /// This is the equivalent of the Python statement: del o[i1:i2]. */
+#owned(obj)
 pub extern "C" fn pysequence_del_slice(
   obj : PyObjectRef,
   start : UInt64,
@@ -494,10 +531,12 @@ pub extern "C" fn pysequence_del_slice(
 ///| Returns the sequence 'o' as a tuple on success, and NULL on failure.
 ///
 /// This is equivalent to the Python expression: tuple(o). */
+#owned(obj)
 pub extern "C" fn pysequence_tuple(obj : PyObjectRef) -> PyObjectRef = "PySequence_Tuple"
 
 ///| Returns the sequence 'o' as a list on success, and NULL on failure.
 /// This is equivalent to the Python expression: list(o) */
+#owned(obj)
 pub extern "C" fn pysequence_list(obj : PyObjectRef) -> PyObjectRef = "PySequence_List"
 
 ///| Return the sequence 'o' as a list, unless it's already a tuple or list.
@@ -507,11 +546,13 @@ pub extern "C" fn pysequence_list(obj : PyObjectRef) -> PyObjectRef = "PySequenc
 ///
 /// Returns NULL on failure.  If the object does not support iteration, raises a
 /// TypeError exception with 'm' as the message text. */
+#owned(obj, msg)
 pub extern "C" fn pysequence_fast(obj : PyObjectRef, msg : CStr) -> PyObjectRef = "PySequence_Fast"
 
 // PyAPI_FUNC(Py_ssize_t) PySequence_Count(py_object *o, PyObject *value);
 
 ///|
+#owned(obj, value)
 pub extern "C" fn pysequence_count(
   obj : PyObjectRef,
   value : PyObjectRef,
@@ -521,6 +562,7 @@ pub extern "C" fn pysequence_count(
 /// 'seq'; -1 on error.
 ///
 /// Use __contains__ if possible, else _PySequence_IterSearch().
+#owned(seq, ob)
 pub extern "C" fn pysequence_contains(
   seq : PyObjectRef,
   ob : PyObjectRef,
@@ -529,6 +571,7 @@ pub extern "C" fn pysequence_contains(
 // PyAPI_FUNC(Py_ssize_t) PySequence_Index(py_object *o, PyObject *value);
 
 ///|
+#owned(obj, value)
 pub extern "C" fn pysequence_index(
   obj : PyObjectRef,
   value : PyObjectRef,
@@ -538,6 +581,7 @@ pub extern "C" fn pysequence_index(
 ///  resulting object, which could be 'o1', or NULL on failure.
 ///
 ///  This is the equivalent of the Python expression: o1 += o2. */
+#owned(obj1, obj2)
 pub extern "C" fn pysequence_inplace_concat(
   obj1 : PyObjectRef,
   obj2 : PyObjectRef,
@@ -547,6 +591,7 @@ pub extern "C" fn pysequence_inplace_concat(
 /// object, which could be 'o', or NULL on failure.
 ///
 /// This is the equivalent of the Python expression: o1 *= count.  */
+#owned(obj)
 pub extern "C" fn pysequence_inplace_repeat(
   obj : PyObjectRef,
   count : Int,
@@ -555,10 +600,12 @@ pub extern "C" fn pysequence_inplace_repeat(
 ///| Return 1 if the object provides mapping protocol, and 0 otherwise.
 ///
 /// This function always succeeds.
+#owned(obj)
 pub extern "C" fn pymapping_check(obj : PyObjectRef) -> Int = "PyMapping_Check"
 
 ///| Returns the number of keys in mapping object 'o' on success, and -1 on
 /// failure. This is equivalent to the Python expression: len(o). */
+#owned(obj)
 pub extern "C" fn pymapping_size(obj : PyObjectRef) -> Int = "PyMapping_Size"
 
 ///| On success, return 1 if the mapping object 'o' has the key 'key',
@@ -567,6 +614,7 @@ pub extern "C" fn pymapping_size(obj : PyObjectRef) -> Int = "PyMapping_Size"
 /// This is equivalent to the Python expression: key in o.
 ///
 /// This function always succeeds. */
+#owned(obj, key)
 pub extern "C" fn pymapping_has_key_string(
   obj : PyObjectRef,
   key : CStr,
@@ -577,6 +625,7 @@ pub extern "C" fn pymapping_has_key_string(
 /// This is equivalent to the Python expression: key in o.
 ///
 /// This function always succeeds.
+#owned(obj, key)
 pub extern "C" fn pymapping_has_key(
   obj : PyObjectRef,
   key : PyObjectRef,
@@ -584,24 +633,29 @@ pub extern "C" fn pymapping_has_key(
 
 ///| On success, return a list or tuple of the keys in mapping object 'o'.
 /// On failure, return NULL. */
+#owned(obj)
 pub extern "C" fn pymapping_keys(obj : PyObjectRef) -> PyObjectRef = "PyMapping_Keys"
 
 ///| On success, return a list or tuple of the values in mapping object 'o'.
 /// On failure, return NULL.
+#owned(obj)
 pub extern "C" fn pymapping_values(obj : PyObjectRef) -> PyObjectRef = "PyMapping_Values"
 
 ///| On success, return a list or tuple of the items in mapping object 'o',
 /// where each item is a tuple containing a key-value pair. On failure, return
 /// NULL.
+#owned(obj)
 pub extern "C" fn pymapping_items(obj : PyObjectRef) -> PyObjectRef = "PyMapping_Items"
 
 ///|
+#owned(obj, key)
 pub extern "C" fn pymapping_get_item_string(
   obj : PyObjectRef,
   key : CStr,
 ) -> PyObjectRef = "PyMapping_GetItemString"
 
 ///|
+#owned(obj, key, value)
 pub extern "C" fn pymapping_set_item_string(
   obj : PyObjectRef,
   key : CStr,
@@ -609,12 +663,14 @@ pub extern "C" fn pymapping_set_item_string(
 ) -> Int = "PyMapping_SetItemString"
 
 ///|
+#owned(obj, typeorclass)
 pub extern "C" fn py_object_is_instance(
   obj : PyObjectRef,
   typeorclass : PyObjectRef,
 ) -> Int = "PyObject_IsInstance"
 
 ///|
+#owned(obj, typeorclass)
 pub extern "C" fn py_object_is_subclass(
   obj : PyObjectRef,
   typeorclass : PyObjectRef,

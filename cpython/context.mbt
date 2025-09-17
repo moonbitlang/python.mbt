@@ -4,12 +4,14 @@
 pub extern "C" fn py_context_new() -> PyObjectRef = "PyContext_New"
 
 ///|
+#owned(a)
 pub extern "C" fn py_context_copy(a : PyObjectRef) -> PyObjectRef = "PyContext_Copy"
 
 ///|
 pub extern "C" fn py_context_copy_current() -> PyObjectRef = "PyContext_CopyCurrent"
 
 ///|
+#owned(a)
 pub extern "C" fn py_context_enter(a : PyObjectRef) -> Int = "PyContext_Enter"
 
 ///|
