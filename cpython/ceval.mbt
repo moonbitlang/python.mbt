@@ -1,6 +1,7 @@
 // ceval
 
 ///|
+#owned(callable, args, kwargs)
 pub extern "C" fn py_eval_call_object_with_keywords(
   callable : PyObjectRef,
   args : PyObjectRef,
@@ -34,15 +35,18 @@ pub extern "C" fn py_set_recursion_limit(a : Int) = "Py_SetRecursionLimit"
 pub extern "C" fn py_get_recursion_limit() -> Int = "Py_GetRecursionLimit"
 
 ///|
+#owned(a)
 pub extern "C" fn py_eval_get_func_name(a : PyObjectRef) -> CStr = "PyEval_GetFuncName"
 
 ///|
+#owned(a)
 pub extern "C" fn py_eval_get_func_desc(a : PyObjectRef) -> CStr = "PyEval_GetFuncDesc"
 
 ///|
 pub extern "C" fn py_eval_save_thread() -> PyThreadStateRef = "PyEval_SaveThread"
 
 ///|
+#owned(a)
 pub extern "C" fn py_eval_restore_thread(a : PyThreadStateRef) = "PyEval_RestoreThread"
 
 ///|
@@ -52,7 +56,9 @@ pub extern "C" fn py_eval_threads_initialized() -> Int = "PyEval_ThreadsInitiali
 pub extern "C" fn py_eval_init_threads() = "PyEval_InitThreads"
 
 ///|
+#owned(tstate)
 pub extern "C" fn py_eval_acquire_thread(tstate : PyThreadStateRef) = "PyEval_AcquireThread"
 
 ///|
+#owned(tstate)
 pub extern "C" fn py_eval_release_thread(tstate : PyThreadStateRef) = "PyEval_ReleaseThread"

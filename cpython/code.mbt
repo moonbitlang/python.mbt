@@ -1,6 +1,7 @@
 // code
 
 ///|
+#owned(f, g, h, i, j, k, l, m, o)
 pub extern "C" fn py_code_new(
   a : Int,
   b : Int,
@@ -20,6 +21,7 @@ pub extern "C" fn py_code_new(
 ) -> PyCodeObjectRef = "PyCode_New"
 
 ///|
+#owned(g, h, i, j, k, l, m, n, p)
 pub extern "C" fn py_code_new_with_pos_only_args(
   a : Int,
   b : Int,
@@ -40,6 +42,7 @@ pub extern "C" fn py_code_new_with_pos_only_args(
 ) -> PyCodeObjectRef = "PyCode_NewWithPosOnlyArgs"
 
 ///|
+#owned(filename, funcname)
 pub extern "C" fn py_code_new_empty(
   filename : CStr,
   funcname : CStr,
@@ -47,4 +50,5 @@ pub extern "C" fn py_code_new_empty(
 ) -> PyCodeObjectRef = "PyCode_NewEmpty"
 
 ///|
+#owned(a)
 pub extern "C" fn py_code_addr2_line(a : PyCodeObjectRef, b : Int) -> Int = "PyCode_Addr2Line"

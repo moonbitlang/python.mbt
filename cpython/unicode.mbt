@@ -1,12 +1,14 @@
 // Unicode
 
 ///|
+#owned(u)
 pub extern "C" fn py_unicode_from_unicode(
   u : CWStr,
   size : UInt64,
 ) -> PyObjectRef = "PyUnicode_FromStringAndSize"
 
 ///|
+#owned(u)
 pub extern "C" fn py_unicode_from_string_and_size(
   u : CStr,
   size : UInt64,
