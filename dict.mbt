@@ -21,7 +21,8 @@ pub struct PyDict {
   priv obj : PyObject
 }
 
-///| Create a python dict object.
+///|
+/// Create a python dict object.
 /// If the python object is not a dict, it will raise a TypeMismatchError.
 pub fn PyDict::create(obj : PyObject) -> PyDict raise PyRuntimeError {
   guard obj.is_dict() else { raise TypeMismatchError }
@@ -33,7 +34,8 @@ fn PyDict::create_unchecked(obj : PyObject) -> PyDict {
   PyDict::{ obj, }
 }
 
-///| Create a python dict object from a python object reference.
+///|
+/// Create a python dict object from a python object reference.
 /// If the python object is not a dict, it will raise a TypeMismatchError.
 pub fn PyDict::create_by_ref(
   obj : @cpython.PyObjectRef,
@@ -42,7 +44,8 @@ pub fn PyDict::create_by_ref(
   PyDict::{ obj: PyObject::create(obj) }
 }
 
-///| Creates a new python dict object.
+///|
+/// Creates a new python dict object.
 ///
 /// ## Example
 ///
@@ -67,7 +70,8 @@ pub fn PyDict::new() -> PyDict {
   PyDict::{ obj: PyObject::create(@cpython.py_dict_new()) }
 }
 
-///| Return the length of the dict.
+///|
+/// Return the length of the dict.
 ///
 /// ## Example
 ///
@@ -84,7 +88,8 @@ pub fn PyDict::len(self : PyDict) -> Int {
   @cpython.py_dict_size(self.obj_ref()).to_int()
 }
 
-///| Return the elements of the dict by its key.
+///|
+/// Return the elements of the dict by its key.
 ///
 /// ## Example
 ///
@@ -105,14 +110,16 @@ pub fn PyDict::get(self : PyDict, key : String) -> PyObjectEnum? {
   when(not(obj_ref.is_null()), fn() { PyObjectEnum::create_by_ref(obj_ref) })
 }
 
-///| Return the elements of the dict by its key, when the key is not string.
+///|
+/// Return the elements of the dict by its key, when the key is not string.
 pub fn PyDict::getByObj(self : PyDict, key : PyObject) -> PyObjectEnum? {
   let dict = self.obj_ref()
   let obj_ref = @cpython.py_dict_get_item(dict, key.obj_ref())
   when(not(obj_ref.is_null()), fn() { PyObjectEnum::create_by_ref(obj_ref) })
 }
 
-///| Return the elements of the dict by its key.
+///|
+/// Return the elements of the dict by its key.
 ///
 /// **Note**: Will panic if the key is not found.
 ///
@@ -133,7 +140,8 @@ pub fn PyDict::op_get(self : PyDict, key : String) -> PyObjectEnum {
   self.get(key).unwrap()
 }
 
-///| Set the elements of the dict by its key (String).
+///|
+/// Set the elements of the dict by its key (String).
 ///
 /// ## Example
 ///
@@ -166,7 +174,8 @@ pub fn[V : IsPyObject] PyDict::set(
 
 }
 
-///| Set the elements of the dict by its key. (Object)
+///|
+/// Set the elements of the dict by its key. (Object)
 ///
 /// ## Example
 ///
@@ -205,7 +214,8 @@ pub fn[K : IsPyObject, V : IsPyObject] PyDict::setByObj(
   }
 }
 
-///| Set the elements of the dict by its key (String).
+///|
+/// Set the elements of the dict by its key (String).
 ///
 /// ## Example
 ///
@@ -235,20 +245,23 @@ pub fn[V : IsPyObject] PyDict::op_set(
   self.set(key, val)
 }
 
-///| Check if the dict contains the key. Note that the key is a string.
+///|
+/// Check if the dict contains the key. Note that the key is a string.
 /// If the key is not string, use `containsObj` instead.
 pub fn PyDict::contains(self : PyDict, key : String) -> Bool {
   let dict = self.obj_ref()
   @cpython.py_dict_contains(dict, PyString::from(key).obj_ref())
 }
 
-///| Check if the dict contains the key.
+///|
+/// Check if the dict contains the key.
 pub fn PyDict::containsObj(self : PyDict, key : PyObject) -> Bool {
   let dict = self.obj_ref()
   @cpython.py_dict_contains(dict, key.obj_ref())
 }
 
-///| Get the keys of the dict.
+///|
+/// Get the keys of the dict.
 ///
 /// **Notes**: It is slight different from the python dict.keys() method.
 /// In python, dict.keys() returns a view object that displays a list of all the keys.
@@ -277,7 +290,8 @@ pub fn PyDict::keys(self : PyDict) -> PyList {
   PyList::create_by_ref_unchecked(@cpython.py_dict_keys(self.obj_ref()))
 }
 
-///| Get the values of the dict.
+///|
+/// Get the values of the dict.
 ///
 /// **Notes**: It is slight different from the python dict.values() method.
 /// In python, dict.values() returns a view object that displays a list of all the values.
@@ -306,7 +320,8 @@ pub fn PyDict::values(self : PyDict) -> PyList {
   PyList::create_by_ref_unchecked(@cpython.py_dict_values(self.obj_ref()))
 }
 
-///| Get the items of the dict.
+///|
+/// Get the items of the dict.
 ///
 /// **Notes**: It is slight different from the python dict.items() method.
 /// In python, dict.items() returns a view object that displays a list of all the items.
@@ -327,7 +342,8 @@ pub fn PyDict::items(self : PyDict) -> PyList {
   PyList::create_by_ref_unchecked(@cpython.py_dict_items(self.obj_ref()))
 }
 
-///| Let python interpret print the dict directly.
+///|
+/// Let python interpret print the dict directly.
 ///
 /// **Note**: This is different from `println(dict)` and `dict.dump()`.
 /// although they always print the same content.

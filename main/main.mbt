@@ -13,7 +13,7 @@
 // limitations under the License.
 
 ///|
-typealias @python.(PyInteger, PyList, PyTuple)
+using @python {type PyInteger, type PyList, type PyTuple}
 
 ///|
 fn main {

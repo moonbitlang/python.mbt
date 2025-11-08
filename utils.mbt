@@ -46,7 +46,8 @@ fn init {
   init_py()
 }
 
-///| elimnate the quotes from a string
+///|
+/// elimnate the quotes from a string
 ///
 /// ## Example
 ///
