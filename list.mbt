@@ -35,7 +35,7 @@ pub fn PyList::new() -> PyList {
 }
 
 ///| Create a python list object from a pyobject.
-/// If the pyobject is not a list, it will raise a TypeMisMatchError.
+/// If the pyobject is not a list, it will raise a TypeMismatchError.
 pub fn PyList::create(obj : PyObject) -> PyList raise PyRuntimeError {
   guard obj.is_list() else { raise TypeMismatchError }
   PyList::{ obj, }
@@ -47,7 +47,7 @@ fn PyList::create_unchecked(obj : PyObject) -> PyList {
 }
 
 ///| Create a python list object from a pyobject reference.
-/// If the pyobject is not a list, it will raise a TypeMisMatchError.
+/// If the pyobject is not a list, it will raise a TypeMismatchError.
 pub fn PyList::create_by_ref(
   obj : @cpython.PyObjectRef,
 ) -> PyList raise PyRuntimeError {

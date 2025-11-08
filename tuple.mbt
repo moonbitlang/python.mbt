@@ -41,7 +41,7 @@ pub fn PyTuple::new(size : UInt64) -> PyTuple {
 }
 
 ///| Create a PyTuple object from a python object.
-/// If the python object is not a tuple, it will raise a TypeMisMatchError.
+/// If the python object is not a tuple, it will raise a TypeMismatchError.
 pub fn PyTuple::create(obj : PyObject) -> PyTuple raise PyRuntimeError {
   guard obj.is_tuple() else { raise TypeMismatchError }
   PyTuple::{ obj, }
@@ -53,7 +53,7 @@ fn PyTuple::create_unchecked(obj : PyObject) -> PyTuple {
 }
 
 ///| Create a PyTuple object from a python object reference.
-/// If the python object is not a tuple, it will raise a TypeMisMatchError.
+/// If the python object is not a tuple, it will raise a TypeMismatchError.
 pub fn PyTuple::create_by_ref(
   obj_ref : @cpython.PyObjectRef,
 ) -> PyTuple raise PyRuntimeError {
