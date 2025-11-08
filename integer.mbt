@@ -73,7 +73,7 @@ pub fn PyInteger::to_double(self : PyInteger) -> Double {
   @cpython.py_long_as_double(self.obj_ref())
 }
 
-///| Print the PyInteger object direcly.
+///| Print the PyInteger object directly.
 ///
 /// Different from use `println`, `dump` means we made python interpreter
 /// print the object directly.
