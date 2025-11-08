@@ -6,7 +6,7 @@ pub struct PyFloat {
 ///| Create a python float object from a python object.
 /// If the python object is not a float, it will raise a TypeMisMatchError.
 pub fn PyFloat::create(obj : PyObject) -> PyFloat raise PyRuntimeError {
-  guard obj.is_float() else { raise TypeMisMatchError }
+  guard obj.is_float() else { raise TypeMismatchError }
   PyFloat::{ obj, }
 }
 
@@ -20,7 +20,7 @@ fn PyFloat::create_unchecked(obj : PyObject) -> PyFloat {
 pub fn PyFloat::create_by_ref(
   obj : @cpython.PyObjectRef,
 ) -> PyFloat raise PyRuntimeError {
-  guard @cpython.py_float_check(obj) else { raise TypeMisMatchError }
+  guard @cpython.py_float_check(obj) else { raise TypeMismatchError }
   PyFloat::{ obj: PyObject::create(obj) }
 }
 

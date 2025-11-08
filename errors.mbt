@@ -1,6 +1,6 @@
 ///|
 pub suberror PyRuntimeError {
-  TypeMisMatchError
+  TypeMismatchError
   IndexOutOfBoundsError
   KeyIsUnHashableError
   InVokeError

@@ -11,7 +11,7 @@ pub struct PyModule {
 
 ///|
 pub fn PyModule::create(obj : PyObject) -> PyModule raise PyRuntimeError {
-  guard obj.is_module() else { raise TypeMisMatchError }
+  guard obj.is_module() else { raise TypeMismatchError }
   PyModule::{ obj, name: None, attrs: Map::new() }
 }
 
@@ -24,7 +24,7 @@ fn PyModule::create_unchecked(obj : PyObject) -> PyModule {
 pub fn PyModule::create_by_ref(
   obj_ref : @cpython.PyObjectRef,
 ) -> PyModule raise PyRuntimeError {
-  guard @cpython.py_module_check(obj_ref) else { raise TypeMisMatchError }
+  guard @cpython.py_module_check(obj_ref) else { raise TypeMismatchError }
   PyModule::{ obj: PyObject::create(obj_ref), name: None, attrs: Map::new() }
 }
 
