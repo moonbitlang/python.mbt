@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-///| Represents common shapes for the turtle cursor.
+///|
+/// Represents common shapes for the turtle cursor.
 /// Deriving Show provides a default to_string() which can be converted to lowercase for Python.
 pub(all) enum Shape {
   Arrow

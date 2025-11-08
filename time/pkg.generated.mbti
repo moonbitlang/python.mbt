@@ -1,0 +1,39 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Kaida-Amethyst/python/time"
+
+// Values
+fn ctime(Double?) -> String
+
+fn monotonic() -> Double
+
+fn monotonic_ns() -> Int64
+
+fn perf_counter() -> Double
+
+fn perf_counter_ns() -> Int64
+
+fn process_time() -> Double
+
+fn process_time_ns() -> Int64
+
+fn sleep(Double) -> Unit
+
+fn time() -> Double
+
+fn time_ns() -> Int64
+
+// Errors
+pub suberror TurtleError {
+  LoadTimeModuleError
+}
+impl Show for TurtleError
+
+// Types and methods
+pub struct TimeModule {
+  // private fields
+}
+
+// Type aliases
+
+// Traits
+

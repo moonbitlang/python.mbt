@@ -21,7 +21,8 @@ pub struct PyBool {
   priv obj : PyObject
 }
 
-///| Create a python boolean object from a python object.
+///|
+/// Create a python boolean object from a python object.
 /// If the object is not a boolean, it will raise a TypeMismatchError.
 pub fn PyBool::create(obj : PyObject) -> PyBool raise PyRuntimeError {
   guard obj.is_bool() else { raise TypeMismatchError }
@@ -33,7 +34,8 @@ fn PyBool::create_unchecked(obj : PyObject) -> PyBool {
   PyBool::{ obj, }
 }
 
-///| Create a python boolean object from a python object reference.
+///|
+/// Create a python boolean object from a python object reference.
 /// If the object is not a boolean, it will raise a TypeMismatchError.
 pub fn PyBool::create_by_ref(
   obj_ref : @cpython.PyObjectRef,
@@ -52,7 +54,8 @@ pub fn PyBool::dump(self : PyBool) -> Unit {
   self.obj.dump()
 }
 
-///| Create a python boolean object from moonbit bool.
+///|
+/// Create a python boolean object from moonbit bool.
 ///
 /// ## Example
 ///
@@ -75,7 +78,8 @@ pub fn PyBool::from(value : Bool) -> PyBool {
   PyBool::create_by_ref_unchecked(obj_ref)
 }
 
-///| Return `true` if it is true, using python interpreter.
+///|
+/// Return `true` if it is true, using python interpreter.
 ///
 /// ## Example
 ///
@@ -96,7 +100,8 @@ pub fn PyBool::to_bool(self : PyBool) -> Bool {
   self.is_true()
 }
 
-///| Return `true` if it is false, using python interpreter.
+///|
+/// Return `true` if it is false, using python interpreter.
 ///
 /// ## Example
 ///
@@ -111,7 +116,8 @@ pub fn PyBool::is_false(self : PyBool) -> Bool {
   self.is_true() |> not
 }
 
-///| Return the reverse of the boolean value.
+///|
+/// Return the reverse of the boolean value.
 ///
 /// ## Example
 ///
