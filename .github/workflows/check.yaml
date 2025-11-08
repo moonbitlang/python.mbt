@@ -31,7 +31,7 @@ jobs:
       # TODO: remove bleeding
       - name: Install Moonbit
         run: |
-          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s bleeding
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s nightly
           echo "$HOME/.moon/bin" >> $GITHUB_PATH
 
       - name: Moon version
@@ -111,7 +111,7 @@ jobs:
           done
           (exit $_passed)
 
-  bleeding-check:
+  nightly-check:
     continue-on-error: true
     strategy:
       matrix:
@@ -125,9 +125,9 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Install Moonbit (bleeding)
+      - name: Install Moonbit (nightly)
         run: |
-          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s bleeding
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s nightly
           echo "$HOME/.moon/bin" >> $GITHUB_PATH
 
       - name: Moon version
