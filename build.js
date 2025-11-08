@@ -27,7 +27,7 @@ try {
   const pyIncludeDir = path.join(pyPrefix, 'include', `python${pyVersion}`)
 
   // 4. Construct CC_FLAGS
-  const stubCCFlags = `-I${pyIncludeDir} -DNDEBUG`
+  const stubCCFlags = `-I${pyIncludeDir} -DNDEBUG -fsanitize=address -g`
   const ccFlags = stubCCFlags
 
   // 5. Get Python ldflags
@@ -37,7 +37,7 @@ try {
   // 6. Construct CC_LINK_FLAGS
   // Sometimes ldflags already includes the -lpython part, remove it if present before adding ours
   const baseLdflags = pyLdflags.replace(/-lpython[\d.]+\w*/, '').trim()
-  const ccLinkFlags = `${baseLdflags} -lpython${pyVersion}`
+  const ccLinkFlags = `${baseLdflags} -lpython${pyVersion} -fsanitize=address -g`
 
   // 7. Construct C_INCLUDE_PATH
   const existingCIncludePath = process.env.C_INCLUDE_PATH || ''
