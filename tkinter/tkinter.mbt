@@ -13,7 +13,13 @@
 //}
 
 ///|
-typealias @python.(PyModule, PyObject, PyTuple, PyDict, PyString)
+using @python {
+  type PyModule,
+  type PyObject,
+  type PyTuple,
+  type PyDict,
+  type PyString,
+}
 
 ///|
 pub suberror TkinterError {

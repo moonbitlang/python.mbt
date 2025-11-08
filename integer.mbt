@@ -7,7 +7,8 @@ pub struct PyInteger {
   priv obj : PyObject
 }
 
-///| Create a python integer object from a python object.
+///|
+/// Create a python integer object from a python object.
 /// If 
 pub fn PyInteger::create(obj : PyObject) -> PyInteger raise PyRuntimeError {
   guard obj.is_int() else { raise TypeMisMatchError }
@@ -37,7 +38,8 @@ test {
   ignore(PyInteger::create_by_ref_unchecked)
 }
 
-///| Create a PyInteger from an integer.
+///|
+/// Create a PyInteger from an integer.
 ///
 /// ## Example
 ///
@@ -49,7 +51,8 @@ pub fn PyInteger::from(value : Int64) -> PyInteger {
   PyInteger::{ obj: PyObject::create(@cpython.py_long_from_long(value)) }
 }
 
-///| Convert a PyInteger to an integer.
+///|
+/// Convert a PyInteger to an integer.
 ///
 /// ## Example
 ///
@@ -61,7 +64,8 @@ pub fn PyInteger::to_int64(self : PyInteger) -> Int64 {
   @cpython.py_long_as_long(self.obj_ref())
 }
 
-///| Convert a PyInteger to a double.
+///|
+/// Convert a PyInteger to a double.
 ///
 /// ## Example
 ///
@@ -73,7 +77,8 @@ pub fn PyInteger::to_double(self : PyInteger) -> Double {
   @cpython.py_long_as_double(self.obj_ref())
 }
 
-///| Print the PyInteger object direcly.
+///|
+/// Print the PyInteger object direcly.
 ///
 /// Different from use `println`, `dump` means we made python interpreter
 /// print the object directly.

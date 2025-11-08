@@ -3,7 +3,8 @@ pub struct PyFloat {
   priv obj : PyObject
 }
 
-///| Create a python float object from a python object.
+///|
+/// Create a python float object from a python object.
 /// If the python object is not a float, it will raise a TypeMisMatchError.
 pub fn PyFloat::create(obj : PyObject) -> PyFloat raise PyRuntimeError {
   guard obj.is_float() else { raise TypeMisMatchError }
@@ -15,7 +16,8 @@ fn PyFloat::create_unchecked(obj : PyObject) -> PyFloat {
   PyFloat::{ obj, }
 }
 
-///| Ceate a python float object from a python object reference.
+///|
+/// Ceate a python float object from a python object reference.
 /// If the python object is not a float, it will raise a TypeMisMatchError.
 pub fn PyFloat::create_by_ref(
   obj : @cpython.PyObjectRef,
@@ -34,7 +36,8 @@ test {
   ignore(PyFloat::create_by_ref_unchecked)
 }
 
-///| Create a PyFloat from a Double value.
+///|
+/// Create a PyFloat from a Double value.
 ///
 /// ## Example
 ///
@@ -46,7 +49,8 @@ pub fn PyFloat::from(value : Double) -> PyFloat {
   PyFloat::{ obj: @cpython.py_float_from_double(value) |> PyObject::create }
 }
 
-///| Convert a PyFloat to a Double.
+///|
+/// Convert a PyFloat to a Double.
 ///
 /// ## Example
 ///
@@ -58,7 +62,8 @@ pub fn PyFloat::to_double(self : PyFloat) -> Double {
   @cpython.py_float_as_double(self.obj_ref())
 }
 
-///| Print the PyFloat object direcly.
+///|
+/// Print the PyFloat object direcly.
 ///
 /// Different from use `println`, `dump` means we made python interpreter
 /// print the object directly.

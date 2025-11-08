@@ -1,5 +1,5 @@
 ///|
-typealias @python.(PyModule, PyTuple, PyFloat)
+using @python {type PyModule, type PyTuple, type PyFloat}
 
 ///|
 pub struct TimeModule {
@@ -44,7 +44,8 @@ pub fn sleep(seconds : Double) -> Unit {
   ()
 }
 
-///| Returns the time in seconds since the epoch as a floating-point number.
+///|
+/// Returns the time in seconds since the epoch as a floating-point number.
 /// Corresponds to `time.time()` in Python.
 pub fn time() -> Double {
   let lib = singleton()
@@ -60,7 +61,8 @@ pub fn time() -> Double {
   t.to_double()
 }
 
-///| Returns the time in nanoseconds since the epoch as an integer.
+///|
+/// Returns the time in nanoseconds since the epoch as an integer.
 /// Corresponds to `time.time_ns()` in Python.
 pub fn time_ns() -> Int64 {
   let lib = singleton()
@@ -75,7 +77,8 @@ pub fn time_ns() -> Int64 {
   t.to_int64()
 }
 
-///| Returns the value (in fractional seconds) of a monotonic clock.
+///|
+/// Returns the value (in fractional seconds) of a monotonic clock.
 /// Corresponds to `time.monotonic()` in Python.
 pub fn monotonic() -> Double {
   let lib = singleton()
@@ -90,7 +93,8 @@ pub fn monotonic() -> Double {
   t.to_double()
 }
 
-///| Returns the value (in nanoseconds) of a monotonic clock.
+///|
+/// Returns the value (in nanoseconds) of a monotonic clock.
 /// Corresponds to `time.monotonic_ns()` in Python.
 pub fn monotonic_ns() -> Int64 {
   let lib = singleton()
@@ -105,7 +109,8 @@ pub fn monotonic_ns() -> Int64 {
   t.to_int64()
 }
 
-///| Returns the value (in fractional seconds) of a performance counter.
+///|
+/// Returns the value (in fractional seconds) of a performance counter.
 /// Corresponds to `time.perf_counter()` in Python.
 pub fn perf_counter() -> Double {
   let lib = singleton()
@@ -120,7 +125,8 @@ pub fn perf_counter() -> Double {
   t.to_double()
 }
 
-///| Returns the value (in nanoseconds) of a performance counter.
+///|
+/// Returns the value (in nanoseconds) of a performance counter.
 /// Corresponds to `time.perf_counter_ns()` in Python.
 pub fn perf_counter_ns() -> Int64 {
   let lib = singleton()
@@ -135,7 +141,8 @@ pub fn perf_counter_ns() -> Int64 {
   t.to_int64()
 }
 
-///| Returns the value (in fractional seconds) of the sum of the system and user CPU time of the current process.
+///|
+/// Returns the value (in fractional seconds) of the sum of the system and user CPU time of the current process.
 /// Corresponds to `time.process_time()` in Python.
 pub fn process_time() -> Double {
   let lib = singleton()
@@ -150,7 +157,8 @@ pub fn process_time() -> Double {
   t.to_double()
 }
 
-///| Returns the value (in nanoseconds) of the sum of the system and user CPU time of the current process.
+///|
+/// Returns the value (in nanoseconds) of the sum of the system and user CPU time of the current process.
 /// Corresponds to `time.process_time_ns()` in Python.
 pub fn process_time_ns() -> Int64 {
   let lib = singleton()
@@ -165,7 +173,8 @@ pub fn process_time_ns() -> Int64 {
   t.to_int64()
 }
 
-///| Converts a time expressed in seconds since the epoch to a string representing local time.
+///|
+/// Converts a time expressed in seconds since the epoch to a string representing local time.
 /// If `secs_option` is `None`, the current time as returned by `time()` is used.
 /// Corresponds to `time.ctime([secs])` in Python.
 pub fn ctime(secs_option : Double?) -> String {
