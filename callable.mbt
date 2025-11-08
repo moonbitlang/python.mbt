@@ -8,9 +8,9 @@ pub struct PyCallable {
 }
 
 ///| Create a python callable object from a PyObject.
-/// If the object is not callable, a TypeMisMatchError is raised.
+/// If the object is not callable, a TypeMismatchError is raised.
 pub fn PyCallable::create(obj : PyObject) -> PyCallable raise PyRuntimeError {
-  guard obj.is_callable() else { raise TypeMisMatchError }
+  guard obj.is_callable() else { raise TypeMismatchError }
   PyCallable::{ obj, }
 }
 
@@ -20,11 +20,11 @@ fn PyCallable::create_unchecked(obj : PyObject) -> PyCallable {
 }
 
 ///| Create a python callable object from a PyObjectRef.
-/// If the object is not callable, a TypeMisMatchError is raised.
+/// If the object is not callable, a TypeMismatchError is raised.
 pub fn PyCallable::create_by_ref(
   obj : @cpython.PyObjectRef,
 ) -> PyCallable raise PyRuntimeError {
-  guard @cpython.py_callable_check(obj) else { raise TypeMisMatchError }
+  guard @cpython.py_callable_check(obj) else { raise TypeMismatchError }
   PyCallable::{ obj: PyObject::create(obj) }
 }
 
