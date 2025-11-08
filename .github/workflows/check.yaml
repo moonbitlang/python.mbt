@@ -83,7 +83,7 @@ jobs:
   license-header-check:
     runs-on: ubuntu-latest
     env:
-      HAWKEYE_VERSION: v5.8.1
+      HAWKEYE_VERSION: v6.3.0
     steps:
       - uses: actions/checkout@v4
         with:
