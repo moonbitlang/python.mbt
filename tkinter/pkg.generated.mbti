@@ -1,0 +1,33 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Kaida-Amethyst/python/tkinter"
+
+// Values
+
+// Errors
+pub suberror TkinterError {
+  LoadTkinterError
+}
+impl Show for TkinterError
+
+// Types and methods
+pub struct Label {
+  // private fields
+}
+fn Label::new(Window, String) -> Self
+fn Label::pack(Self) -> Unit
+
+pub struct Tkinter {
+  // private fields
+}
+
+pub struct Window {
+  // private fields
+}
+fn Window::mainloop(Self) -> Unit
+fn Window::new() -> Self
+fn Window::set_title(Self, String) -> Unit
+
+// Type aliases
+
+// Traits
+
