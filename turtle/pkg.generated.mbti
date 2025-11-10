@@ -1,0 +1,116 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "Kaida-Amethyst/python/turtle"
+
+import(
+  "Kaida-Amethyst/python"
+)
+
+// Values
+fn bgcolor(Color) -> Unit
+
+// Errors
+pub suberror TurtleError {
+  LoadTurtleError
+}
+impl Show for TurtleError
+
+// Types and methods
+pub(all) enum Color {
+  Red
+  Green
+  Blue
+  Purple
+  Orange
+  Yellow
+  Black
+  Silver
+  White
+  Gray
+  Brown
+  Cyan
+  Magenta
+  Lime
+  Pink
+  Teal
+  Indigo
+  Violet
+}
+fn Color::to_pystr(Self) -> @python.PyString
+impl Show for Color
+
+pub struct Pen {
+  methods : Map[String, @python.PyCallable]
+  // private fields
+}
+fn Pen::backward(Self, Double) -> Unit
+fn Pen::begin_fill(Self) -> Unit
+fn Pen::circle(Self, Double, extent? : Double?, steps? : Int?) -> Unit
+fn Pen::clear(Self) -> Unit
+fn Pen::clearstamp(Self, Int) -> Unit
+fn Pen::clearstamps(Self, n? : Int?) -> Unit
+fn Pen::color(Self, Color) -> Unit
+fn Pen::dot(Self, Double, Color) -> Unit
+fn Pen::end_fill(Self) -> Unit
+fn Pen::fillcolor(Self, Color) -> Unit
+fn Pen::forward(Self, Double) -> Unit
+fn Pen::goto(Self, Double, Double) -> Unit
+fn Pen::heading(Self) -> Double
+fn Pen::hide(Self) -> Unit
+fn Pen::home(Self) -> Unit
+fn Pen::isdown(Self) -> Bool
+fn Pen::isvisible(Self) -> Bool
+fn Pen::left(Self, Double) -> Unit
+fn Pen::new() -> Self
+fn Pen::pencolor(Self, Color) -> Unit
+fn Pen::pendown(Self) -> Unit
+fn Pen::pensize(Self, Double) -> Unit
+fn Pen::penup(Self) -> Unit
+fn Pen::position(Self) -> (Double, Double)
+fn Pen::radians(Self) -> Double
+fn Pen::reset(Self) -> Unit
+fn Pen::right(Self, Double) -> Unit
+fn Pen::shape(Self, Shape) -> Unit
+fn Pen::shapesize(Self, stretch_width? : Double?, stretch_len? : Double?, outline? : Int?) -> Unit
+fn Pen::show(Self) -> Unit
+fn Pen::speed(Self, Speed) -> Unit
+fn Pen::stamp(Self) -> Int
+fn Pen::width(Self, Double) -> Unit
+fn Pen::xcor(Self) -> Double
+fn Pen::ycor(Self) -> Double
+
+pub struct Screen {
+  // private fields
+}
+fn Screen::bgcolor(Self, Color) -> Unit
+fn Screen::new() -> Self
+fn Screen::setup(Self, Double, Double) -> Unit
+fn Screen::title(Self, String) -> Unit
+fn Screen::tracer(Self, Int) -> Unit
+fn Screen::update(Self) -> Unit
+
+pub(all) enum Shape {
+  Arrow
+  Turtle
+  Circle
+  Square
+  Triangle
+  Classic
+}
+impl Show for Shape
+
+pub(all) enum Speed {
+  Fastest
+  Fast
+  Normal
+  Slow
+  Slowest
+}
+
+pub struct Turtle {
+  // private fields
+}
+
+// Type aliases
+
+// Traits
+

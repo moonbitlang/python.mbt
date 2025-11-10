@@ -13,16 +13,16 @@
 // limitations under the License.
 
 ///|
-typealias @python.(
-  PyModule,
-  PyObject,
-  PyTuple,
-  PyDict,
-  PyString,
-  PyInteger,
-  PyFloat,
-  PyCallable
-)
+using @python {
+  type PyModule,
+  type PyObject,
+  type PyTuple,
+  type PyDict,
+  type PyString,
+  type PyInteger,
+  type PyFloat,
+  type PyCallable,
+}
 
 ///|
 pub suberror TurtleError {

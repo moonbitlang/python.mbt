@@ -21,7 +21,8 @@ pub struct PyCallable {
   priv obj : PyObject
 }
 
-///| Create a python callable object from a PyObject.
+///|
+/// Create a python callable object from a PyObject.
 /// If the object is not callable, a TypeMisMatchError is raised.
 pub fn PyCallable::create(obj : PyObject) -> PyCallable raise PyRuntimeError {
   guard obj.is_callable() else { raise TypeMisMatchError }
@@ -33,7 +34,8 @@ fn PyCallable::create_unchecked(obj : PyObject) -> PyCallable {
   PyCallable::{ obj, }
 }
 
-///| Create a python callable object from a PyObjectRef.
+///|
+/// Create a python callable object from a PyObjectRef.
 /// If the object is not callable, a TypeMisMatchError is raised.
 pub fn PyCallable::create_by_ref(
   obj : @cpython.PyObjectRef,
@@ -63,9 +65,9 @@ pub fn PyCallable::dump(self : PyCallable) -> Unit {
 ///|
 pub fn PyCallable::invoke(
   self : PyCallable,
-  args~ : PyTuple = PyTuple::new(0),
-  kwargs~ : PyDict = PyDict::new(),
-  print_err~ : Bool = false,
+  args? : PyTuple = PyTuple::new(0),
+  kwargs? : PyDict = PyDict::new(),
+  print_err? : Bool = false,
 ) -> PyObjectEnum? raise PyRuntimeError {
   let obj_ref = if kwargs.len() > 0 {
     @cpython.py_object_call(self.obj_ref(), args.obj_ref(), kwargs.obj_ref())

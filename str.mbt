@@ -21,7 +21,8 @@ pub struct PyString {
   priv obj : PyObject
 }
 
-///| Create a python string from a python object.
+///|
+/// Create a python string from a python object.
 /// If the python object is not a string, it will raise a TypeMisMatchError.
 pub fn PyString::create(obj : PyObject) -> PyString raise PyRuntimeError {
   guard obj.is_string() else { raise TypeMisMatchError }
@@ -33,7 +34,8 @@ fn PyString::create_unchecked(obj : PyObject) -> PyString {
   PyString::{ obj, }
 }
 
-///| Create a python string from a python object reference.
+///|
+/// Create a python string from a python object reference.
 ///If the python object is not a string, it will raise a TypeMisMatchError.
 pub fn PyString::create_by_ref(
   obj_ref : @cpython.PyObjectRef,
@@ -54,7 +56,8 @@ test {
   ignore(PyString::create_by_ref_unchecked)
 }
 
-///| Create a PyString from a string
+///|
+/// Create a PyString from a string
 ///
 /// ## Example
 ///
@@ -68,7 +71,8 @@ pub fn PyString::from(s : String) -> PyString {
   }
 }
 
-///| Print the PyString object direcly.
+///|
+/// Print the PyString object direcly.
 ///
 /// Different from use `println`, `dump` means we made python interpreter
 /// print the object directly.
