@@ -19,7 +19,7 @@ priv trait ToCStr {
 
 ///|
 impl ToCStr for String with to_cstr(self) {
-  let s = self.to_bytes().to_array().filter(fn(c) { c != 0 })
+  let s = @encoding/utf8.encode(self).to_array().filter(fn(c) { c != 0 })
   s.push(0)
   s |> @bytes.from_array
 }

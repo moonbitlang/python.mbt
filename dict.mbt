@@ -23,9 +23,9 @@ pub struct PyDict {
 
 ///|
 /// Create a python dict object.
-/// If the python object is not a dict, it will raise a TypeMisMatchError.
+/// If the python object is not a dict, it will raise a TypeMismatchError.
 pub fn PyDict::create(obj : PyObject) -> PyDict raise PyRuntimeError {
-  guard obj.is_dict() else { raise TypeMisMatchError }
+  guard obj.is_dict() else { raise TypeMismatchError }
   PyDict::{ obj, }
 }
 
@@ -36,11 +36,11 @@ fn PyDict::create_unchecked(obj : PyObject) -> PyDict {
 
 ///|
 /// Create a python dict object from a python object reference.
-/// If the python object is not a dict, it will raise a TypeMisMatchError.
+/// If the python object is not a dict, it will raise a TypeMismatchError.
 pub fn PyDict::create_by_ref(
   obj : @cpython.PyObjectRef,
 ) -> PyDict raise PyRuntimeError {
-  guard @cpython.py_dict_check(obj) else { raise TypeMisMatchError }
+  guard @cpython.py_dict_check(obj) else { raise TypeMismatchError }
   PyDict::{ obj: PyObject::create(obj) }
 }
 

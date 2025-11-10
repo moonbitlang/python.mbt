@@ -23,9 +23,9 @@ pub struct PyString {
 
 ///|
 /// Create a python string from a python object.
-/// If the python object is not a string, it will raise a TypeMisMatchError.
+/// If the python object is not a string, it will raise a TypeMismatchError.
 pub fn PyString::create(obj : PyObject) -> PyString raise PyRuntimeError {
-  guard obj.is_string() else { raise TypeMisMatchError }
+  guard obj.is_string() else { raise TypeMismatchError }
   PyString::{ obj, }
 }
 
@@ -36,11 +36,11 @@ fn PyString::create_unchecked(obj : PyObject) -> PyString {
 
 ///|
 /// Create a python string from a python object reference.
-///If the python object is not a string, it will raise a TypeMisMatchError.
+///If the python object is not a string, it will raise a TypeMismatchError.
 pub fn PyString::create_by_ref(
   obj_ref : @cpython.PyObjectRef,
 ) -> PyString raise PyRuntimeError {
-  guard @cpython.py_string_check(obj_ref) else { raise TypeMisMatchError }
+  guard @cpython.py_string_check(obj_ref) else { raise TypeMismatchError }
   PyString::{ obj: PyObject::create(obj_ref) }
 }
 
