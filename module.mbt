@@ -41,7 +41,8 @@ test {
 }
 // REVIEW: what if user call pyimport twice or more?
 
-///| Import a python module
+///|
+/// Import a python module
 ///
 /// ## Example
 ///
@@ -50,7 +51,7 @@ test {
 ///
 /// assert_true(os is Some(_))
 /// ```
-pub fn pyimport(name : String, print_err~ : Bool = false) -> PyModule? {
+pub fn pyimport(name : String, print_err? : Bool = false) -> PyModule? {
   let obj = @cpython.py_import_import_module(name)
   if obj.is_null() {
     if print_err {
@@ -64,7 +65,8 @@ pub fn pyimport(name : String, print_err~ : Bool = false) -> PyModule? {
   |> Some
 }
 
-///| Get the name of the module.
+///|
+/// Get the name of the module.
 ///
 /// ## Example
 ///
@@ -97,7 +99,8 @@ pub fn PyModule::dump(self : PyModule) -> Unit {
   self.obj.dump()
 }
 
-///| Get attribute by name.
+///|
+/// Get attribute by name.
 ///
 /// ## Example
 ///
@@ -131,7 +134,7 @@ pub fn PyModule::dump(self : PyModule) -> Unit {
 pub fn PyModule::get_attr(
   self : PyModule,
   attr : String,
-  print_err~ : Bool = false,
+  print_err? : Bool = false,
 ) -> PyObjectEnum? {
   if self.attrs.contains(attr) {
     return self.attrs.get(attr)

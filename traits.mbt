@@ -10,7 +10,8 @@ impl IsPyObject with obj_ref(self) {
   self.obj().obj
 }
 
-///| Return the type name of the object.
+///|
+/// Return the type name of the object.
 ///
 /// ## Example
 ///

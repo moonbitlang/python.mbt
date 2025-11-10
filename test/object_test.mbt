@@ -1,13 +1,13 @@
 ///|
-typealias @python.(
-  PyInteger,
-  PyFloat,
-  PyString,
-  PyList,
-  PyTuple,
-  PyBool,
-  PyDict
-)
+using @python {
+  type PyInteger,
+  type PyFloat,
+  type PyString,
+  type PyList,
+  type PyTuple,
+  type PyBool,
+  type PyDict,
+}
 
 ///|
 test "PyInteger Test" {

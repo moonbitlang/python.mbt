@@ -7,7 +7,8 @@ pub struct PyTuple {
   priv obj : PyObject
 }
 
-///| Create a PyTuple object.
+///|
+/// Create a PyTuple object.
 ///
 /// **Notes**: Tuple type must know the size of the tuple.
 ///
@@ -26,7 +27,8 @@ pub fn PyTuple::new(size : UInt64) -> PyTuple {
   PyTuple::{ obj: @cpython.pytuple_new(size) |> PyObject::create }
 }
 
-///| Create a PyTuple object from a python object.
+///|
+/// Create a PyTuple object from a python object.
 /// If the python object is not a tuple, it will raise a TypeMisMatchError.
 pub fn PyTuple::create(obj : PyObject) -> PyTuple raise PyRuntimeError {
   guard obj.is_tuple() else { raise TypeMisMatchError }
@@ -38,7 +40,8 @@ fn PyTuple::create_unchecked(obj : PyObject) -> PyTuple {
   PyTuple::{ obj, }
 }
 
-///| Create a PyTuple object from a python object reference.
+///|
+/// Create a PyTuple object from a python object reference.
 /// If the python object is not a tuple, it will raise a TypeMisMatchError.
 pub fn PyTuple::create_by_ref(
   obj_ref : @cpython.PyObjectRef,
@@ -57,7 +60,8 @@ test {
   ignore(PyTuple::create_by_ref_unchecked)
 }
 
-///| Return the size of the tuple.
+///|
+/// Return the size of the tuple.
 ///
 /// ## Example:
 ///
@@ -70,7 +74,8 @@ pub fn PyTuple::len(self : PyTuple) -> UInt64 {
   @cpython.pytuple_size(self.obj_ref())
 }
 
-///| Get the item at the given index.
+///|
+/// Get the item at the given index.
 ///
 /// **Notes**: Although python supports negative index, in moonbit, we don't have plan to
 /// support it. Code like `tuple.get(-1)` will return `None`.
@@ -108,7 +113,8 @@ pub fn PyTuple::get(self : PyTuple, idx : Int) -> PyObjectEnum? {
   })
 }
 
-///| Get the item at the given index.
+///|
+/// Get the item at the given index.
 ///
 /// **Notes**: Although python supports negative index, in moonbit, we don't have plan to
 /// support it. Code like `tuple[-1]` will return `None`.
@@ -130,7 +136,8 @@ pub fn PyTuple::op_get(self : PyTuple, idx : Int) -> PyObjectEnum {
   self.get(idx).unwrap()
 }
 
-///| Set the item at the given index.
+///|
+/// Set the item at the given index.
 ///
 /// **Notes**: Although python supports negative index, in moonbit, we don't have plan to
 /// support it. Code like `tuple.set(-1, item)` will raise `IndexOutOfBoundError`.
@@ -160,7 +167,8 @@ pub fn[T : IsPyObject] PyTuple::set(
 
 }
 
-///| Set the item at the given index.
+///|
+/// Set the item at the given index.
 ///
 /// **Notes**: Although python supports negative index, in moonbit, we don't have plan to
 /// support it. Code like `tuple[-1] = item` will raise `IndexOutOfBoundError`.

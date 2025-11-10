@@ -7,7 +7,8 @@ pub struct PyList {
   priv obj : PyObject
 }
 
-///| Create an empty python list.
+///|
+/// Create an empty python list.
 ///
 /// ## Example
 ///
@@ -20,7 +21,8 @@ pub fn PyList::new() -> PyList {
   PyList::{ obj: @cpython.py_list_new(0) |> PyObject::create }
 }
 
-///| Create a python list object from a pyobject.
+///|
+/// Create a python list object from a pyobject.
 /// If the pyobject is not a list, it will raise a TypeMisMatchError.
 pub fn PyList::create(obj : PyObject) -> PyList raise PyRuntimeError {
   guard obj.is_list() else { raise TypeMisMatchError }
@@ -32,7 +34,8 @@ fn PyList::create_unchecked(obj : PyObject) -> PyList {
   PyList::{ obj, }
 }
 
-///| Create a python list object from a pyobject reference.
+///|
+/// Create a python list object from a pyobject reference.
 /// If the pyobject is not a list, it will raise a TypeMisMatchError.
 pub fn PyList::create_by_ref(
   obj : @cpython.PyObjectRef,
@@ -46,7 +49,8 @@ fn PyList::create_by_ref_unchecked(obj : @cpython.PyObjectRef) -> PyList {
   PyList::{ obj: PyObject::create(obj) }
 }
 
-///| Returns the length of the list.
+///|
+/// Returns the length of the list.
 ///
 /// ## Example
 ///
@@ -73,7 +77,8 @@ pub fn PyList::len(self : PyList) -> Int {
   @cpython.py_list_size(self.obj_ref()).to_int()
 }
 
-///| Append an item to the end of the list.
+///|
+/// Append an item to the end of the list.
 ///
 /// ## Example
 ///
@@ -112,7 +117,8 @@ pub fn[T : IsPyObject] PyList::append(self : PyList, item : T) -> Unit {
 //  let _ = @cpython.py_list_reverse(self.obj_ref())
 //}
 
-///| Create a new python list from a python object array
+///|
+/// Create a new python list from a python object array
 ///
 /// ## Example
 ///
@@ -135,7 +141,8 @@ pub fn[T : IsPyObject] PyList::from(items : Array[T]) -> PyList {
   pylist
 }
 
-///| Get the item at the specified index.
+///|
+/// Get the item at the specified index.
 ///
 /// **Notes**: Although python support negative index, the moonbit api does not
 /// support it. Code like `list.get(-1)` will return `None`.
@@ -161,7 +168,8 @@ pub fn PyList::get(self : PyList, idx : Int) -> PyObjectEnum? {
   })
 }
 
-///| Get the item at the specified index.
+///|
+/// Get the item at the specified index.
 ///
 /// **Notes**: Although python support negative index, the moonbit api does not
 /// support it. which means code like `list[-1]` will be panic.
@@ -182,7 +190,8 @@ pub fn PyList::op_get(self : PyList, idx : Int) -> PyObjectEnum {
   self.get(idx).unwrap()
 }
 
-///| Set the item at the specified index.
+///|
+/// Set the item at the specified index.
 ///
 /// **Notes**: Although python support negative index, the moonbit api does not
 /// support it. which means code like `list.set(-1) = ...` will raise IndexOutOfBoundsError.
@@ -213,7 +222,8 @@ pub fn[T : IsPyObject] PyList::set(
 
 }
 
-///| Set the item at the specified index.
+///|
+/// Set the item at the specified index.
 ///
 /// **Notes**: Although python support negative index, the moonbit api does not
 /// support it. which means code like `list[-1] = ...` will be panic.
@@ -240,7 +250,8 @@ pub fn[T : IsPyObject] PyList::op_set(
   }
 }
 
-///| Let python interpreter print the list directly.
+///|
+/// Let python interpreter print the list directly.
 ///
 /// **Note**: It is different from `println(list)` and `list.dump()`
 /// although they always print the same content.
