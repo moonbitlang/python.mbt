@@ -151,7 +151,7 @@ pub fn PyDict::op_get(self : PyDict, key : String) -> PyObjectEnum {
 /// ..set("one", PyInteger::from(1))
 /// ..set("two", PyFloat::from(2.0))
 /// ..set("three", PyBool::from(true));
-/// 
+///
 /// inspect(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
 /// ```
 ///
@@ -225,7 +225,7 @@ pub fn[K : IsPyObject, V : IsPyObject] PyDict::setByObj(
 /// dict["one"] = PyInteger::from(1);
 /// dict["two"] = PyFloat::from(2.0);
 /// dict["three"] = PyBool::from(true);
-/// 
+///
 /// inspect(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
 /// ```
 ///
