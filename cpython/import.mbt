@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 // Import
 
 ///|
-pub extern "C" fn py_import_get_magic_number() -> Int = "PyImport_GetMagicNumber"
+pub extern "C" fn py_import_get_magic_number() -> Int32 = "PyImport_GetMagicNumber"
 
 ///|
 pub extern "C" fn py_import_get_magic_tag() -> CStr = "PyImport_GetMagicTag"
@@ -93,7 +93,7 @@ pub extern "C" fn py_import_import_module_level(
   globals : PyObjectRef,
   locals : PyObjectRef,
   fromlist : PyObjectRef,
-  level : Int,
+  level : Int32,
 ) -> PyObjectRef = "PyImport_ImportModuleLevel"
 
 ///|
@@ -103,7 +103,7 @@ pub extern "C" fn py_import_import_module_level_object(
   globals : PyObjectRef,
   locals : PyObjectRef,
   fromlist : PyObjectRef,
-  level : Int,
+  level : Int32,
 ) -> PyObjectRef = "PyImport_ImportModuleLevelObject"
 
 ///|
@@ -125,8 +125,8 @@ pub extern "C" fn py_import_cleanup() = "PyImport_Cleanup"
 #owned(name)
 pub extern "C" fn py_import_import_frozen_module_object(
   name : PyObjectRef,
-) -> Int = "PyImport_ImportFrozenModuleObject"
+) -> Int32 = "PyImport_ImportFrozenModuleObject"
 
 ///|
 #owned(name)
-pub extern "C" fn py_import_import_frozen_module(name : CStr) -> Int = "PyImport_ImportFrozenModule"
+pub extern "C" fn py_import_import_frozen_module(name : CStr) -> Int32 = "PyImport_ImportFrozenModule"

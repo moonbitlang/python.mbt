@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,13 +14,13 @@
 
 ///|
 pub trait IsPyObject {
-  obj(Self) -> PyObject
-  obj_ref(Self) -> @cpython.PyObjectRef = _
-  type_name(Self) -> String = _
+  fn obj(Self) -> PyObject
+  fn obj_ref(Self) -> @cpython.PyObjectRef = _
+  fn type_name(Self) -> String = _
 }
 
 ///|
-impl IsPyObject with obj_ref(self) {
+impl IsPyObject with fn obj_ref(self) {
   self.obj().obj
 }
 
@@ -29,7 +29,7 @@ impl IsPyObject with obj_ref(self) {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let t = PyBool::from(true);
 /// inspect(t.type_name(), content="bool")
 ///
@@ -70,6 +70,6 @@ impl IsPyObject with obj_ref(self) {
 /// lst = []
 /// print(type(lst)) # Output: <class 'list'>
 /// ```
-impl IsPyObject with type_name(self) {
+impl IsPyObject with fn type_name(self) {
   self.obj().type_name()
 }

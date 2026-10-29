@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -22,4 +22,16 @@ pub(all) enum Shape {
   Square
   Triangle
   Classic
-} derive(Show)
+}
+
+///|
+pub impl Show for Shape with fn output(self, logger) {
+  match self {
+    Arrow => logger.write_string("Arrow")
+    Turtle => logger.write_string("Turtle")
+    Circle => logger.write_string("Circle")
+    Square => logger.write_string("Square")
+    Triangle => logger.write_string("Triangle")
+    Classic => logger.write_string("Classic")
+  }
+}

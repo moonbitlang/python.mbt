@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ pub extern "C" fn py_cell_get(a : PyObjectRef) -> PyObjectRef = "PyCell_Get"
 
 ///|
 #owned(a, b)
-pub extern "C" fn py_cell_set(a : PyObjectRef, b : PyObjectRef) -> Int = "PyCell_Set"
+pub extern "C" fn py_cell_set(a : PyObjectRef, b : PyObjectRef) -> Int32 = "PyCell_Set"
 
 // Eval
 

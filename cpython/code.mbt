@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,11 +17,11 @@
 ///|
 #owned(f, g, h, i, j, k, l, m, o)
 pub extern "C" fn py_code_new(
-  a : Int,
-  b : Int,
-  c : Int,
-  d : Int,
-  e : Int,
+  a : Int32,
+  b : Int32,
+  c : Int32,
+  d : Int32,
+  e : Int32,
   f : PyObjectRef,
   g : PyObjectRef,
   h : PyObjectRef,
@@ -30,19 +30,19 @@ pub extern "C" fn py_code_new(
   k : PyObjectRef,
   l : PyObjectRef,
   m : PyObjectRef,
-  n : Int,
+  n : Int32,
   o : PyObjectRef,
 ) -> PyCodeObjectRef = "PyCode_New"
 
 ///|
 #owned(g, h, i, j, k, l, m, n, p)
 pub extern "C" fn py_code_new_with_pos_only_args(
-  a : Int,
-  b : Int,
-  c : Int,
-  d : Int,
-  e : Int,
-  f : Int,
+  a : Int32,
+  b : Int32,
+  c : Int32,
+  d : Int32,
+  e : Int32,
+  f : Int32,
   g : PyObjectRef,
   h : PyObjectRef,
   i : PyObjectRef,
@@ -51,7 +51,7 @@ pub extern "C" fn py_code_new_with_pos_only_args(
   l : PyObjectRef,
   m : PyObjectRef,
   n : PyObjectRef,
-  o : Int,
+  o : Int32,
   p : PyObjectRef,
 ) -> PyCodeObjectRef = "PyCode_NewWithPosOnlyArgs"
 
@@ -60,9 +60,9 @@ pub extern "C" fn py_code_new_with_pos_only_args(
 pub extern "C" fn py_code_new_empty(
   filename : CStr,
   funcname : CStr,
-  firstlineno : Int,
+  firstlineno : Int32,
 ) -> PyCodeObjectRef = "PyCode_NewEmpty"
 
 ///|
 #owned(a)
-pub extern "C" fn py_code_addr2_line(a : PyCodeObjectRef, b : Int) -> Int = "PyCode_Addr2Line"
+pub extern "C" fn py_code_addr2_line(a : PyCodeObjectRef, b : Int32) -> Int32 = "PyCode_Addr2Line"

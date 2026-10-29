@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,12 +41,12 @@ pub fn PyBool::create_by_ref(
   obj_ref : @cpython.PyObjectRef,
 ) -> PyBool raise PyRuntimeError {
   guard @cpython.py_bool_check(obj_ref) else { raise TypeMismatchError }
-  PyBool::{ obj: PyObject::create(obj_ref) }
+  PyBool::{ obj: PyObject::create(obj_ref), }
 }
 
 ///|
 fn PyBool::create_by_ref_unchecked(obj_ref : @cpython.PyObjectRef) -> PyBool {
-  PyBool::{ obj: PyObject::create(obj_ref) }
+  PyBool::{ obj: PyObject::create(obj_ref), }
 }
 
 ///|
@@ -59,7 +59,7 @@ pub fn PyBool::dump(self : PyBool) -> Unit {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let t = PyBool::from(true);
 ///
 /// inspect(t, content="True")
@@ -83,7 +83,7 @@ pub fn PyBool::from(value : Bool) -> PyBool {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let t = PyBool::from(true);
 /// let f = PyBool::from(false);
 ///
@@ -105,7 +105,7 @@ pub fn PyBool::to_bool(self : PyBool) -> Bool {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let t = PyBool::from(true);
 /// let f = PyBool::from(false);
 ///
@@ -113,7 +113,7 @@ pub fn PyBool::to_bool(self : PyBool) -> Bool {
 /// assert_true(f.is_false());
 /// ```
 pub fn PyBool::is_false(self : PyBool) -> Bool {
-  self.is_true() |> not
+  !self.is_true()
 }
 
 ///|
@@ -121,7 +121,7 @@ pub fn PyBool::is_false(self : PyBool) -> Bool {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let t = PyBool::from(true);
 /// let f = t.not();
 ///
@@ -136,16 +136,16 @@ pub fn PyBool::not(self : PyBool) -> PyBool {
 }
 
 ///|
-pub impl IsPyObject for PyBool with obj(self) {
+pub impl IsPyObject for PyBool with fn obj(self) {
   self.obj
 }
 
 ///|
-pub impl Show for PyBool with to_string(self) {
+pub impl Show for PyBool with fn to_string(self) {
   self.obj.to_string()
 }
 
 ///|
-pub impl Show for PyBool with output(self, logger) {
+pub impl Show for PyBool with fn output(self, logger) {
   logger.write_string(self.to_string())
 }

@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,7 +38,23 @@ pub(all) enum PyObjectEnum {
   PyModule(PyModule)
   PyCallable(PyCallable)
   PyClass(PyObject)
-} derive(Show)
+}
+
+///|
+pub impl Show for PyObjectEnum with fn output(self, logger) {
+  match self {
+    PyInteger(value) => logger.write_string("PyInteger(\{value})")
+    PyFloat(value) => logger.write_string("PyFloat(\{value})")
+    PyBool(value) => logger.write_string("PyBool(\{value})")
+    PyString(value) => logger.write_string("PyString(\{value})")
+    PyTuple(value) => logger.write_string("PyTuple(\{value})")
+    PyList(value) => logger.write_string("PyList(\{value})")
+    PyDict(value) => logger.write_string("PyDict(\{value})")
+    PyModule(value) => logger.write_string("PyModule(\{value})")
+    PyCallable(value) => logger.write_string("PyCallable(\{value})")
+    PyClass(value) => logger.write_string("PyClass(\{value})")
+  }
+}
 
 ///|
 pub fn PyObjectEnum::create(obj : PyObject) -> PyObjectEnum {

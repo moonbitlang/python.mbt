@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -44,9 +44,10 @@ fn Pen::get_method(self : Pen, name : String) -> PyCallable? {
 /// This Moonbit function creates a new `turtle.Pen()` instance.
 pub fn Pen::new() -> Pen {
   let lib = singleton()
-  guard lib.turtle.get_attr("Pen") is Some(PyCallable(createPen))
-  guard (try? createPen.invoke()).unwrap() is Some(PyClass(pen))
-  Pen::{ pen, methods: Map::new() }
+  guard! lib.turtle.get_attr("Pen") is Some(PyCallable(createPen))
+  guard! (Ok(createPen.invoke()) catch { e => Err(e) }).unwrap()
+    is Some(PyClass(pen))
+  Pen::{ pen, methods: Map([]), }
 }
 
 ///|
@@ -57,7 +58,7 @@ pub fn Pen::home(self : Pen) -> Unit {
     println("Failed to get Pen::home method")
     panic()
   }
-  let _ = try? func.invoke()
+  let _ = Ok(func.invoke()) catch { e => Err(e) }
   ()
 }
 
@@ -75,9 +76,8 @@ pub fn Pen::pensize(self : Pen, size : Double) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(0, PyFloat::from(size))
-  let _ = try? func.invoke(args~)
-
+  args.set(0, PyFloat::from(size))
+  let _ = Ok(func.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
@@ -88,8 +88,8 @@ pub fn Pen::xcor(self : Pen) -> Double {
     println("Failed to get Pen::xcor method") // Return a default value
     return 0.0
   }
-  let res = (try? func.invoke()).unwrap()
-  guard res is Some(PyFloat(x))
+  let res = (Ok(func.invoke()) catch { e => Err(e) }).unwrap()
+  guard! res is Some(PyFloat(x))
   x.to_double()
 }
 
@@ -101,8 +101,8 @@ pub fn Pen::ycor(self : Pen) -> Double {
     println("Failed to get Pen::ycor method") // Return a default value
     return 0.0
   }
-  let res = (try? func.invoke()).unwrap()
-  guard res is Some(PyFloat(y))
+  let res = (Ok(func.invoke()) catch { e => Err(e) }).unwrap()
+  guard! res is Some(PyFloat(y))
   y.to_double()
 }
 
@@ -114,7 +114,7 @@ pub fn Pen::position(self : Pen) -> (Double, Double) {
     println("Failed to get Pen::position method")
     return (0.0, 0.0) // Return a default value
   }
-  let res = (try? func.invoke()).unwrap()
+  let res = (Ok(func.invoke()) catch { e => Err(e) }).unwrap()
   guard res is Some(PyTuple(tup)) else {
     println("Pen::position did not return a tuple")
     return (0.0, 0.0) // Return a default value
@@ -144,7 +144,7 @@ pub fn Pen::heading(self : Pen) -> Double {
     println("Failed to get Pen::heading method") // Return a default value
     return 0.0
   }
-  let res = (try? func.invoke()).unwrap()
+  let res = (Ok(func.invoke()) catch { e => Err(e) }).unwrap()
   guard res is Some(PyFloat(h)) else {
     println("Pen::heading did not return a float") // Return a default value
     return 0.0
@@ -163,7 +163,7 @@ pub fn Pen::radians(self : Pen) -> Double {
     println("Failed to get Pen::radians method") // Return a default value
     return 0.0
   }
-  let res = (try? func.invoke()).unwrap()
+  let res = (Ok(func.invoke()) catch { e => Err(e) }).unwrap()
   guard res is Some(PyFloat(r)) else {
     println("Pen::radians did not return a float") // Return a default value
     return 0.0
@@ -181,9 +181,8 @@ pub fn Pen::speed(self : Pen, speed : Speed) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(0, speed.to_pynum()) // speed.to_pynum() converts enum to PyInteger
-  let _ = try? func.invoke(args~)
-
+  args.set(0, speed.to_pynum()) // speed.to_pynum() converts enum to PyInteger
+  let _ = Ok(func.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
@@ -196,9 +195,8 @@ pub fn Pen::pencolor(self : Pen, color : Color) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(0, PyString::from(color.to_string().to_lower())) // Ensure lowercase
-  let _ = try? func.invoke(args~)
-
+  args.set(0, PyString::from(color.to_string().to_lower())) // Ensure lowercase
+  let _ = Ok(func.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
@@ -215,9 +213,8 @@ pub fn Pen::width(self : Pen, width : Double) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(0, PyFloat::from(width))
-  let _ = try? func.invoke(args~)
-
+  args.set(0, PyFloat::from(width))
+  let _ = Ok(func.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
@@ -234,9 +231,8 @@ pub fn Pen::forward(self : Pen, distance : Double) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(0, PyFloat::from(distance))
-  let _ = try? func.invoke(args~)
-
+  args.set(0, PyFloat::from(distance))
+  let _ = Ok(func.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
@@ -254,9 +250,8 @@ pub fn Pen::backward(self : Pen, distance : Double) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(0, PyFloat::from(distance))
-  let _ = try? func.invoke(args~)
-
+  args.set(0, PyFloat::from(distance))
+  let _ = Ok(func.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
@@ -269,9 +264,8 @@ pub fn Pen::left(self : Pen, angle : Double) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(0, PyFloat::from(angle))
-  let _ = try? func.invoke(args~)
-
+  args.set(0, PyFloat::from(angle))
+  let _ = Ok(func.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
@@ -284,9 +278,8 @@ pub fn Pen::right(self : Pen, angle : Double) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(0, PyFloat::from(angle))
-  let _ = try? func.invoke(args~)
-
+  args.set(0, PyFloat::from(angle))
+  let _ = Ok(func.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
@@ -300,9 +293,8 @@ pub fn Pen::goto(self : Pen, x : Double, y : Double) -> Unit {
     return
   }
   let args = PyTuple::new(2)
-  args..set(0, PyFloat::from(x))..set(1, PyFloat::from(y))
-  let _ = try? func.invoke(args~)
-
+  args..set(0, PyFloat::from(x)).set(1, PyFloat::from(y))
+  let _ = Ok(func.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
@@ -313,8 +305,7 @@ pub fn Pen::hide(self : Pen) -> Unit {
     println("Failed to get Pen::hideturtle method")
     return
   }
-  let _ = try? func.invoke()
-
+  let _ = Ok(func.invoke()) catch { e => Err(e) }
 }
 
 ///|
@@ -325,8 +316,7 @@ pub fn Pen::penup(self : Pen) -> Unit {
     println("Failed to get Pen::penup method")
     return
   }
-  let _ = try? func.invoke()
-
+  let _ = Ok(func.invoke()) catch { e => Err(e) }
 }
 
 ///|
@@ -337,8 +327,7 @@ pub fn Pen::pendown(self : Pen) -> Unit {
     println("Failed to get Pen::pendown method")
     return
   }
-  let _ = try? func.invoke()
-
+  let _ = Ok(func.invoke()) catch { e => Err(e) }
 }
 
 ///|
@@ -358,10 +347,10 @@ pub fn Pen::dot(self : Pen, size : Double, color : Color) -> Unit {
   let args = PyTuple::new(2)
   args
   ..set(0, PyFloat::from(size))
-  ..set(1, PyString::from(color.to_string().to_lower())) // Ensure lowercase
+  .set(1, PyString::from(color.to_string().to_lower())) // Ensure lowercase
   // The return value of dot is the turtle object itself, which we ignore and drop.
   // The original code had a 'guard func.invoke(args~) is Some(PyClass(r)) r.drop()', which is correct for ignoring the return value.
-  let _ = try? func.invoke(args~)
+  let _ = Ok(func.invoke(args~)) catch { e => Err(e) }
   // Simpler way to ignore return value
 }
 
@@ -373,8 +362,7 @@ pub fn Pen::clear(self : Pen) -> Unit {
     println("Failed to get Pen::clear method")
     return
   }
-  let _ = try? func.invoke()
-
+  let _ = Ok(func.invoke()) catch { e => Err(e) }
 }
 
 // Add more Pen methods
@@ -389,9 +377,8 @@ pub fn Pen::fillcolor(self : Pen, color : Color) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(0, PyString::from(color.to_string().to_lower()))
-  let _ = try? func.invoke(args~)
-
+  args.set(0, PyString::from(color.to_string().to_lower()))
+  let _ = Ok(func.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
@@ -404,9 +391,8 @@ pub fn Pen::color(self : Pen, color : Color) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(0, PyString::from(color.to_string().to_lower()))
-  let _ = try? func.invoke(args~)
-
+  args.set(0, PyString::from(color.to_string().to_lower()))
+  let _ = Ok(func.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
@@ -417,8 +403,8 @@ pub fn Pen::isdown(self : Pen) -> Bool {
     println("Failed to get Pen::isdown method") // Return a default value
     return false
   }
-  let res = (try? func.invoke()).unwrap()
-  guard res is Some(PyBool(b))
+  let res = (Ok(func.invoke()) catch { e => Err(e) }).unwrap()
+  guard! res is Some(PyBool(b))
   b.to_bool()
 }
 
@@ -430,8 +416,7 @@ pub fn Pen::show(self : Pen) -> Unit {
     println("Failed to get Pen::showturtle method")
     return
   }
-  let _ = try? func.invoke()
-
+  let _ = Ok(func.invoke()) catch { e => Err(e) }
 }
 
 ///|
@@ -442,8 +427,8 @@ pub fn Pen::isvisible(self : Pen) -> Bool {
     println("Failed to get Pen::isvisible method") // Return a default value
     return false
   }
-  let res = (try? func.invoke()).unwrap()
-  guard res is Some(PyBool(b))
+  let res = (Ok(func.invoke()) catch { e => Err(e) }).unwrap()
+  guard! res is Some(PyBool(b))
   b.to_bool()
 }
 
@@ -455,8 +440,7 @@ pub fn Pen::begin_fill(self : Pen) -> Unit {
     println("Failed to get Pen::begin_fill method")
     return
   }
-  let _ = try? func.invoke()
-
+  let _ = Ok(func.invoke()) catch { e => Err(e) }
 }
 
 ///|
@@ -467,8 +451,7 @@ pub fn Pen::end_fill(self : Pen) -> Unit {
     println("Failed to get Pen::end_fill method")
     return
   }
-  let _ = try? func.invoke()
-
+  let _ = Ok(func.invoke()) catch { e => Err(e) }
 }
 
 ///|
@@ -480,15 +463,15 @@ pub fn Pen::end_fill(self : Pen) -> Unit {
 pub fn Pen::circle(
   self : Pen,
   radius : Double,
-  extent? : Double? = None,
-  steps? : Int? = None,
+  extent~ : Double? = None,
+  steps~ : Int32? = None,
 ) -> Unit {
   guard self.get_method("circle") is Some(func) else {
     println("Failed to get Pen::circle method")
     return
   }
   let args = PyTuple::new(1)
-  args..set(0, PyFloat::from(radius))
+  args.set(0, PyFloat::from(radius))
   let kwargs = PyDict::new()
   match extent {
     Some(e) => kwargs.set("extent", PyFloat::from(e))
@@ -498,8 +481,7 @@ pub fn Pen::circle(
     Some(s) => kwargs.set("steps", PyInteger::from(s.to_int64()))
     None => ()
   }
-  let _ = try? func.invoke(args~, kwargs~)
-
+  let _ = Ok(func.invoke(args~, kwargs~)) catch { e => Err(e) }
 }
 
 ///|
@@ -507,12 +489,12 @@ pub fn Pen::circle(
 /// Returns a stamp_id which can be used later with clearstamp() or clearstamps().
 /// corresponds to `pen.stamp()` in Python.
 /// Note: The return value (stamp_id) is an integer in Python, we return it as Int.
-pub fn Pen::stamp(self : Pen) -> Int {
+pub fn Pen::stamp(self : Pen) -> Int32 {
   guard self.get_method("stamp") is Some(func) else {
     println("Failed to get Pen::stamp method") // Return a default error value
     return -1
   }
-  let res = (try? func.invoke()).unwrap()
+  let res = (Ok(func.invoke()) catch { e => Err(e) }).unwrap()
   guard res is Some(PyInteger(i)) else {
     println("Pen::stamp did not return an integer") // Return a default error value
     return -1
@@ -524,22 +506,21 @@ pub fn Pen::stamp(self : Pen) -> Int {
 /// Deletes the stamp with the given stampid.
 /// - stamp_id: The id of the stamp to delete, as returned by stamp().
 /// corresponds to `pen.clearstamp(stampid)` in Python.
-pub fn Pen::clearstamp(self : Pen, stamp_id : Int) -> Unit {
+pub fn Pen::clearstamp(self : Pen, stamp_id : Int32) -> Unit {
   guard self.get_method("clearstamp") is Some(func) else {
     println("Failed to get Pen::clearstamp method")
     return
   }
   let args = PyTuple::new(1)
-  args..set(0, PyInteger::from(stamp_id.to_int64()))
-  let _ = (try? func.invoke(args~)).unwrap()
-
+  args.set(0, PyInteger::from(stamp_id.to_int64()))
+  let _ = (Ok(func.invoke(args~)) catch { e => Err(e) }).unwrap()
 }
 
 ///|
 /// Deletes all or the first/last n stamps.
 /// - n: Optional. If None, delete all stamps. If n > 0, delete the first n stamps. If n < 0, delete the last abs(n) stamps.
 /// corresponds to `pen.clearstamps(n=None)` in Python.
-pub fn Pen::clearstamps(self : Pen, n? : Int? = None) -> Unit {
+pub fn Pen::clearstamps(self : Pen, n~ : Int32? = None) -> Unit {
   guard self.get_method("clearstamps") is Some(func) else {
     println("Failed to get Pen::clearstamps method")
     return
@@ -553,8 +534,7 @@ pub fn Pen::clearstamps(self : Pen, n? : Int? = None) -> Unit {
   // Although Python's clearstamps takes n as positional or keyword,
   // passing it as keyword is safer with Option handling.
   // We invoke with an empty args tuple and the kwargs dictionary.
-  let _ = (try? func.invoke(kwargs~)).unwrap()
-
+  let _ = (Ok(func.invoke(kwargs~)) catch { e => Err(e) }).unwrap()
 }
 
 ///|
@@ -565,8 +545,7 @@ pub fn Pen::reset(self : Pen) -> Unit {
     println("Failed to get Pen::reset method")
     return
   }
-  let _ = try? func.invoke()
-
+  let _ = Ok(func.invoke()) catch { e => Err(e) }
 }
 
 ///|
@@ -579,9 +558,8 @@ pub fn Pen::shape(self : Pen, name : Shape) -> Unit {
     return
   }
   let args = PyTuple::new(1)
-  args..set(0, PyString::from(name.to_string().to_lower())) // Assuming Shape enum with Show derived
-  let _ = try? func.invoke(args~)
-
+  args.set(0, PyString::from(name.to_string().to_lower())) // Assuming Shape enum with Show derived
+  let _ = Ok(func.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
@@ -592,9 +570,9 @@ pub fn Pen::shape(self : Pen, name : Shape) -> Unit {
 /// corresponds to `pen.shapesize(stretch_wid=None, stretch_len=None, outline=None)` in Python.
 pub fn Pen::shapesize(
   self : Pen,
-  stretch_width? : Double? = None,
-  stretch_len? : Double? = None,
-  outline? : Int? = None,
+  stretch_width~ : Double? = None,
+  stretch_len~ : Double? = None,
+  outline~ : Int32? = None,
 ) -> Unit {
   guard self.get_method("shapesize") is Some(func) else {
     println("Failed to get Pen::shapesize method")
@@ -613,6 +591,5 @@ pub fn Pen::shapesize(
     Some(o) => kwargs.set("outline", PyInteger::from(o.to_int64()))
     None => ()
   }
-  let _ = try? func.invoke(kwargs~)
-
+  let _ = Ok(func.invoke(kwargs~)) catch { e => Err(e) }
 }

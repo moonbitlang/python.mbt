@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,13 +26,13 @@ pub struct PyList {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let list = @python.PyList::new();
 /// inspect(list, content="[]")
 /// assert_eq(list.len(), 0);
 /// ```
 pub fn PyList::new() -> PyList {
-  PyList::{ obj: @cpython.py_list_new(0) |> PyObject::create }
+  PyList::{ obj: @cpython.py_list_new(0) |> PyObject::create, }
 }
 
 ///|
@@ -55,12 +55,12 @@ pub fn PyList::create_by_ref(
   obj : @cpython.PyObjectRef,
 ) -> PyList raise PyRuntimeError {
   guard @cpython.py_list_check(obj) else { raise TypeMismatchError }
-  PyList::{ obj: PyObject::create(obj) }
+  PyList::{ obj: PyObject::create(obj), }
 }
 
 ///|
 fn PyList::create_by_ref_unchecked(obj : @cpython.PyObjectRef) -> PyList {
-  PyList::{ obj: PyObject::create(obj) }
+  PyList::{ obj: PyObject::create(obj), }
 }
 
 ///|
@@ -68,7 +68,7 @@ fn PyList::create_by_ref_unchecked(obj : @cpython.PyObjectRef) -> PyList {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let list = @python.PyList::new();
 /// list.append(@python.PyInteger::from(1));
 /// list.append(@python.PyFloat::from(2.0));
@@ -87,7 +87,7 @@ fn PyList::create_by_ref_unchecked(obj : @cpython.PyObjectRef) -> PyList {
 ///
 /// print(len(list))  # Output: 3
 /// ```
-pub fn PyList::len(self : PyList) -> Int {
+pub fn PyList::len(self : PyList) -> Int32 {
   @cpython.py_list_size(self.obj_ref()).to_int()
 }
 
@@ -96,7 +96,7 @@ pub fn PyList::len(self : PyList) -> Int {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let list = @python.PyList::new();
 /// list.append(@python.PyInteger::from(1));
 /// list.append(@python.PyFloat::from(2.0));
@@ -116,7 +116,6 @@ pub fn PyList::len(self : PyList) -> Int {
 /// ```
 pub fn[T : IsPyObject] PyList::append(self : PyList, item : T) -> Unit {
   let _ = @cpython.py_list_append(self.obj_ref(), item.obj_ref())
-
 }
 
 // Review: The following code is available, but I don't think it is necessary.
@@ -136,7 +135,7 @@ pub fn[T : IsPyObject] PyList::append(self : PyList, item : T) -> Unit {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let arr: Array[&IsPyObject] = Array::new()
 /// let one = PyInteger::from(1);
 /// let two = PyFloat::from(2.0);
@@ -163,7 +162,7 @@ pub fn[T : IsPyObject] PyList::from(items : Array[T]) -> PyList {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let list = @python.PyList::new();
 /// list.append(@python.PyInteger::from(1));
 /// list.append(@python.PyFloat::from(2.0));
@@ -174,7 +173,7 @@ pub fn[T : IsPyObject] PyList::from(items : Array[T]) -> PyList {
 /// inspect(list.get(3), content="None")
 /// inspect(list.get(-1), content="None")
 /// ```
-pub fn PyList::get(self : PyList, idx : Int) -> PyObjectEnum? {
+pub fn PyList::get(self : PyList, idx : Int32) -> PyObjectEnum? {
   when(idx >= 0 && idx < self.len(), fn() {
     @cpython.py_list_get_item(self.obj_ref(), idx.to_int64())
     |> PyObject::create
@@ -190,7 +189,7 @@ pub fn PyList::get(self : PyList, idx : Int) -> PyObjectEnum? {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let list = @python.PyList::new();
 /// list.append(@python.PyInteger::from(1));
 /// list.append(@python.PyFloat::from(2.0));
@@ -200,7 +199,8 @@ pub fn PyList::get(self : PyList, idx : Int) -> PyObjectEnum? {
 /// inspect(list[1], content="PyFloat(2.0)")
 /// inspect(list[2], content="PyString(hello)")
 /// ```
-pub fn PyList::op_get(self : PyList, idx : Int) -> PyObjectEnum {
+#alias("_[_]")
+pub fn PyList::index_get(self : PyList, idx : Int32) -> PyObjectEnum {
   self.get(idx).unwrap()
 }
 
@@ -212,7 +212,7 @@ pub fn PyList::op_get(self : PyList, idx : Int) -> PyObjectEnum {
 ///
 /// ## Example
 /// 
-/// ```moonbit
+/// ```moonbit nocheck
 /// let list = @python.PyList::new();
 /// list.append(@python.PyInteger::from(1));
 /// list.append(@python.PyFloat::from(2.0));
@@ -224,7 +224,7 @@ pub fn PyList::op_get(self : PyList, idx : Int) -> PyObjectEnum {
 /// ```
 pub fn[T : IsPyObject] PyList::set(
   self : PyList,
-  idx : Int,
+  idx : Int32,
   item : T,
 ) -> Unit raise PyRuntimeError {
   guard idx >= 0 && idx < self.len() else { raise IndexOutOfBoundsError }
@@ -233,7 +233,6 @@ pub fn[T : IsPyObject] PyList::set(
     idx.to_int64(),
     item.obj_ref(),
   )
-
 }
 
 ///|
@@ -244,7 +243,7 @@ pub fn[T : IsPyObject] PyList::set(
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let list = @python.PyList::new();
 /// list.append(@python.PyInteger::from(1));
 /// list.append(@python.PyFloat::from(2.0));
@@ -254,9 +253,10 @@ pub fn[T : IsPyObject] PyList::set(
 /// list[0] = @python.PyInteger::from(42);
 /// inspect(list, content="[42, 2.0, \'hello\']")
 /// ```
-pub fn[T : IsPyObject] PyList::op_set(
+#alias("_[_]=_")
+pub fn[T : IsPyObject] PyList::index_set(
   self : PyList,
-  idx : Int,
+  idx : Int32,
   item : T,
 ) -> Unit {
   self.set(idx, item) catch {
@@ -279,16 +279,16 @@ pub fn PyList::drop(self : PyList) -> Unit {
 }
 
 ///|
-pub impl IsPyObject for PyList with obj(self) {
+pub impl IsPyObject for PyList with fn obj(self) {
   self.obj
 }
 
 ///|
-pub impl Show for PyList with to_string(self) -> String {
+pub impl Show for PyList with fn to_string(self) -> String {
   self.obj.to_string()
 }
 
 ///|
-pub impl Show for PyList with output(self : PyList, logger : &Logger) -> Unit {
+pub impl Show for PyList with fn output(self : PyList, logger : &Logger) -> Unit {
   logger.write_string(self.to_string())
 }

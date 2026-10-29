@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,4 +18,14 @@ pub suberror PyRuntimeError {
   IndexOutOfBoundsError
   KeyIsUnHashableError
   InVokeError
-} derive(Show)
+}
+
+///|
+pub impl Show for PyRuntimeError with fn output(self, logger) {
+  match self {
+    TypeMismatchError => logger.write_string("TypeMismatchError")
+    IndexOutOfBoundsError => logger.write_string("IndexOutOfBoundsError")
+    KeyIsUnHashableError => logger.write_string("KeyIsUnHashableError")
+    InVokeError => logger.write_string("InVokeError")
+  }
+}

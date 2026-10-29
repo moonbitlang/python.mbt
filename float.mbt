@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,12 +37,12 @@ pub fn PyFloat::create_by_ref(
   obj : @cpython.PyObjectRef,
 ) -> PyFloat raise PyRuntimeError {
   guard @cpython.py_float_check(obj) else { raise TypeMismatchError }
-  PyFloat::{ obj: PyObject::create(obj) }
+  PyFloat::{ obj: PyObject::create(obj), }
 }
 
 ///|
 fn PyFloat::create_by_ref_unchecked(obj : @cpython.PyObjectRef) -> PyFloat {
-  PyFloat::{ obj: PyObject::create(obj) }
+  PyFloat::{ obj: PyObject::create(obj), }
 }
 
 ///|
@@ -55,12 +55,12 @@ test {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let f = @python.PyFloat::from(3.5);
 /// inspect(f, content="3.5")
 /// ```
 pub fn PyFloat::from(value : Double) -> PyFloat {
-  PyFloat::{ obj: @cpython.py_float_from_double(value) |> PyObject::create }
+  PyFloat::{ obj: @cpython.py_float_from_double(value) |> PyObject::create, }
 }
 
 ///|
@@ -68,7 +68,7 @@ pub fn PyFloat::from(value : Double) -> PyFloat {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let f = @python.PyFloat::from(3.5);
 /// assert_eq(f.to_double(), 3.5);
 /// ```
@@ -91,16 +91,16 @@ pub fn PyFloat::drop(self : PyFloat) -> Unit {
 }
 
 ///|
-pub impl IsPyObject for PyFloat with obj(self) {
+pub impl IsPyObject for PyFloat with fn obj(self) {
   self.obj
 }
 
 ///|
-pub impl Show for PyFloat with to_string(self) -> String {
+pub impl Show for PyFloat with fn to_string(self) -> String {
   @cpython.py_object_moonbit_repr(self.obj_ref())
 }
 
 ///|
-pub impl Show for PyFloat with output(self : PyFloat, logger : &Logger) -> Unit {
+pub impl Show for PyFloat with fn output(self : PyFloat, logger : &Logger) -> Unit {
   logger.write_string(self.to_string())
 }

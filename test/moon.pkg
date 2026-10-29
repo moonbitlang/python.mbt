@@ -1,0 +1,9 @@
+import {
+  "Kaida-Amethyst/python",
+} for "test"
+
+options(
+  "is-main": false,
+)
+
+supported_targets = "native"

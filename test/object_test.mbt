@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -80,9 +80,9 @@ test "PyList Test" {
   inspect(list, content="[1, 2.0, \'three\']")
   inspect(list.get(0).unwrap(), content="PyInteger(1)")
   inspect(list.get(1).unwrap(), content="PyFloat(2.0)")
-  inspect(list.get(2), content="Some(PyString(three))")
-  inspect(list.get(3), content="None")
-  inspect(list.get(-1), content="None")
+  inspect(list.get(2).unwrap(), content="PyString(three)")
+  assert_true(list.get(3) is None)
+  assert_true(list.get(-1) is None)
   inspect(list[0], content="PyInteger(1)")
   inspect(list[1], content="PyFloat(2.0)")
   inspect(list[2], content="PyString(three)")
@@ -99,14 +99,14 @@ test "PyTuple Test" {
   tuple
   ..set(0, PyInteger::from(1))
   ..set(1, PyFloat::from(2.0))
-  ..set(2, PyString::from("three"))
+  .set(2, PyString::from("three"))
   inspect(tuple.type_name(), content="tuple")
   assert_eq(tuple.len(), 3)
   inspect(tuple, content="(1, 2.0, \'three\')")
   inspect(tuple.get(0).unwrap(), content="PyInteger(1)")
   inspect(tuple.get(1).unwrap(), content="PyFloat(2.0)")
   inspect(tuple.get(2).unwrap(), content="PyString(three)")
-  inspect(tuple.get(3), content="None")
+  assert_true(tuple.get(3) is None)
   tuple[0] = PyInteger::from(42)
   inspect(tuple, content="(42, 2.0, \'three\')")
 }
@@ -117,13 +117,13 @@ test "PyDict Test" {
   dict
   ..set("one", PyInteger::from(1))
   ..set("two", PyFloat::from(2.0))
-  ..set("three", PyBool::from(true))
+  .set("three", PyBool::from(true))
   inspect(dict.type_name(), content="dict")
   assert_eq(dict.len(), 3)
   inspect(dict, content="{\'one\': 1, \'two\': 2.0, \'three\': True}")
   inspect(dict.get("one").unwrap(), content="PyInteger(1)")
-  inspect(dict.get("two"), content="Some(PyFloat(2.0))")
-  inspect(dict.get("four"), content="None")
+  inspect(dict.get("two").unwrap(), content="PyFloat(2.0)")
+  assert_true(dict.get("four") is None)
   inspect(dict["one"], content="PyInteger(1)")
   inspect(dict["two"], content="PyFloat(2.0)")
   inspect(dict["three"], content="PyBool(True)")
@@ -133,10 +133,10 @@ test "PyDict Test" {
   dict
   ..setByObj(PyInteger::from(1), PyInteger::from(1))
   ..setByObj(PyInteger::from(2), PyInteger::from(4))
-  ..setByObj(PyInteger::from(3), PyInteger::from(9))
+  .setByObj(PyInteger::from(3), PyInteger::from(9))
   inspect(dict, content="{1: 1, 2: 4, 3: 9}")
   let list = PyList::new()
-  list..append(PyInteger::from(3))..append(PyInteger::from(2))
-  let e = try? dict.setByObj(list, PyInteger::from(42))
-  inspect(e, content="Err(KeyIsUnHashableError)")
+  list..append(PyInteger::from(3)).append(PyInteger::from(2))
+  let e = Ok(dict.setByObj(list, PyInteger::from(42))) catch { e => Err(e) }
+  assert_true(e is Err(@python.KeyIsUnHashableError))
 }

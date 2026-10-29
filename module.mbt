@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,12 +26,12 @@ pub struct PyModule {
 ///|
 pub fn PyModule::create(obj : PyObject) -> PyModule raise PyRuntimeError {
   guard obj.is_module() else { raise TypeMismatchError }
-  PyModule::{ obj, name: None, attrs: Map::new() }
+  PyModule::{ obj, name: None, attrs: Map([]), }
 }
 
 ///|
 fn PyModule::create_unchecked(obj : PyObject) -> PyModule {
-  PyModule::{ obj, name: None, attrs: Map::new() }
+  PyModule::{ obj, name: None, attrs: Map([]), }
 }
 
 ///|
@@ -39,14 +39,14 @@ pub fn PyModule::create_by_ref(
   obj_ref : @cpython.PyObjectRef,
 ) -> PyModule raise PyRuntimeError {
   guard @cpython.py_module_check(obj_ref) else { raise TypeMismatchError }
-  PyModule::{ obj: PyObject::create(obj_ref), name: None, attrs: Map::new() }
+  PyModule::{ obj: PyObject::create(obj_ref), name: None, attrs: Map([]), }
 }
 
 ///|
 fn PyModule::create_by_ref_unchecked(
   obj_ref : @cpython.PyObjectRef,
 ) -> PyModule {
-  PyModule::{ obj: PyObject::create(obj_ref), name: None, attrs: Map::new() }
+  PyModule::{ obj: PyObject::create(obj_ref), name: None, attrs: Map([]), }
 }
 
 ///|
@@ -60,12 +60,12 @@ test {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let os = @python.pyimport("os")
 ///
 /// assert_true(os is Some(_))
 /// ```
-pub fn pyimport(name : String, print_err? : Bool = false) -> PyModule? {
+pub fn pyimport(name : String, print_err~ : Bool = false) -> PyModule? {
   let obj = @cpython.py_import_import_module(name)
   if obj.is_null() {
     if print_err {
@@ -75,8 +75,7 @@ pub fn pyimport(name : String, print_err? : Bool = false) -> PyModule? {
     @cpython.py_err_clear()
     return None
   }
-  PyModule::{ obj: PyObject::create(obj), name: None, attrs: Map::new() }
-  |> Some
+  PyModule::{ obj: PyObject::create(obj), name: None, attrs: Map([]), } |> Some
 }
 
 ///|
@@ -84,7 +83,7 @@ pub fn pyimport(name : String, print_err? : Bool = false) -> PyModule? {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let os = @python.pyimport("os").unwrap()
 ///
 /// inspect(os.get_name(), content="os")
@@ -118,7 +117,7 @@ pub fn PyModule::dump(self : PyModule) -> Unit {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let collections = pyimport("collections").unwrap()
 /// guard collections.get_attr("Counter").unwrap() is PyCallable(counter)
 ///
@@ -148,7 +147,7 @@ pub fn PyModule::dump(self : PyModule) -> Unit {
 pub fn PyModule::get_attr(
   self : PyModule,
   attr : String,
-  print_err? : Bool = false,
+  print_err~ : Bool = false,
 ) -> PyObjectEnum? {
   if self.attrs.contains(attr) {
     return self.attrs.get(attr)
@@ -168,16 +167,16 @@ pub fn PyModule::get_attr(
 }
 
 ///|
-pub impl IsPyObject for PyModule with obj(self) {
+pub impl IsPyObject for PyModule with fn obj(self) {
   self.obj
 }
 
 ///|
-pub impl Show for PyModule with to_string(self) {
+pub impl Show for PyModule with fn to_string(self) {
   self.obj.to_string()
 }
 
 ///|
-pub impl Show for PyModule with output(self, logger) {
+pub impl Show for PyModule with fn output(self, logger) {
   logger.write_string(self.to_string())
 }

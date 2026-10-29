@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,12 +14,12 @@
 
 ///|
 priv trait ToCStr {
-  to_cstr(Self) -> Bytes
+  fn to_cstr(Self) -> Bytes
 }
 
 ///|
-impl ToCStr for String with to_cstr(self) {
-  let s = @encoding/utf8.encode(self).to_array().filter(fn(c) { c != 0 })
+impl ToCStr for String with fn to_cstr(self) {
+  let s = @utf8.encode(self).to_array().filter(fn(c) { c != 0 })
   s.push(0)
-  s |> @bytes.from_array
+  s |> Bytes::from_array
 }

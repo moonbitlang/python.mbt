@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ pub extern "C" fn py_function_get_defaults(a : PyObjectRef) -> PyObjectRef = "Py
 pub extern "C" fn py_function_set_defaults(
   a : PyObjectRef,
   b : PyObjectRef,
-) -> Int = "PyFunction_SetDefaults"
+) -> Int32 = "PyFunction_SetDefaults"
 
 ///|
 #owned(a)
@@ -61,7 +61,7 @@ pub extern "C" fn py_function_get_kw_defaults(a : PyObjectRef) -> PyObjectRef = 
 pub extern "C" fn py_function_set_kw_defaults(
   a : PyObjectRef,
   b : PyObjectRef,
-) -> Int = "PyFunction_SetKwDefaults"
+) -> Int32 = "PyFunction_SetKwDefaults"
 
 ///|
 #owned(a)
@@ -72,7 +72,7 @@ pub extern "C" fn py_function_get_closure(a : PyObjectRef) -> PyObjectRef = "PyF
 pub extern "C" fn py_function_set_closure(
   a : PyObjectRef,
   b : PyObjectRef,
-) -> Int = "PyFunction_SetClosure"
+) -> Int32 = "PyFunction_SetClosure"
 
 ///|
 #owned(a)
@@ -83,7 +83,7 @@ pub extern "C" fn py_function_get_annotations(a : PyObjectRef) -> PyObjectRef = 
 pub extern "C" fn py_function_set_annotations(
   a : PyObjectRef,
   b : PyObjectRef,
-) -> Int = "PyFunction_SetAnnotations"
+) -> Int32 = "PyFunction_SetAnnotations"
 
 ///|
 #owned(a)

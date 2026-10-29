@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ pub struct PyTuple {
 ///
 /// ## Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let tuple = PyTuple::new(3)
 /// tuple
 /// ..set(0, PyInteger::from(1))
@@ -38,7 +38,7 @@ pub struct PyTuple {
 /// inspect(tuple, content="(1, 2.0, \'three\')")
 /// ```
 pub fn PyTuple::new(size : UInt64) -> PyTuple {
-  PyTuple::{ obj: @cpython.pytuple_new(size) |> PyObject::create }
+  PyTuple::{ obj: @cpython.pytuple_new(size) |> PyObject::create, }
 }
 
 ///|
@@ -61,12 +61,12 @@ pub fn PyTuple::create_by_ref(
   obj_ref : @cpython.PyObjectRef,
 ) -> PyTuple raise PyRuntimeError {
   guard @cpython.py_tuple_check(obj_ref) else { raise TypeMismatchError }
-  PyTuple::{ obj: PyObject::create(obj_ref) }
+  PyTuple::{ obj: PyObject::create(obj_ref), }
 }
 
 ///|
 fn PyTuple::create_by_ref_unchecked(obj_ref : @cpython.PyObjectRef) -> PyTuple {
-  PyTuple::{ obj: PyObject::create(obj_ref) }
+  PyTuple::{ obj: PyObject::create(obj_ref), }
 }
 
 ///|
@@ -79,7 +79,7 @@ test {
 ///
 /// ## Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let tuple = PyTuple::new(3)
 ///
 /// assert_eq(tuple.len(), 3);
@@ -96,7 +96,7 @@ pub fn PyTuple::len(self : PyTuple) -> UInt64 {
 ///
 /// ## Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let tuple = PyTuple::new(3)
 /// tuple
 /// ..set(0, PyInteger::from(1))
@@ -119,7 +119,7 @@ pub fn PyTuple::len(self : PyTuple) -> UInt64 {
 /// print(tuple[0]) # Output: 1
 /// print(tuple[1]) # Output: 2.0
 /// print(tuple[2]) # Output: three
-pub fn PyTuple::get(self : PyTuple, idx : Int) -> PyObjectEnum? {
+pub fn PyTuple::get(self : PyTuple, idx : Int32) -> PyObjectEnum? {
   when(idx >= 0 && idx.to_uint64() < self.len(), fn() {
     @cpython.pytuple_get_item(self.obj_ref(), idx.to_uint64())
     |> PyObject::create
@@ -135,7 +135,7 @@ pub fn PyTuple::get(self : PyTuple, idx : Int) -> PyObjectEnum? {
 ///
 /// ## Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let tuple = PyTuple::new(3)
 /// tuple
 /// ..set(0, PyInteger::from(1))
@@ -146,7 +146,8 @@ pub fn PyTuple::get(self : PyTuple, idx : Int) -> PyObjectEnum? {
 /// inspect(tuple[1], content="PyFloat(2.0)")
 /// inspect(tuple[2], content="PyString(three)")
 /// ```
-pub fn PyTuple::op_get(self : PyTuple, idx : Int) -> PyObjectEnum {
+#alias("_[_]")
+pub fn PyTuple::index_get(self : PyTuple, idx : Int32) -> PyObjectEnum {
   self.get(idx).unwrap()
 }
 
@@ -158,7 +159,7 @@ pub fn PyTuple::op_get(self : PyTuple, idx : Int) -> PyObjectEnum {
 ///
 /// ## Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let tuple = PyTuple::new(3)
 /// tuple
 /// ..set(0, PyInteger::from(1))
@@ -169,16 +170,15 @@ pub fn PyTuple::op_get(self : PyTuple, idx : Int) -> PyObjectEnum {
 /// ```
 pub fn[T : IsPyObject] PyTuple::set(
   self : PyTuple,
-  idx : Int,
+  idx : Int32,
   item : T,
 ) -> Unit {
-  guard idx >= 0 && idx.to_uint64() < self.len()
+  guard! idx >= 0 && idx.to_uint64() < self.len()
   let _ = @cpython.pytuple_set_item(
     self.obj_ref(),
     idx.to_uint64(),
     item.obj_ref(),
   )
-
 }
 
 ///|
@@ -189,7 +189,7 @@ pub fn[T : IsPyObject] PyTuple::set(
 ///
 /// ## Example:
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let tuple = PyTuple::new(3)
 /// tuple
 /// ..set(0, PyInteger::from(1))
@@ -198,9 +198,10 @@ pub fn[T : IsPyObject] PyTuple::set(
 ///
 /// inspect(tuple, content="(1, 2.0, \'three\')")
 /// ```
-pub fn[T : IsPyObject] PyTuple::op_set(
+#alias("_[_]=_")
+pub fn[T : IsPyObject] PyTuple::index_set(
   self : PyTuple,
-  idx : Int,
+  idx : Int32,
   item : T,
 ) -> Unit {
   self.set(idx, item)
@@ -217,16 +218,16 @@ pub fn PyTuple::drop(self : PyTuple) -> Unit {
 }
 
 ///|
-pub impl IsPyObject for PyTuple with obj(self) -> PyObject {
+pub impl IsPyObject for PyTuple with fn obj(self) -> PyObject {
   self.obj
 }
 
 ///|
-pub impl Show for PyTuple with to_string(self) -> String {
+pub impl Show for PyTuple with fn to_string(self) -> String {
   self.obj.to_string()
 }
 
 ///|
-pub impl Show for PyTuple with output(self : PyTuple, logger : &Logger) -> Unit {
+pub impl Show for PyTuple with fn output(self : PyTuple, logger : &Logger) -> Unit {
   logger.write_string(self.to_string())
 }

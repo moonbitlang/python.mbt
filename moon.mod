@@ -1,0 +1,22 @@
+name = "Kaida-Amethyst/python"
+
+version = "0.1.6"
+
+readme = "README.md"
+
+repository = "https://github.com/moonbitlang/python.mbt"
+
+license = "Apache-2.0"
+
+keywords = [ "python", "Native-Only" ]
+
+description = "Manipulate Python code in Moonbit"
+
+preferred_target = "native"
+
+options(
+  scripts: {
+    "postadd": "curl -O https://raw.githubusercontent.com/Kaida-Amethyst/python.mbt/blob/master/env.sh",
+  },
+  "--moonbit-unstable-prebuild": "build.js",
+)

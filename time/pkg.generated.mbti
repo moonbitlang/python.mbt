@@ -2,31 +2,33 @@
 package "Kaida-Amethyst/python/time"
 
 // Values
-fn ctime(Double?) -> String
+pub fn ctime(Double?) -> String
 
-fn monotonic() -> Double
+pub fn monotonic() -> Double
 
-fn monotonic_ns() -> Int64
+pub fn monotonic_ns() -> Int64
 
-fn perf_counter() -> Double
+pub fn perf_counter() -> Double
 
-fn perf_counter_ns() -> Int64
+pub fn perf_counter_ns() -> Int64
 
-fn process_time() -> Double
+pub fn process_time() -> Double
 
-fn process_time_ns() -> Int64
+pub fn process_time_ns() -> Int64
 
-fn sleep(Double) -> Unit
+pub fn sleep(Double) -> Unit
 
-fn time() -> Double
+pub fn time() -> Double
 
-fn time_ns() -> Int64
+pub fn time_ns() -> Int64
 
 // Errors
 pub suberror TurtleError {
   LoadTimeModuleError
 }
-impl Show for TurtleError
+pub fn TurtleError::output(Self, &Logger) -> Unit
+pub fn TurtleError::to_string(Self) -> String
+pub impl Show for TurtleError
 
 // Types and methods
 pub struct TimeModule {
@@ -36,4 +38,3 @@ pub struct TimeModule {
 // Type aliases
 
 // Traits
-

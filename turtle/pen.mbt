@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@
 //  let lib = singleton()
 //  guard lib.turtle.get_attr("Pen") is Some(PyCallable(createPen))
 //  guard createPen.invoke() is Some(PyClass(pen))
-//  Pen::{ pen, methods:Map::new()}
+//  Pen::{ pen, methods:Map([])}
 //}
 //
 /////|

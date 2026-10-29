@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,31 @@ pub(all) enum Color {
   Teal
   Indigo
   Violet
-} derive(Show)
+}
+
+///|
+pub impl Show for Color with fn output(self, logger) {
+  match self {
+    Red => logger.write_string("Red")
+    Green => logger.write_string("Green")
+    Blue => logger.write_string("Blue")
+    Purple => logger.write_string("Purple")
+    Orange => logger.write_string("Orange")
+    Yellow => logger.write_string("Yellow")
+    Black => logger.write_string("Black")
+    Silver => logger.write_string("Silver")
+    White => logger.write_string("White")
+    Gray => logger.write_string("Gray")
+    Brown => logger.write_string("Brown")
+    Cyan => logger.write_string("Cyan")
+    Magenta => logger.write_string("Magenta")
+    Lime => logger.write_string("Lime")
+    Pink => logger.write_string("Pink")
+    Teal => logger.write_string("Teal")
+    Indigo => logger.write_string("Indigo")
+    Violet => logger.write_string("Violet")
+  }
+}
 
 ///|
 /// Converts the Color enum to a lowercase string representation suitable for Python turtle.

@@ -1,0 +1,7 @@
+import {
+  "Kaida-Amethyst/python",
+}
+
+pkgtype(kind: "executable")
+
+supported_targets = "native"

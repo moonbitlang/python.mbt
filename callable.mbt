@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,14 +41,14 @@ pub fn PyCallable::create_by_ref(
   obj : @cpython.PyObjectRef,
 ) -> PyCallable raise PyRuntimeError {
   guard @cpython.py_callable_check(obj) else { raise TypeMismatchError }
-  PyCallable::{ obj: PyObject::create(obj) }
+  PyCallable::{ obj: PyObject::create(obj), }
 }
 
 ///|
 fn PyCallable::create_by_ref_unchecked(
   obj : @cpython.PyObjectRef,
 ) -> PyCallable {
-  PyCallable::{ obj: PyObject::create(obj) }
+  PyCallable::{ obj: PyObject::create(obj), }
 }
 
 ///|
@@ -65,9 +65,9 @@ pub fn PyCallable::dump(self : PyCallable) -> Unit {
 ///|
 pub fn PyCallable::invoke(
   self : PyCallable,
-  args? : PyTuple = PyTuple::new(0),
-  kwargs? : PyDict = PyDict::new(),
-  print_err? : Bool = false,
+  args~ : PyTuple = PyTuple::new(0),
+  kwargs~ : PyDict = PyDict::new(),
+  print_err~ : Bool = false,
 ) -> PyObjectEnum? raise PyRuntimeError {
   let obj_ref = if kwargs.len() > 0 {
     @cpython.py_object_call(self.obj_ref(), args.obj_ref(), kwargs.obj_ref())
@@ -76,7 +76,7 @@ pub fn PyCallable::invoke(
   }
   if obj_ref.is_null() {
     let e = @cpython.py_err_occurred()
-    if not(e.is_null()) {
+    if !e.is_null() {
       if print_err {
         @cpython.py_err_print()
       }
@@ -91,16 +91,16 @@ pub fn PyCallable::invoke(
 }
 
 ///|
-pub impl IsPyObject for PyCallable with obj(self) -> PyObject {
+pub impl IsPyObject for PyCallable with fn obj(self) -> PyObject {
   self.obj
 }
 
 ///|
-pub impl Show for PyCallable with to_string(self) {
+pub impl Show for PyCallable with fn to_string(self) {
   self.obj.to_string()
 }
 
 ///|
-pub impl Show for PyCallable with output(self, logger) {
+pub impl Show for PyCallable with fn output(self, logger) {
   logger.write_string(self.to_string())
 }
