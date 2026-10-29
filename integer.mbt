@@ -92,7 +92,7 @@ pub fn PyInteger::to_double(self : PyInteger) -> Double {
 }
 
 ///|
-/// Print the PyInteger object direcly.
+/// Print the PyInteger object directly.
 ///
 /// Different from use `println`, `dump` means we made python interpreter
 /// print the object directly.

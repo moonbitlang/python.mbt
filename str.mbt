@@ -72,7 +72,7 @@ pub fn PyString::from(s : String) -> PyString {
 }
 
 ///|
-/// Print the PyString object direcly.
+/// Print the PyString object directly.
 ///
 /// Different from use `println`, `dump` means we made python interpreter
 /// print the object directly.

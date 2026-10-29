@@ -238,7 +238,7 @@ pub fn Pen::forward(self : Pen, distance : Double) -> Unit {
 ///|
 /// Moves the pen backward by the specified distance.
 /// - distance: The distance to move backward. Must be positive.
-/// corresponds to `pen.backward(distance)` or `pen.bk(distance)` or `pen.ba(distance)` in Python.
+/// corresponds to `pen.backward(distance)` or `pen.bk(distance)` or `pen.back(distance)` in Python.
 pub fn Pen::backward(self : Pen, distance : Double) -> Unit {
   guard distance > 0.0 else {
     println("Distance must be positive")
