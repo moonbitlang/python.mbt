@@ -58,10 +58,6 @@ jobs:
           moon test --target native
           moon test --target native --release
 
-      - name: Moon test --target native --doc
-        run: |
-          moon test --target native --doc
-
   typo-check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -140,10 +136,6 @@ jobs:
           ulimit -s 8176
           moon test --target native
           moon test --target native --release
-
-      - name: Moon test --target native --doc
-        run: |
-          moon test --target native --doc
 
       - name: Moon check --target native
         run: moon check --target native

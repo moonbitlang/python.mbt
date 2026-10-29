@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,14 @@ using @python {
 ///|
 pub suberror TurtleError {
   LoadTurtleError
-} derive(Show)
+}
+
+///|
+pub impl Show for TurtleError with fn output(self, logger) {
+  match self {
+    LoadTurtleError => logger.write_string("LoadTurtleError")
+  }
+}
 
 ///|
 pub struct Turtle {
@@ -60,9 +67,9 @@ fn get_lib() -> () -> Turtle {
 ///|
 pub fn bgcolor(color : Color) -> Unit {
   let lib = singleton()
-  guard lib.turtle.get_attr("bgcolor") is Some(PyCallable(bgcolor))
+  guard! lib.turtle.get_attr("bgcolor") is Some(PyCallable(bgcolor))
   let args = PyTuple::new(1)
-  args..set(0, PyString::from(color.to_string()))
-  let _ = try? bgcolor.invoke(args~)
+  args.set(0, PyString::from(color.to_string()))
+  let _ = Ok(bgcolor.invoke(args~)) catch { e => Err(e) }
   ()
 }

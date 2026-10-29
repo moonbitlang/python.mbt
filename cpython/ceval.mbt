@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,13 +40,13 @@ pub extern "C" fn py_eval_get_locals() -> PyObjectRef = "PyEval_GetLocals"
 // pub extern "C" fn py_add_pending_call(func: *fn(a: *Void) -> Int, arg: *Void) -> Int = "Py_AddPendingCall" // 函数指针, void 指针
 
 ///|
-pub extern "C" fn py_make_pending_calls() -> Int = "Py_MakePendingCalls"
+pub extern "C" fn py_make_pending_calls() -> Int32 = "Py_MakePendingCalls"
 
 ///|
-pub extern "C" fn py_set_recursion_limit(a : Int) = "Py_SetRecursionLimit"
+pub extern "C" fn py_set_recursion_limit(a : Int32) = "Py_SetRecursionLimit"
 
 ///|
-pub extern "C" fn py_get_recursion_limit() -> Int = "Py_GetRecursionLimit"
+pub extern "C" fn py_get_recursion_limit() -> Int32 = "Py_GetRecursionLimit"
 
 ///|
 #owned(a)
@@ -64,7 +64,7 @@ pub extern "C" fn py_eval_save_thread() -> PyThreadStateRef = "PyEval_SaveThread
 pub extern "C" fn py_eval_restore_thread(a : PyThreadStateRef) = "PyEval_RestoreThread"
 
 ///|
-pub extern "C" fn py_eval_threads_initialized() -> Int = "PyEval_ThreadsInitialized"
+pub extern "C" fn py_eval_threads_initialized() -> Int32 = "PyEval_ThreadsInitialized"
 
 ///|
 pub extern "C" fn py_eval_init_threads() = "PyEval_InitThreads"

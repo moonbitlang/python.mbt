@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 
 ///|
 #owned(search_function)
-pub extern "C" fn py_codec_register(search_function : PyObjectRef) -> Int = "PyCodec_Register"
+pub extern "C" fn py_codec_register(search_function : PyObjectRef) -> Int32 = "PyCodec_Register"
 
 ///|
 #owned(encoding)
-pub extern "C" fn py_codec_known_encoding(encoding : CStr) -> Int = "PyCodec_KnownEncoding"
+pub extern "C" fn py_codec_known_encoding(encoding : CStr) -> Int32 = "PyCodec_KnownEncoding"
 
 ///|
 #owned(object, encoding, errors)
@@ -81,7 +81,7 @@ pub extern "C" fn py_codec_stream_writer(
 pub extern "C" fn py_codec_register_error(
   name : CStr,
   error : PyObjectRef,
-) -> Int = "PyCodec_RegisterError"
+) -> Int32 = "PyCodec_RegisterError"
 
 ///|
 #owned(name)

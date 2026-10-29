@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,38 +17,38 @@
 ///|
 #owned(name, mode, encoding, errors, newline)
 pub extern "C" fn py_file_from_fd(
-  fd : Int,
+  fd : Int32,
   name : CStr,
   mode : CStr,
-  closefd : Int,
+  closefd : Int32,
   encoding : CStr,
   errors : CStr,
   newline : CStr,
-  line_buffering : Int,
+  line_buffering : Int32,
 ) -> PyObjectRef = "PyFile_FromFd"
 
 ///|
 #owned(a)
-pub extern "C" fn py_file_get_line(a : PyObjectRef, b : Int) -> PyObjectRef = "PyFile_GetLine"
+pub extern "C" fn py_file_get_line(a : PyObjectRef, b : Int32) -> PyObjectRef = "PyFile_GetLine"
 
 ///|
 #owned(a, b)
 pub extern "C" fn py_file_write_object(
   a : PyObjectRef,
   b : PyObjectRef,
-  c : Int,
-) -> Int = "PyFile_WriteObject"
+  c : Int32,
+) -> Int32 = "PyFile_WriteObject"
 
 ///|
 #owned(s, a)
-pub extern "C" fn py_file_write_string(s : CStr, a : PyObjectRef) -> Int = "PyFile_WriteString"
+pub extern "C" fn py_file_write_string(s : CStr, a : PyObjectRef) -> Int32 = "PyFile_WriteString"
 
 ///|
 #owned(a)
-pub extern "C" fn py_object_as_file_descriptor(a : PyObjectRef) -> Int = "PyObject_AsFileDescriptor"
+pub extern "C" fn py_object_as_file_descriptor(a : PyObjectRef) -> Int32 = "PyObject_AsFileDescriptor"
 
 ///|
-pub extern "C" fn py_file_new_std_printer(a : Int) -> PyObjectRef = "PyFile_NewStdPrinter"
+pub extern "C" fn py_file_new_std_printer(a : Int32) -> PyObjectRef = "PyFile_NewStdPrinter"
 
 ///|
 #owned(utf8path)

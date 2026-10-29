@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,7 +38,14 @@ using @python {
 ///|
 pub suberror TkinterError {
   LoadTkinterError
-} derive(Show)
+}
+
+///|
+pub impl Show for TkinterError with fn output(self, logger) {
+  match self {
+    LoadTkinterError => logger.write_string("LoadTkinterError")
+  }
+}
 
 ///|
 pub struct Tkinter {
@@ -81,43 +88,41 @@ fn get_lib() -> () -> Tkinter {
 ///|
 pub fn Window::new() -> Window {
   let lib = singleton()
-  guard lib.tkinter.get_attr("Tk") is Some(PyCallable(createWindow))
-  guard (try? createWindow.invoke()).unwrap() is Some(PyClass(window))
+  guard! lib.tkinter.get_attr("Tk") is Some(PyCallable(createWindow))
+  guard! (Ok(createWindow.invoke()) catch { e => Err(e) }).unwrap()
+    is Some(PyClass(window))
   Window::{ window, }
 }
 
 ///|
 pub fn Window::set_title(self : Window, title : String) -> Unit {
-  guard self.window.get_attr("title") is Some(PyCallable(setTitle))
+  guard! self.window.get_attr("title") is Some(PyCallable(setTitle))
   let args = PyTuple::new(1)
-  args..set(0, PyString::from(title))
-  let _ = try? setTitle.invoke(args~)
-
+  args.set(0, PyString::from(title))
+  let _ = Ok(setTitle.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
 pub fn Window::mainloop(self : Window) -> Unit {
-  guard self.window.get_attr("mainloop") is Some(PyCallable(mainloop))
-  let _ = try? mainloop.invoke()
-
+  guard! self.window.get_attr("mainloop") is Some(PyCallable(mainloop))
+  let _ = Ok(mainloop.invoke()) catch { e => Err(e) }
 }
 
 ///|
 pub fn Label::new(window : Window, text : String) -> Label {
   let lib = singleton()
-  guard lib.tkinter.get_attr("Label") is Some(PyCallable(createLabel))
+  guard! lib.tkinter.get_attr("Label") is Some(PyCallable(createLabel))
   let args = PyTuple::new(1)
-  args..set(0, window.window)
+  args.set(0, window.window)
   let kwargs = PyDict::new()
-  kwargs..set("text", PyString::from(text))
-  guard (try? createLabel.invoke(args~, kwargs~)).unwrap()
+  kwargs.set("text", PyString::from(text))
+  guard! (Ok(createLabel.invoke(args~, kwargs~)) catch { e => Err(e) }).unwrap()
     is Some(PyClass(label))
   Label::{ label, }
 }
 
 ///|
 pub fn Label::pack(self : Label) -> Unit {
-  guard self.label.get_attr("pack") is Some(PyCallable(pack))
-  let _ = try? pack.invoke()
-
+  guard! self.label.get_attr("pack") is Some(PyCallable(pack))
+  let _ = Ok(pack.invoke()) catch { e => Err(e) }
 }

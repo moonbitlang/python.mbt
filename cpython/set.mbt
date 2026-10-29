@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,22 +24,22 @@ pub extern "C" fn py_frozen_set_new(a : PyObjectRef) -> PyObjectRef = "PyFrozenS
 
 ///|
 #owned(set, key)
-pub extern "C" fn py_set_add(set : PyObjectRef, key : PyObjectRef) -> Int = "PySet_Add"
+pub extern "C" fn py_set_add(set : PyObjectRef, key : PyObjectRef) -> Int32 = "PySet_Add"
 
 ///|
 #owned(set)
-pub extern "C" fn py_set_clear(set : PyObjectRef) -> Int = "PySet_Clear"
+pub extern "C" fn py_set_clear(set : PyObjectRef) -> Int32 = "PySet_Clear"
 
 ///|
 #owned(anyset, key)
 pub extern "C" fn py_set_contains(
   anyset : PyObjectRef,
   key : PyObjectRef,
-) -> Int = "PySet_Contains"
+) -> Int32 = "PySet_Contains"
 
 ///|
 #owned(set, key)
-pub extern "C" fn py_set_discard(set : PyObjectRef, key : PyObjectRef) -> Int = "PySet_Discard"
+pub extern "C" fn py_set_discard(set : PyObjectRef, key : PyObjectRef) -> Int32 = "PySet_Discard"
 
 ///|
 #owned(set)

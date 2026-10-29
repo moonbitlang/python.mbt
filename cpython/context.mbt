@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,11 +26,11 @@ pub extern "C" fn py_context_copy_current() -> PyObjectRef = "PyContext_CopyCurr
 
 ///|
 #owned(a)
-pub extern "C" fn py_context_enter(a : PyObjectRef) -> Int = "PyContext_Enter"
+pub extern "C" fn py_context_enter(a : PyObjectRef) -> Int32 = "PyContext_Enter"
 
 ///|
 #owned(a)
-pub extern "C" fn py_context_exit(a : PyObjectRef) -> Int = "PyContext_Exit"
+pub extern "C" fn py_context_exit(a : PyObjectRef) -> Int32 = "PyContext_Exit"
 
 ///|
 #owned(name, default_value)
@@ -45,7 +45,7 @@ pub extern "C" fn py_context_var_get(
   pyvar : PyObjectRef,
   default_value : PyObjectRef,
   value : ArrayPyObjectRef,
-) -> Int = "PyContextVar_Get"
+) -> Int32 = "PyContextVar_Get"
 
 ///|
 #owned(pyvar, value)
@@ -59,10 +59,10 @@ pub extern "C" fn py_context_var_set(
 pub extern "C" fn py_context_var_reset(
   pyvar : PyObjectRef,
   token : PyObjectRef,
-) -> Int = "PyContextVar_Reset"
+) -> Int32 = "PyContextVar_Reset"
 
 ///|
 pub extern "C" fn _py_context_new_hamt_for_tests() -> PyObjectRef = "_PyContext_NewHamtForTests"
 
 ///|
-pub extern "C" fn py_context_clear_free_list() -> Int = "PyContext_ClearFreeList"
+pub extern "C" fn py_context_clear_free_list() -> Int32 = "PyContext_ClearFreeList"

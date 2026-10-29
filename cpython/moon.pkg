@@ -1,0 +1,16 @@
+import {
+  "moonbitlang/core/encoding/utf8",
+}
+
+supported_targets = "native"
+
+options(
+  "is-main": false,
+  "native-stub": [ "wrap.c" ],
+  link: {
+    "native": {
+      "stub-cc": "${build.CC}",
+      "stub-cc-flags": "${build.STUB_CC_FLAGS}",
+    },
+  },
+)

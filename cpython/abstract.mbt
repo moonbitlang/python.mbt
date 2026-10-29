@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -86,7 +86,7 @@ pub extern "C" fn py_object_set_item(
   obj : PyObjectRef,
   key : PyObjectRef,
   value : PyObjectRef,
-) -> Int = "py_object_SetItem"
+) -> Int32 = "py_object_SetItem"
 
 ///|
 /// Remove the mapping for the string 'key' from the object 'o'.
@@ -97,7 +97,7 @@ pub extern "C" fn py_object_set_item(
 pub extern "C" fn py_object_del_item_string(
   obj : PyObjectRef,
   key : CStr,
-) -> Int = "PyObject_DelItemString"
+) -> Int32 = "PyObject_DelItemString"
 
 ///|
 /// Delete the mapping for the object 'key' from the object 'o'.
@@ -108,7 +108,7 @@ pub extern "C" fn py_object_del_item_string(
 pub extern "C" fn py_object_del_item(
   obj : PyObjectRef,
   key : PyObjectRef,
-) -> Int = "PyObject_DelItem"
+) -> Int32 = "PyObject_DelItem"
 
 ///|
 /// Takes an arbitrary object and returns the result of calling
@@ -131,7 +131,7 @@ pub extern "C" fn py_object_get_iter(obj : PyObjectRef) -> PyObjectRef = "PyObje
 ///
 /// This function always succeeds. */
 #owned(obj)
-pub extern "C" fn pyiter_check(obj : PyObjectRef) -> Int = "PyIter_Check"
+pub extern "C" fn pyiter_check(obj : PyObjectRef) -> Int32 = "PyIter_Check"
 
 ///|
 /// Takes an iterator object and calls its tp_iternext slot,
@@ -149,7 +149,7 @@ pub extern "C" fn pyiter_next(iter : PyObjectRef) -> PyObjectRef = "PyIter_Next"
 ///
 /// This function always succeeds. */
 #owned(obj)
-pub extern "C" fn pynumber_check(obj : PyObjectRef) -> Int = "PyNumber_Check"
+pub extern "C" fn pynumber_check(obj : PyObjectRef) -> Int32 = "PyNumber_Check"
 
 ///|
 /// Returns the result of adding o1 and o2, or NULL on failure.
@@ -322,7 +322,7 @@ pub extern "C" fn pynumber_or(
 /// Returns 1 if obj is an index integer (has the nb_index slot of the
 /// tp_as_number structure filled in), and 0 otherwise.
 #owned(obj)
-pub extern "C" fn pyindex_check(obj : PyObjectRef) -> Int = "PyIndex_Check"
+pub extern "C" fn pyindex_check(obj : PyObjectRef) -> Int32 = "PyIndex_Check"
 
 ///|
 /// Returns the object 'o' converted to a Python int, or NULL with an exception
@@ -341,7 +341,7 @@ pub extern "C" fn pynumber_index(obj : PyObjectRef) -> PyObjectRef = "PyNumber_I
 pub extern "C" fn pynumber_as_ssize_t(
   obj : PyObjectRef,
   exc : PyObjectRef,
-) -> Int = "PyNumber_AsSsize_t"
+) -> Int32 = "PyNumber_AsSsize_t"
 
 ///|
 /// Returns the object 'o' converted to an integer object on success, or NULL
@@ -497,7 +497,7 @@ pub extern "C" fn pynumber_inplace_or(
 #owned(obj)
 pub extern "C" fn pynumber_to_base(
   obj : PyObjectRef,
-  base : Int,
+  base : Int32,
 ) -> PyObjectRef = "PyNumber_ToBase"
 
 ///|
@@ -506,12 +506,12 @@ pub extern "C" fn pynumber_to_base(
 ///
 /// This function always succeeds.
 #owned(obj)
-pub extern "C" fn pysequence_check(obj : PyObjectRef) -> Int = "PySequence_Check"
+pub extern "C" fn pysequence_check(obj : PyObjectRef) -> Int32 = "PySequence_Check"
 
 ///|
 /// Return the size of sequence object o, or -1 on failure.
 #owned(obj)
-pub extern "C" fn pysequence_size(obj : PyObjectRef) -> Int = "PySequence_Size"
+pub extern "C" fn pysequence_size(obj : PyObjectRef) -> Int32 = "PySequence_Size"
 
 ///|
 /// Return the concatenation of o1 and o2 on success, and NULL on failure.
@@ -531,7 +531,7 @@ pub extern "C" fn pysequence_concat(
 #owned(obj)
 pub extern "C" fn pysequence_repeat(
   obj : PyObjectRef,
-  count : Int,
+  count : Int32,
 ) -> PyObjectRef = "PySequence_Repeat"
 
 ///|
@@ -565,14 +565,14 @@ pub extern "C" fn pysequence_set_item(
   obj : PyObjectRef,
   idx : UInt64,
   value : PyObjectRef,
-) -> Int = "PySequence_SetItem"
+) -> Int32 = "PySequence_SetItem"
 
 ///|
 /// Delete the 'i'-th element of the sequence 'v'. Returns -1 on failure.
 ///
 /// This is the equivalent of the Python statement: del o[i]. */
 #owned(obj)
-pub extern "C" fn pysequence_del_item(obj : PyObjectRef, idx : UInt64) -> Int = "PySequence_DelItem"
+pub extern "C" fn pysequence_del_item(obj : PyObjectRef, idx : UInt64) -> Int32 = "PySequence_DelItem"
 
 ///|
 /// Assign the sequence object 'v' to the slice in sequence object 'o',
@@ -585,7 +585,7 @@ pub extern "C" fn pysequence_set_slice(
   start : UInt64,
   end : UInt64,
   new_list : PyObjectRef,
-) -> Int = "PySequence_SetSlice"
+) -> Int32 = "PySequence_SetSlice"
 
 ///|
 /// Delete the slice in sequence object 'o' from 'i1' to 'i2'.
@@ -597,7 +597,7 @@ pub extern "C" fn pysequence_del_slice(
   obj : PyObjectRef,
   start : UInt64,
   end : UInt64,
-) -> Int = "PySequence_DelSlice"
+) -> Int32 = "PySequence_DelSlice"
 
 ///|
 /// Returns the sequence 'o' as a tuple on success, and NULL on failure.
@@ -630,7 +630,7 @@ pub extern "C" fn pysequence_fast(obj : PyObjectRef, msg : CStr) -> PyObjectRef 
 pub extern "C" fn pysequence_count(
   obj : PyObjectRef,
   value : PyObjectRef,
-) -> Int = "PySequence_Count"
+) -> Int32 = "PySequence_Count"
 
 ///|
 /// Return 1 if 'ob' is in the sequence 'seq'; 0 if 'ob' is not in the sequence
@@ -641,7 +641,7 @@ pub extern "C" fn pysequence_count(
 pub extern "C" fn pysequence_contains(
   seq : PyObjectRef,
   ob : PyObjectRef,
-) -> Int = "PySequence_Contains"
+) -> Int32 = "PySequence_Contains"
 
 // PyAPI_FUNC(Py_ssize_t) PySequence_Index(py_object *o, PyObject *value);
 
@@ -650,7 +650,7 @@ pub extern "C" fn pysequence_contains(
 pub extern "C" fn pysequence_index(
   obj : PyObjectRef,
   value : PyObjectRef,
-) -> Int = "PySequence_Index"
+) -> Int32 = "PySequence_Index"
 
 ///|
 ///  Append sequence 'o2' to sequence 'o1', in-place when possible. Return the
@@ -671,7 +671,7 @@ pub extern "C" fn pysequence_inplace_concat(
 #owned(obj)
 pub extern "C" fn pysequence_inplace_repeat(
   obj : PyObjectRef,
-  count : Int,
+  count : Int32,
 ) -> PyObjectRef = "PySequence_InPlaceRepeat"
 
 ///|
@@ -679,13 +679,13 @@ pub extern "C" fn pysequence_inplace_repeat(
 ///
 /// This function always succeeds.
 #owned(obj)
-pub extern "C" fn pymapping_check(obj : PyObjectRef) -> Int = "PyMapping_Check"
+pub extern "C" fn pymapping_check(obj : PyObjectRef) -> Int32 = "PyMapping_Check"
 
 ///|
 /// Returns the number of keys in mapping object 'o' on success, and -1 on
 /// failure. This is equivalent to the Python expression: len(o). */
 #owned(obj)
-pub extern "C" fn pymapping_size(obj : PyObjectRef) -> Int = "PyMapping_Size"
+pub extern "C" fn pymapping_size(obj : PyObjectRef) -> Int32 = "PyMapping_Size"
 
 ///|
 /// On success, return 1 if the mapping object 'o' has the key 'key',
@@ -698,7 +698,7 @@ pub extern "C" fn pymapping_size(obj : PyObjectRef) -> Int = "PyMapping_Size"
 pub extern "C" fn pymapping_has_key_string(
   obj : PyObjectRef,
   key : CStr,
-) -> Int = "PyMapping_HasKeyString"
+) -> Int32 = "PyMapping_HasKeyString"
 
 ///|
 /// Return 1 if the mapping object has the key 'key', and 0 otherwise.
@@ -710,7 +710,7 @@ pub extern "C" fn pymapping_has_key_string(
 pub extern "C" fn pymapping_has_key(
   obj : PyObjectRef,
   key : PyObjectRef,
-) -> Int = "PyMapping_HasKey"
+) -> Int32 = "PyMapping_HasKey"
 
 ///|
 /// On success, return a list or tuple of the keys in mapping object 'o'.
@@ -744,21 +744,21 @@ pub extern "C" fn pymapping_set_item_string(
   obj : PyObjectRef,
   key : CStr,
   value : PyObjectRef,
-) -> Int = "PyMapping_SetItemString"
+) -> Int32 = "PyMapping_SetItemString"
 
 ///|
 #owned(obj, typeorclass)
 pub extern "C" fn py_object_is_instance(
   obj : PyObjectRef,
   typeorclass : PyObjectRef,
-) -> Int = "PyObject_IsInstance"
+) -> Int32 = "PyObject_IsInstance"
 
 ///|
 #owned(obj, typeorclass)
 pub extern "C" fn py_object_is_subclass(
   obj : PyObjectRef,
   typeorclass : PyObjectRef,
-) -> Int = "PyObject_IsSubclass"
+) -> Int32 = "PyObject_IsSubclass"
 
 ///|
 /// PyObject repr to string

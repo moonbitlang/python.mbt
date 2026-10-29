@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,8 +23,11 @@ pub extern "C" fn py_odict_set_item(
   od : PyObjectRef,
   key : PyObjectRef,
   item : PyObjectRef,
-) -> Int = "PyODict_SetItem"
+) -> Int32 = "PyODict_SetItem"
 
 ///|
 #owned(od, key)
-pub extern "C" fn py_odict_del_item(od : PyObjectRef, key : PyObjectRef) -> Int = "PyODict_DelItem"
+pub extern "C" fn py_odict_del_item(
+  od : PyObjectRef,
+  key : PyObjectRef,
+) -> Int32 = "PyODict_DelItem"

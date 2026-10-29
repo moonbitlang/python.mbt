@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,50 +20,46 @@ pub struct Screen {
 ///|
 pub fn Screen::new() -> Screen {
   let lib = singleton()
-  guard lib.turtle.get_attr("Screen") is Some(PyCallable(createScreen))
-  guard (try? createScreen.invoke()).unwrap() is Some(PyClass(screen))
+  guard! lib.turtle.get_attr("Screen") is Some(PyCallable(createScreen))
+  guard! (Ok(createScreen.invoke()) catch { e => Err(e) }).unwrap()
+    is Some(PyClass(screen))
   Screen::{ screen, }
 }
 
 ///|
 pub fn Screen::setup(self : Screen, width : Double, height : Double) -> Unit {
-  guard self.screen.get_attr("setup") is Some(PyCallable(setup))
+  guard! self.screen.get_attr("setup") is Some(PyCallable(setup))
   let args = PyTuple::new(2)
-  args..set(0, PyFloat::from(width))..set(1, PyFloat::from(height))
-  let _ = try? setup.invoke(args~)
-
+  args..set(0, PyFloat::from(width)).set(1, PyFloat::from(height))
+  let _ = Ok(setup.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
 pub fn Screen::title(self : Screen, text : String) -> Unit {
-  guard self.screen.get_attr("title") is Some(PyCallable(title))
+  guard! self.screen.get_attr("title") is Some(PyCallable(title))
   let args = PyTuple::new(1)
-  args..set(0, PyString::from(text))
-  let _ = try? title.invoke(args~)
-
+  args.set(0, PyString::from(text))
+  let _ = Ok(title.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
-pub fn Screen::tracer(self : Screen, n : Int) -> Unit {
-  guard self.screen.get_attr("tracer") is Some(PyCallable(tracer))
+pub fn Screen::tracer(self : Screen, n : Int32) -> Unit {
+  guard! self.screen.get_attr("tracer") is Some(PyCallable(tracer))
   let args = PyTuple::new(1)
-  args..set(0, PyInteger::from(n.to_int64()))
-  let _ = try? tracer.invoke(args~)
-
+  args.set(0, PyInteger::from(n.to_int64()))
+  let _ = Ok(tracer.invoke(args~)) catch { e => Err(e) }
 }
 
 ///|
 pub fn Screen::update(self : Screen) -> Unit {
-  guard self.screen.get_attr("update") is Some(PyCallable(update))
-  let _ = try? update.invoke()
-
+  guard! self.screen.get_attr("update") is Some(PyCallable(update))
+  let _ = Ok(update.invoke()) catch { e => Err(e) }
 }
 
 ///|
 pub fn Screen::bgcolor(self : Screen, color : Color) -> Unit {
-  guard self.screen.get_attr("bgcolor") is Some(PyCallable(bgcolor))
+  guard! self.screen.get_attr("bgcolor") is Some(PyCallable(bgcolor))
   let args = PyTuple::new(1)
-  args..set(0, PyString::from(color.to_string()))
-  let _ = try? bgcolor.invoke(args~)
-
+  args.set(0, PyString::from(color.to_string()))
+  let _ = Ok(bgcolor.invoke(args~)) catch { e => Err(e) }
 }

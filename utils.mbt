@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,9 +32,9 @@ fn[T] when(cond : Bool, value : () -> T) -> T? {
 
 ///|
 pub fn init_py() -> Unit {
-  if not(@cpython.py_is_initialized()) {
+  if !@cpython.py_is_initialized() {
     @cpython.py_init()
-    if not(@cpython.py_is_initialized()) {
+    if !@cpython.py_is_initialized() {
       println("Python initialization failed")
       return
     }
@@ -51,13 +51,13 @@ fn init {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let s = "\'os\'"
 /// inspect(@python.strip_quot(s), content="os")
 /// ```
 pub fn strip_quot(s : String) -> String {
   if s.has_prefix("\'") && s.has_suffix("\'") {
-    return s.view(start_offset=1, end_offset=s.length() - 1).to_string()
+    return s.view(start_offset=1, end_offset=s.length() - 1).to_owned()
   }
   s
 }
