@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ pub fn py_unicode_as_utf8(u : PyObjectRef) -> String {
 ///|
 #borrow(buffer)
 extern "C" fn __py_unicode_from_kind_and_data(
-  kind : Int,
+  kind : Int32,
   buffer : String,
   size : UInt64,
 ) -> PyObjectRef = "PyUnicode_FromKindAndData"

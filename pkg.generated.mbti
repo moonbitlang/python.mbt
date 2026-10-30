@@ -1,9 +1,9 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "Kaida-Amethyst/python"
 
-import(
-  "Kaida-Amethyst/python/cpython"
-)
+import {
+  "Kaida-Amethyst/python/cpython",
+}
 
 // Values
 pub fn init_py() -> Unit
@@ -19,6 +19,8 @@ pub suberror PyRuntimeError {
   KeyIsUnHashableError
   InVokeError
 }
+pub fn PyRuntimeError::output(Self, &Logger) -> Unit
+pub fn PyRuntimeError::to_string(Self) -> String
 pub impl Show for PyRuntimeError
 
 // Types and methods
@@ -32,7 +34,12 @@ pub fn PyBool::from(Bool) -> Self
 pub fn PyBool::is_false(Self) -> Bool
 pub fn PyBool::is_true(Self) -> Bool
 pub fn PyBool::not(Self) -> Self
+pub fn PyBool::obj(Self) -> PyObject
+pub fn PyBool::obj_ref(Self) -> @cpython.PyObjectRef
+pub fn PyBool::output(Self, &Logger) -> Unit
 pub fn PyBool::to_bool(Self) -> Bool
+pub fn PyBool::to_string(Self) -> String
+pub fn PyBool::type_name(Self) -> String
 pub impl IsPyObject for PyBool
 pub impl Show for PyBool
 
@@ -43,6 +50,11 @@ pub fn PyCallable::create(PyObject) -> Self raise PyRuntimeError
 pub fn PyCallable::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeError
 pub fn PyCallable::dump(Self) -> Unit
 pub fn PyCallable::invoke(Self, args? : PyTuple, kwargs? : PyDict, print_err? : Bool) -> PyObjectEnum? raise PyRuntimeError
+pub fn PyCallable::obj(Self) -> PyObject
+pub fn PyCallable::obj_ref(Self) -> @cpython.PyObjectRef
+pub fn PyCallable::output(Self, &Logger) -> Unit
+pub fn PyCallable::to_string(Self) -> String
+pub fn PyCallable::type_name(Self) -> String
 pub impl IsPyObject for PyCallable
 pub impl Show for PyCallable
 
@@ -57,14 +69,21 @@ pub fn PyDict::drop(Self) -> Unit
 pub fn PyDict::dump(Self) -> Unit
 pub fn PyDict::get(Self, String) -> PyObjectEnum?
 pub fn PyDict::getByObj(Self, PyObject) -> PyObjectEnum?
+#alias("_[_]")
+pub fn PyDict::index_get(Self, String) -> PyObjectEnum
+#alias("_[_]=_")
+pub fn[V : IsPyObject] PyDict::index_set(Self, String, V) -> Unit
 pub fn PyDict::items(Self) -> PyList
 pub fn PyDict::keys(Self) -> PyList
-pub fn PyDict::len(Self) -> Int
+pub fn PyDict::len(Self) -> Int32
 pub fn PyDict::new() -> Self
-pub fn PyDict::op_get(Self, String) -> PyObjectEnum
-pub fn[V : IsPyObject] PyDict::op_set(Self, String, V) -> Unit
+pub fn PyDict::obj(Self) -> PyObject
+pub fn PyDict::obj_ref(Self) -> @cpython.PyObjectRef
+pub fn PyDict::output(Self, &Logger) -> Unit
 pub fn[V : IsPyObject] PyDict::set(Self, String, V) -> Unit
 pub fn[K : IsPyObject, V : IsPyObject] PyDict::setByObj(Self, K, V) -> Unit raise PyRuntimeError
+pub fn PyDict::to_string(Self) -> String
+pub fn PyDict::type_name(Self) -> String
 pub fn PyDict::values(Self) -> PyList
 pub impl IsPyObject for PyDict
 pub impl Show for PyDict
@@ -77,7 +96,12 @@ pub fn PyFloat::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeError
 pub fn PyFloat::drop(Self) -> Unit
 pub fn PyFloat::dump(Self) -> Unit
 pub fn PyFloat::from(Double) -> Self
+pub fn PyFloat::obj(Self) -> PyObject
+pub fn PyFloat::obj_ref(Self) -> @cpython.PyObjectRef
+pub fn PyFloat::output(Self, &Logger) -> Unit
 pub fn PyFloat::to_double(Self) -> Double
+pub fn PyFloat::to_string(Self) -> String
+pub fn PyFloat::type_name(Self) -> String
 pub impl IsPyObject for PyFloat
 pub impl Show for PyFloat
 
@@ -90,8 +114,13 @@ pub fn PyInteger::create_unchecked(PyObject) -> Self
 pub fn PyInteger::drop(Self) -> Unit
 pub fn PyInteger::dump(Self) -> Unit
 pub fn PyInteger::from(Int64) -> Self
+pub fn PyInteger::obj(Self) -> PyObject
+pub fn PyInteger::obj_ref(Self) -> @cpython.PyObjectRef
+pub fn PyInteger::output(Self, &Logger) -> Unit
 pub fn PyInteger::to_double(Self) -> Double
 pub fn PyInteger::to_int64(Self) -> Int64
+pub fn PyInteger::to_string(Self) -> String
+pub fn PyInteger::type_name(Self) -> String
 pub impl IsPyObject for PyInteger
 pub impl Show for PyInteger
 
@@ -104,12 +133,19 @@ pub fn PyList::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeError
 pub fn PyList::drop(Self) -> Unit
 pub fn PyList::dump(Self) -> Unit
 pub fn[T : IsPyObject] PyList::from(Array[T]) -> Self
-pub fn PyList::get(Self, Int) -> PyObjectEnum?
-pub fn PyList::len(Self) -> Int
+pub fn PyList::get(Self, Int32) -> PyObjectEnum?
+#alias("_[_]")
+pub fn PyList::index_get(Self, Int32) -> PyObjectEnum
+#alias("_[_]=_")
+pub fn[T : IsPyObject] PyList::index_set(Self, Int32, T) -> Unit
+pub fn PyList::len(Self) -> Int32
 pub fn PyList::new() -> Self
-pub fn PyList::op_get(Self, Int) -> PyObjectEnum
-pub fn[T : IsPyObject] PyList::op_set(Self, Int, T) -> Unit
-pub fn[T : IsPyObject] PyList::set(Self, Int, T) -> Unit raise PyRuntimeError
+pub fn PyList::obj(Self) -> PyObject
+pub fn PyList::obj_ref(Self) -> @cpython.PyObjectRef
+pub fn PyList::output(Self, &Logger) -> Unit
+pub fn[T : IsPyObject] PyList::set(Self, Int32, T) -> Unit raise PyRuntimeError
+pub fn PyList::to_string(Self) -> String
+pub fn PyList::type_name(Self) -> String
 pub impl IsPyObject for PyList
 pub impl Show for PyList
 
@@ -121,6 +157,11 @@ pub fn PyModule::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeErro
 pub fn PyModule::dump(Self) -> Unit
 pub fn PyModule::get_attr(Self, String, print_err? : Bool) -> PyObjectEnum?
 pub fn PyModule::get_name(Self) -> String
+pub fn PyModule::obj(Self) -> PyObject
+pub fn PyModule::obj_ref(Self) -> @cpython.PyObjectRef
+pub fn PyModule::output(Self, &Logger) -> Unit
+pub fn PyModule::to_string(Self) -> String
+pub fn PyModule::type_name(Self) -> String
 pub impl IsPyObject for PyModule
 pub impl Show for PyModule
 
@@ -141,6 +182,10 @@ pub fn PyObject::is_module(Self) -> Bool
 pub fn PyObject::is_null(Self) -> Bool
 pub fn PyObject::is_string(Self) -> Bool
 pub fn PyObject::is_tuple(Self) -> Bool
+pub fn PyObject::obj(Self) -> Self
+pub fn PyObject::obj_ref(Self) -> @cpython.PyObjectRef
+pub fn PyObject::output(Self, &Logger) -> Unit
+pub fn PyObject::to_string(Self) -> String
 pub fn PyObject::type_name(Self) -> String
 pub fn PyObject::type_of(Self) -> PyType
 pub impl IsPyObject for PyObject
@@ -161,6 +206,8 @@ pub(all) enum PyObjectEnum {
 pub fn PyObjectEnum::create(PyObject) -> Self
 pub fn PyObjectEnum::create_by_ref(@cpython.PyObjectRef) -> Self
 pub fn PyObjectEnum::dump(Self) -> Unit
+pub fn PyObjectEnum::output(Self, &Logger) -> Unit
+pub fn PyObjectEnum::to_string(Self) -> String
 pub impl Show for PyObjectEnum
 
 pub struct PyString {
@@ -171,6 +218,11 @@ pub fn PyString::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeErro
 pub fn PyString::drop(Self) -> Unit
 pub fn PyString::dump(Self) -> Unit
 pub fn PyString::from(String) -> Self
+pub fn PyString::obj(Self) -> PyObject
+pub fn PyString::obj_ref(Self) -> @cpython.PyObjectRef
+pub fn PyString::output(Self, &Logger) -> Unit
+pub fn PyString::to_string(Self) -> String
+pub fn PyString::type_name(Self) -> String
 pub impl IsPyObject for PyString
 pub impl Show for PyString
 
@@ -181,12 +233,19 @@ pub fn PyTuple::create(PyObject) -> Self raise PyRuntimeError
 pub fn PyTuple::create_by_ref(@cpython.PyObjectRef) -> Self raise PyRuntimeError
 pub fn PyTuple::drop(Self) -> Unit
 pub fn PyTuple::dump(Self) -> Unit
-pub fn PyTuple::get(Self, Int) -> PyObjectEnum?
+pub fn PyTuple::get(Self, Int32) -> PyObjectEnum?
+#alias("_[_]")
+pub fn PyTuple::index_get(Self, Int32) -> PyObjectEnum
+#alias("_[_]=_")
+pub fn[T : IsPyObject] PyTuple::index_set(Self, Int32, T) -> Unit
 pub fn PyTuple::len(Self) -> UInt64
 pub fn PyTuple::new(UInt64) -> Self
-pub fn PyTuple::op_get(Self, Int) -> PyObjectEnum
-pub fn[T : IsPyObject] PyTuple::op_set(Self, Int, T) -> Unit
-pub fn[T : IsPyObject] PyTuple::set(Self, Int, T) -> Unit
+pub fn PyTuple::obj(Self) -> PyObject
+pub fn PyTuple::obj_ref(Self) -> @cpython.PyObjectRef
+pub fn PyTuple::output(Self, &Logger) -> Unit
+pub fn[T : IsPyObject] PyTuple::set(Self, Int32, T) -> Unit
+pub fn PyTuple::to_string(Self) -> String
+pub fn PyTuple::type_name(Self) -> String
 pub impl IsPyObject for PyTuple
 pub impl Show for PyTuple
 
@@ -207,8 +266,7 @@ pub enum PyType {
 
 // Traits
 pub trait IsPyObject {
-  obj(Self) -> PyObject
-  obj_ref(Self) -> @cpython.PyObjectRef
-  type_name(Self) -> String
+  fn obj(Self) -> PyObject
+  fn obj_ref(Self) -> @cpython.PyObjectRef
+  fn type_name(Self) -> String
 }
-

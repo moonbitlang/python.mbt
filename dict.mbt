@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ pub fn PyDict::create_by_ref(
   obj : @cpython.PyObjectRef,
 ) -> PyDict raise PyRuntimeError {
   guard @cpython.py_dict_check(obj) else { raise TypeMismatchError }
-  PyDict::{ obj: PyObject::create(obj) }
+  PyDict::{ obj: PyObject::create(obj), }
 }
 
 ///|
@@ -49,7 +49,7 @@ pub fn PyDict::create_by_ref(
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let dict = PyDict::new()
 /// dict
 /// ..set("one", PyInteger::from(1))
@@ -67,7 +67,7 @@ pub fn PyDict::create_by_ref(
 /// print(d) # Output: {'one': 1, 'two': 2.0, 'three': True}
 /// ```
 pub fn PyDict::new() -> PyDict {
-  PyDict::{ obj: PyObject::create(@cpython.py_dict_new()) }
+  PyDict::{ obj: PyObject::create(@cpython.py_dict_new()), }
 }
 
 ///|
@@ -75,7 +75,7 @@ pub fn PyDict::new() -> PyDict {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let dict = PyDict::new()
 /// dict
 /// ..set("one", PyInteger::from(1))
@@ -84,7 +84,7 @@ pub fn PyDict::new() -> PyDict {
 ///
 /// assert_eq(dict.len(), 3);
 /// ```
-pub fn PyDict::len(self : PyDict) -> Int {
+pub fn PyDict::len(self : PyDict) -> Int32 {
   @cpython.py_dict_size(self.obj_ref()).to_int()
 }
 
@@ -93,7 +93,7 @@ pub fn PyDict::len(self : PyDict) -> Int {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let dict = PyDict::new()
 /// dict
 /// ..set("one", PyInteger::from(1))
@@ -107,7 +107,7 @@ pub fn PyDict::len(self : PyDict) -> Int {
 pub fn PyDict::get(self : PyDict, key : String) -> PyObjectEnum? {
   let dict = self.obj_ref()
   let obj_ref = @cpython.py_dict_get_item_string(dict, key)
-  when(not(obj_ref.is_null()), fn() { PyObjectEnum::create_by_ref(obj_ref) })
+  when(!obj_ref.is_null(), fn() { PyObjectEnum::create_by_ref(obj_ref) })
 }
 
 ///|
@@ -115,7 +115,7 @@ pub fn PyDict::get(self : PyDict, key : String) -> PyObjectEnum? {
 pub fn PyDict::getByObj(self : PyDict, key : PyObject) -> PyObjectEnum? {
   let dict = self.obj_ref()
   let obj_ref = @cpython.py_dict_get_item(dict, key.obj_ref())
-  when(not(obj_ref.is_null()), fn() { PyObjectEnum::create_by_ref(obj_ref) })
+  when(!obj_ref.is_null(), fn() { PyObjectEnum::create_by_ref(obj_ref) })
 }
 
 ///|
@@ -125,7 +125,7 @@ pub fn PyDict::getByObj(self : PyDict, key : PyObject) -> PyObjectEnum? {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let dict = PyDict::new()
 /// dict
 /// ..set("one", PyInteger::from(1))
@@ -136,7 +136,8 @@ pub fn PyDict::getByObj(self : PyDict, key : PyObject) -> PyObjectEnum? {
 /// inspect(dict["two"], content="PyFloat(2.0)")
 /// inspect(dict["three"], content="PyBool(True)")
 /// ```
-pub fn PyDict::op_get(self : PyDict, key : String) -> PyObjectEnum {
+#alias("_[_]")
+pub fn PyDict::index_get(self : PyDict, key : String) -> PyObjectEnum {
   self.get(key).unwrap()
 }
 
@@ -145,7 +146,7 @@ pub fn PyDict::op_get(self : PyDict, key : String) -> PyObjectEnum {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let dict = PyDict::new()
 /// dict
 /// ..set("one", PyInteger::from(1))
@@ -171,7 +172,6 @@ pub fn[V : IsPyObject] PyDict::set(
   let dict = self.obj_ref()
   let val = val.obj_ref()
   let _ = @cpython.py_dict_set_item_string(dict, key, val)
-
 }
 
 ///|
@@ -179,7 +179,7 @@ pub fn[V : IsPyObject] PyDict::set(
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let dict = PyDict::new()
 /// dict
 /// ..setByObj(PyInteger::from(1), PyInteger::from(1))
@@ -208,7 +208,7 @@ pub fn[K : IsPyObject, V : IsPyObject] PyDict::setByObj(
   @cpython.py_err_clear()
   let _ = @cpython.py_dict_set_item(dict, key.obj_ref(), val.obj_ref())
   let e = @cpython.py_err_occurred()
-  if not(e.is_null()) {
+  if !e.is_null() {
     @cpython.py_err_clear()
     raise KeyIsUnHashableError
   }
@@ -219,7 +219,7 @@ pub fn[K : IsPyObject, V : IsPyObject] PyDict::setByObj(
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let dict = PyDict::new()
 ///
 /// dict["one"] = PyInteger::from(1);
@@ -237,7 +237,8 @@ pub fn[K : IsPyObject, V : IsPyObject] PyDict::setByObj(
 /// d['two'] = 2.0
 /// d['three'] = True
 /// ```
-pub fn[V : IsPyObject] PyDict::op_set(
+#alias("_[_]=_")
+pub fn[V : IsPyObject] PyDict::index_set(
   self : PyDict,
   key : String,
   val : V,
@@ -269,7 +270,7 @@ pub fn PyDict::containsObj(self : PyDict, key : PyObject) -> Bool {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let dict = PyDict::new()
 /// dict
 /// ..set("one", PyInteger::from(1))
@@ -299,7 +300,7 @@ pub fn PyDict::keys(self : PyDict) -> PyList {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let dict = PyDict::new()
 /// dict
 /// ..set("one", PyInteger::from(1))
@@ -329,7 +330,7 @@ pub fn PyDict::values(self : PyDict) -> PyList {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let dict = PyDict::new()
 /// dict
 /// ..set("one", PyInteger::from(1))
@@ -357,16 +358,16 @@ pub fn PyDict::drop(self : PyDict) -> Unit {
 }
 
 ///|
-pub impl IsPyObject for PyDict with obj(self) {
+pub impl IsPyObject for PyDict with fn obj(self) {
   self.obj
 }
 
 ///|
-pub impl Show for PyDict with to_string(self) -> String {
+pub impl Show for PyDict with fn to_string(self) -> String {
   self.obj.to_string()
 }
 
 ///|
-pub impl Show for PyDict with output(self : PyDict, logger : &Logger) -> Unit {
+pub impl Show for PyDict with fn output(self : PyDict, logger : &Logger) -> Unit {
   logger.write_string(self.to_string())
 }

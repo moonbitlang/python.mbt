@@ -2,9 +2,9 @@
 package "Kaida-Amethyst/python/cpython"
 
 // Values
-pub fn __py_callable_check(PyObjectRef) -> Int
+pub fn __py_callable_check(PyObjectRef) -> Int32
 
-pub fn __py_dict_contains(PyObjectRef, PyObjectRef) -> Int
+pub fn __py_dict_contains(PyObjectRef, PyObjectRef) -> Int32
 
 pub fn _py_context_new_hamt_for_tests() -> PyObjectRef
 
@@ -22,17 +22,17 @@ pub fn py_cell_get(PyObjectRef) -> PyObjectRef
 
 pub fn py_cell_new(PyObjectRef) -> PyObjectRef
 
-pub fn py_cell_set(PyObjectRef, PyObjectRef) -> Int
+pub fn py_cell_set(PyObjectRef, PyObjectRef) -> Int32
 
 pub fn py_class_method_new(PyObjectRef) -> PyObjectRef
 
-pub fn py_code_addr2_line(PyCodeObjectRef, Int) -> Int
+pub fn py_code_addr2_line(PyCodeObjectRef, Int32) -> Int32
 
-pub fn py_code_new(Int, Int, Int, Int, Int, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, Int, PyObjectRef) -> PyCodeObjectRef
+pub fn py_code_new(Int32, Int32, Int32, Int32, Int32, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, Int32, PyObjectRef) -> PyCodeObjectRef
 
-pub fn py_code_new_empty(CStr, CStr, Int) -> PyCodeObjectRef
+pub fn py_code_new_empty(CStr, CStr, Int32) -> PyCodeObjectRef
 
-pub fn py_code_new_with_pos_only_args(Int, Int, Int, Int, Int, Int, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, Int, PyObjectRef) -> PyCodeObjectRef
+pub fn py_code_new_with_pos_only_args(Int32, Int32, Int32, Int32, Int32, Int32, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, Int32, PyObjectRef) -> PyCodeObjectRef
 
 pub fn py_codec_backslash_replace_errors(PyObjectRef) -> PyObjectRef
 
@@ -50,15 +50,15 @@ pub fn py_codec_incremental_decoder(CStr, CStr) -> PyObjectRef
 
 pub fn py_codec_incremental_encoder(CStr, CStr) -> PyObjectRef
 
-pub fn py_codec_known_encoding(CStr) -> Int
+pub fn py_codec_known_encoding(CStr) -> Int32
 
 pub fn py_codec_lookup_error(CStr) -> PyObjectRef
 
 pub fn py_codec_name_replace_errors(PyObjectRef) -> PyObjectRef
 
-pub fn py_codec_register(PyObjectRef) -> Int
+pub fn py_codec_register(PyObjectRef) -> Int32
 
-pub fn py_codec_register_error(CStr, PyObjectRef) -> Int
+pub fn py_codec_register_error(CStr, PyObjectRef) -> Int32
 
 pub fn py_codec_replace_errors(PyObjectRef) -> PyObjectRef
 
@@ -76,23 +76,23 @@ pub fn py_complex_imag_as_double(PyObjectRef) -> Double
 
 pub fn py_complex_real_as_double(PyObjectRef) -> Double
 
-pub fn py_context_clear_free_list() -> Int
+pub fn py_context_clear_free_list() -> Int32
 
 pub fn py_context_copy(PyObjectRef) -> PyObjectRef
 
 pub fn py_context_copy_current() -> PyObjectRef
 
-pub fn py_context_enter(PyObjectRef) -> Int
+pub fn py_context_enter(PyObjectRef) -> Int32
 
-pub fn py_context_exit(PyObjectRef) -> Int
+pub fn py_context_exit(PyObjectRef) -> Int32
 
 pub fn py_context_new() -> PyObjectRef
 
-pub fn py_context_var_get(PyObjectRef, PyObjectRef, ArrayPyObjectRef) -> Int
+pub fn py_context_var_get(PyObjectRef, PyObjectRef, ArrayPyObjectRef) -> Int32
 
 pub fn py_context_var_new(CStr, PyObjectRef) -> PyObjectRef
 
-pub fn py_context_var_reset(PyObjectRef, PyObjectRef) -> Int
+pub fn py_context_var_reset(PyObjectRef, PyObjectRef) -> Int32
 
 pub fn py_context_var_set(PyObjectRef, PyObjectRef) -> PyObjectRef
 
@@ -106,9 +106,9 @@ pub fn py_dict_contains(PyObjectRef, PyObjectRef) -> Bool
 
 pub fn py_dict_copy(PyObjectRef) -> PyObjectRef
 
-pub fn py_dict_del_item(PyObjectRef, PyObjectRef) -> Int
+pub fn py_dict_del_item(PyObjectRef, PyObjectRef) -> Int32
 
-pub fn py_dict_del_item_string(PyObjectRef, String) -> Int
+pub fn py_dict_del_item_string(PyObjectRef, String) -> Int32
 
 pub fn py_dict_get_item(PyObjectRef, PyObjectRef) -> PyObjectRef
 
@@ -118,19 +118,19 @@ pub fn py_dict_items(PyObjectRef) -> PyObjectRef
 
 pub fn py_dict_keys(PyObjectRef) -> PyObjectRef
 
-pub fn py_dict_merge(PyObjectRef, PyObjectRef, Int) -> Int
+pub fn py_dict_merge(PyObjectRef, PyObjectRef, Int32) -> Int32
 
-pub fn py_dict_merge_from_seq2(PyObjectRef, PyObjectRef, Int) -> Int
+pub fn py_dict_merge_from_seq2(PyObjectRef, PyObjectRef, Int32) -> Int32
 
 pub fn py_dict_new() -> PyObjectRef
 
-pub fn py_dict_set_item(PyObjectRef, PyObjectRef, PyObjectRef) -> Int
+pub fn py_dict_set_item(PyObjectRef, PyObjectRef, PyObjectRef) -> Int32
 
-pub fn py_dict_set_item_string(PyObjectRef, String, PyObjectRef) -> Int
+pub fn py_dict_set_item_string(PyObjectRef, String, PyObjectRef) -> Int32
 
 pub fn py_dict_size(PyObjectRef) -> UInt64
 
-pub fn py_dict_update(PyObjectRef, PyObjectRef) -> Int
+pub fn py_dict_update(PyObjectRef, PyObjectRef) -> Int32
 
 pub fn py_dict_values(PyObjectRef) -> PyObjectRef
 
@@ -164,21 +164,21 @@ pub fn py_eval_restore_thread(PyThreadStateRef) -> Unit
 
 pub fn py_eval_save_thread() -> PyThreadStateRef
 
-pub fn py_eval_threads_initialized() -> Int
+pub fn py_eval_threads_initialized() -> Int32
 
-pub fn py_file_from_fd(Int, CStr, CStr, Int, CStr, CStr, CStr, Int) -> PyObjectRef
+pub fn py_file_from_fd(Int32, CStr, CStr, Int32, CStr, CStr, CStr, Int32) -> PyObjectRef
 
-pub fn py_file_get_line(PyObjectRef, Int) -> PyObjectRef
+pub fn py_file_get_line(PyObjectRef, Int32) -> PyObjectRef
 
-pub fn py_file_new_std_printer(Int) -> PyObjectRef
+pub fn py_file_new_std_printer(Int32) -> PyObjectRef
 
 pub fn py_file_open_code(CStr) -> PyObjectRef
 
 pub fn py_file_open_code_object(PyObjectRef) -> PyObjectRef
 
-pub fn py_file_write_object(PyObjectRef, PyObjectRef, Int) -> Int
+pub fn py_file_write_object(PyObjectRef, PyObjectRef, Int32) -> Int32
 
-pub fn py_file_write_string(CStr, PyObjectRef) -> Int
+pub fn py_file_write_string(CStr, PyObjectRef) -> Int32
 
 pub fn py_finalize() -> Unit
 
@@ -218,15 +218,15 @@ pub fn py_function_new(PyObjectRef, PyObjectRef) -> PyObjectRef
 
 pub fn py_function_new_with_qual_name(PyObjectRef, PyObjectRef, PyObjectRef) -> PyObjectRef
 
-pub fn py_function_set_annotations(PyObjectRef, PyObjectRef) -> Int
+pub fn py_function_set_annotations(PyObjectRef, PyObjectRef) -> Int32
 
-pub fn py_function_set_closure(PyObjectRef, PyObjectRef) -> Int
+pub fn py_function_set_closure(PyObjectRef, PyObjectRef) -> Int32
 
-pub fn py_function_set_defaults(PyObjectRef, PyObjectRef) -> Int
+pub fn py_function_set_defaults(PyObjectRef, PyObjectRef) -> Int32
 
-pub fn py_function_set_kw_defaults(PyObjectRef, PyObjectRef) -> Int
+pub fn py_function_set_kw_defaults(PyObjectRef, PyObjectRef) -> Int32
 
-pub fn py_get_recursion_limit() -> Int
+pub fn py_get_recursion_limit() -> Int32
 
 pub fn py_import_add_module(CStr) -> PyObjectRef
 
@@ -244,7 +244,7 @@ pub fn py_import_exec_code_module_with_pathnames(CStr, PyObjectRef, CStr, CStr) 
 
 pub fn py_import_get_importer(PyObjectRef) -> PyObjectRef
 
-pub fn py_import_get_magic_number() -> Int
+pub fn py_import_get_magic_number() -> Int32
 
 pub fn py_import_get_magic_tag() -> CStr
 
@@ -254,15 +254,15 @@ pub fn py_import_get_module_dict() -> PyObjectRef
 
 pub fn py_import_import(PyObjectRef) -> PyObjectRef
 
-pub fn py_import_import_frozen_module(CStr) -> Int
+pub fn py_import_import_frozen_module(CStr) -> Int32
 
-pub fn py_import_import_frozen_module_object(PyObjectRef) -> Int
+pub fn py_import_import_frozen_module_object(PyObjectRef) -> Int32
 
 pub fn py_import_import_module(String) -> PyObjectRef
 
-pub fn py_import_import_module_level(CStr, PyObjectRef, PyObjectRef, PyObjectRef, Int) -> PyObjectRef
+pub fn py_import_import_module_level(CStr, PyObjectRef, PyObjectRef, PyObjectRef, Int32) -> PyObjectRef
 
-pub fn py_import_import_module_level_object(PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, Int) -> PyObjectRef
+pub fn py_import_import_module_level_object(PyObjectRef, PyObjectRef, PyObjectRef, PyObjectRef, Int32) -> PyObjectRef
 
 pub fn py_import_import_module_no_block(CStr) -> PyObjectRef
 
@@ -280,7 +280,7 @@ pub fn py_int_check(PyObjectRef) -> Bool
 
 pub fn py_is_initialized() -> Bool
 
-pub fn py_list_append(PyObjectRef, PyObjectRef) -> Int
+pub fn py_list_append(PyObjectRef, PyObjectRef) -> Int32
 
 pub fn py_list_as_tuple(PyObjectRef) -> PyObjectRef
 
@@ -290,19 +290,19 @@ pub fn py_list_get_item(PyObjectRef, Int64) -> PyObjectRef
 
 pub fn py_list_get_slice(PyObjectRef, Int64, Int64) -> PyObjectRef
 
-pub fn py_list_insert(PyObjectRef, Int64, PyObjectRef) -> Int
+pub fn py_list_insert(PyObjectRef, Int64, PyObjectRef) -> Int32
 
 pub fn py_list_new(Int64) -> PyObjectRef
 
-pub fn py_list_reverse(PyObjectRef) -> Int
+pub fn py_list_reverse(PyObjectRef) -> Int32
 
-pub fn py_list_set_item(PyObjectRef, Int64, PyObjectRef) -> Int
+pub fn py_list_set_item(PyObjectRef, Int64, PyObjectRef) -> Int32
 
-pub fn py_list_set_slice(PyObjectRef, Int64, Int64, PyObjectRef) -> Int
+pub fn py_list_set_slice(PyObjectRef, Int64, Int64, PyObjectRef) -> Int32
 
 pub fn py_list_size(PyObjectRef) -> Int64
 
-pub fn py_list_sort(PyObjectRef) -> Int
+pub fn py_list_sort(PyObjectRef) -> Int32
 
 pub fn py_long_as_double(PyObjectRef) -> Double
 
@@ -310,9 +310,9 @@ pub fn py_long_as_long(PyObjectRef) -> Int64
 
 pub fn py_long_from_long(Int64) -> PyObjectRef
 
-pub fn py_make_pending_calls() -> Int
+pub fn py_make_pending_calls() -> Int32
 
-pub fn py_method_clear_free_list() -> Int
+pub fn py_method_clear_free_list() -> Int32
 
 pub fn py_method_function(PyObjectRef) -> PyObjectRef
 
@@ -336,7 +336,7 @@ pub fn py_module_new_object(PyObjectRef) -> PyObjectRef
 
 pub fn py_none_check(PyObjectRef) -> Bool
 
-pub fn py_object_as_file_descriptor(PyObjectRef) -> Int
+pub fn py_object_as_file_descriptor(PyObjectRef) -> Int32
 
 pub fn py_object_ascii(PyObjectRef) -> PyObjectRef
 
@@ -348,15 +348,15 @@ pub fn py_object_call_object(PyObjectRef, PyObjectRef) -> PyObjectRef
 
 pub fn py_object_clear_weak_refs(PyObjectRef) -> Unit
 
-pub fn py_object_del_item(PyObjectRef, PyObjectRef) -> Int
+pub fn py_object_del_item(PyObjectRef, PyObjectRef) -> Int32
 
-pub fn py_object_del_item_string(PyObjectRef, CStr) -> Int
+pub fn py_object_del_item_string(PyObjectRef, CStr) -> Int32
 
 pub fn py_object_dir(PyObjectRef) -> PyObjectRef
 
 pub fn py_object_generic_get_attr(PyObjectRef, PyObjectRef) -> PyObjectRef
 
-pub fn py_object_generic_set_attr(PyObjectRef, PyObjectRef, PyObjectRef) -> Int
+pub fn py_object_generic_set_attr(PyObjectRef, PyObjectRef, PyObjectRef) -> Int32
 
 pub fn py_object_get_attr(PyObjectRef, PyObjectRef) -> PyObjectRef
 
@@ -366,13 +366,13 @@ pub fn py_object_get_item(PyObjectRef, PyObjectRef) -> PyObjectRef
 
 pub fn py_object_get_iter(PyObjectRef) -> PyObjectRef
 
-pub fn py_object_has_attr(PyObjectRef, PyObjectRef) -> Int
+pub fn py_object_has_attr(PyObjectRef, PyObjectRef) -> Int32
 
-pub fn py_object_has_attr_string(PyObjectRef, String) -> Int
+pub fn py_object_has_attr_string(PyObjectRef, String) -> Int32
 
-pub fn py_object_is_instance(PyObjectRef, PyObjectRef) -> Int
+pub fn py_object_is_instance(PyObjectRef, PyObjectRef) -> Int32
 
-pub fn py_object_is_subclass(PyObjectRef, PyObjectRef) -> Int
+pub fn py_object_is_subclass(PyObjectRef, PyObjectRef) -> Int32
 
 pub fn py_object_is_true(PyObjectRef) -> Bool
 
@@ -380,21 +380,21 @@ pub fn py_object_moonbit_repr(PyObjectRef) -> String
 
 pub fn py_object_moonbit_str(PyObjectRef) -> String
 
-pub fn py_object_not(PyObjectRef) -> Int
+pub fn py_object_not(PyObjectRef) -> Int32
 
 pub fn py_object_repr(PyObjectRef) -> PyObjectRef
 
-pub fn py_object_rich_compare(PyObjectRef, PyObjectRef, Int) -> PyObjectRef
+pub fn py_object_rich_compare(PyObjectRef, PyObjectRef, Int32) -> PyObjectRef
 
-pub fn py_object_rich_compare_bool(PyObjectRef, PyObjectRef, Int) -> Int
+pub fn py_object_rich_compare_bool(PyObjectRef, PyObjectRef, Int32) -> Int32
 
 pub fn py_object_self_iter(PyObjectRef) -> PyObjectRef
 
-pub fn py_object_set_attr(PyObjectRef, PyObjectRef, PyObjectRef) -> Int
+pub fn py_object_set_attr(PyObjectRef, PyObjectRef, PyObjectRef) -> Int32
 
-pub fn py_object_set_attr_string(PyObjectRef, String, PyObjectRef) -> Int
+pub fn py_object_set_attr_string(PyObjectRef, String, PyObjectRef) -> Int32
 
-pub fn py_object_set_item(PyObjectRef, PyObjectRef, PyObjectRef) -> Int
+pub fn py_object_set_item(PyObjectRef, PyObjectRef, PyObjectRef) -> Int32
 
 pub fn py_object_size(PyObjectRef) -> UInt64
 
@@ -402,33 +402,33 @@ pub fn py_object_str(PyObjectRef) -> PyObjectRef
 
 pub fn py_object_type(PyObjectRef) -> PyObjectRef
 
-pub fn py_odict_del_item(PyObjectRef, PyObjectRef) -> Int
+pub fn py_odict_del_item(PyObjectRef, PyObjectRef) -> Int32
 
 pub fn py_odict_new() -> PyObjectRef
 
-pub fn py_odict_set_item(PyObjectRef, PyObjectRef, PyObjectRef) -> Int
+pub fn py_odict_set_item(PyObjectRef, PyObjectRef, PyObjectRef) -> Int32
 
-pub fn py_repr_enter(PyObjectRef) -> Int
+pub fn py_repr_enter(PyObjectRef) -> Int32
 
 pub fn py_repr_leave(PyObjectRef) -> Unit
 
 pub fn py_seq_iter_new(PyObjectRef) -> PyObjectRef
 
-pub fn py_set_add(PyObjectRef, PyObjectRef) -> Int
+pub fn py_set_add(PyObjectRef, PyObjectRef) -> Int32
 
 pub fn py_set_check(PyObjectRef) -> Bool
 
-pub fn py_set_clear(PyObjectRef) -> Int
+pub fn py_set_clear(PyObjectRef) -> Int32
 
-pub fn py_set_contains(PyObjectRef, PyObjectRef) -> Int
+pub fn py_set_contains(PyObjectRef, PyObjectRef) -> Int32
 
-pub fn py_set_discard(PyObjectRef, PyObjectRef) -> Int
+pub fn py_set_discard(PyObjectRef, PyObjectRef) -> Int32
 
 pub fn py_set_new(PyObjectRef) -> PyObjectRef
 
 pub fn py_set_pop(PyObjectRef) -> PyObjectRef
 
-pub fn py_set_recursion_limit(Int) -> Unit
+pub fn py_set_recursion_limit(Int32) -> Unit
 
 pub fn py_set_size(PyObjectRef) -> Int64
 
@@ -456,27 +456,27 @@ pub fn py_unicode_from_string_and_size(CStr, UInt64) -> PyObjectRef
 
 pub fn py_unicode_from_unicode(CWStr, UInt64) -> PyObjectRef
 
-pub fn pyindex_check(PyObjectRef) -> Int
+pub fn pyindex_check(PyObjectRef) -> Int32
 
-pub fn pyiter_check(PyObjectRef) -> Int
+pub fn pyiter_check(PyObjectRef) -> Int32
 
 pub fn pyiter_next(PyObjectRef) -> PyObjectRef
 
-pub fn pymapping_check(PyObjectRef) -> Int
+pub fn pymapping_check(PyObjectRef) -> Int32
 
 pub fn pymapping_get_item_string(PyObjectRef, CStr) -> PyObjectRef
 
-pub fn pymapping_has_key(PyObjectRef, PyObjectRef) -> Int
+pub fn pymapping_has_key(PyObjectRef, PyObjectRef) -> Int32
 
-pub fn pymapping_has_key_string(PyObjectRef, CStr) -> Int
+pub fn pymapping_has_key_string(PyObjectRef, CStr) -> Int32
 
 pub fn pymapping_items(PyObjectRef) -> PyObjectRef
 
 pub fn pymapping_keys(PyObjectRef) -> PyObjectRef
 
-pub fn pymapping_set_item_string(PyObjectRef, CStr, PyObjectRef) -> Int
+pub fn pymapping_set_item_string(PyObjectRef, CStr, PyObjectRef) -> Int32
 
-pub fn pymapping_size(PyObjectRef) -> Int
+pub fn pymapping_size(PyObjectRef) -> Int32
 
 pub fn pymapping_values(PyObjectRef) -> PyObjectRef
 
@@ -486,9 +486,9 @@ pub fn pynumber_add(PyObjectRef, PyObjectRef) -> PyObjectRef
 
 pub fn pynumber_and(PyObjectRef, PyObjectRef) -> PyObjectRef
 
-pub fn pynumber_as_ssize_t(PyObjectRef, PyObjectRef) -> Int
+pub fn pynumber_as_ssize_t(PyObjectRef, PyObjectRef) -> Int32
 
-pub fn pynumber_check(PyObjectRef) -> Int
+pub fn pynumber_check(PyObjectRef) -> Int32
 
 pub fn pynumber_divmod(PyObjectRef, PyObjectRef) -> PyObjectRef
 
@@ -544,7 +544,7 @@ pub fn pynumber_rshift(PyObjectRef, PyObjectRef) -> PyObjectRef
 
 pub fn pynumber_subtract(PyObjectRef, PyObjectRef) -> PyObjectRef
 
-pub fn pynumber_to_base(PyObjectRef, Int) -> PyObjectRef
+pub fn pynumber_to_base(PyObjectRef, Int32) -> PyObjectRef
 
 pub fn pynumber_true_divide(PyObjectRef, PyObjectRef) -> PyObjectRef
 
@@ -552,17 +552,17 @@ pub fn pynumber_xor(PyObjectRef, PyObjectRef) -> PyObjectRef
 
 pub fn pyobkect_format(PyObjectRef, PyObjectRef) -> PyObjectRef
 
-pub fn pysequence_check(PyObjectRef) -> Int
+pub fn pysequence_check(PyObjectRef) -> Int32
 
 pub fn pysequence_concat(PyObjectRef, PyObjectRef) -> PyObjectRef
 
-pub fn pysequence_contains(PyObjectRef, PyObjectRef) -> Int
+pub fn pysequence_contains(PyObjectRef, PyObjectRef) -> Int32
 
-pub fn pysequence_count(PyObjectRef, PyObjectRef) -> Int
+pub fn pysequence_count(PyObjectRef, PyObjectRef) -> Int32
 
-pub fn pysequence_del_item(PyObjectRef, UInt64) -> Int
+pub fn pysequence_del_item(PyObjectRef, UInt64) -> Int32
 
-pub fn pysequence_del_slice(PyObjectRef, UInt64, UInt64) -> Int
+pub fn pysequence_del_slice(PyObjectRef, UInt64, UInt64) -> Int32
 
 pub fn pysequence_fast(PyObjectRef, CStr) -> PyObjectRef
 
@@ -570,21 +570,21 @@ pub fn pysequence_get_item(PyObjectRef, UInt64) -> PyObjectRef
 
 pub fn pysequence_get_slice(PyObjectRef, UInt64, UInt64) -> PyObjectRef
 
-pub fn pysequence_index(PyObjectRef, PyObjectRef) -> Int
+pub fn pysequence_index(PyObjectRef, PyObjectRef) -> Int32
 
 pub fn pysequence_inplace_concat(PyObjectRef, PyObjectRef) -> PyObjectRef
 
-pub fn pysequence_inplace_repeat(PyObjectRef, Int) -> PyObjectRef
+pub fn pysequence_inplace_repeat(PyObjectRef, Int32) -> PyObjectRef
 
 pub fn pysequence_list(PyObjectRef) -> PyObjectRef
 
-pub fn pysequence_repeat(PyObjectRef, Int) -> PyObjectRef
+pub fn pysequence_repeat(PyObjectRef, Int32) -> PyObjectRef
 
-pub fn pysequence_set_item(PyObjectRef, UInt64, PyObjectRef) -> Int
+pub fn pysequence_set_item(PyObjectRef, UInt64, PyObjectRef) -> Int32
 
-pub fn pysequence_set_slice(PyObjectRef, UInt64, UInt64, PyObjectRef) -> Int
+pub fn pysequence_set_slice(PyObjectRef, UInt64, UInt64, PyObjectRef) -> Int32
 
-pub fn pysequence_size(PyObjectRef) -> Int
+pub fn pysequence_size(PyObjectRef) -> Int32
 
 pub fn pysequence_tuple(PyObjectRef) -> PyObjectRef
 
@@ -594,7 +594,7 @@ pub fn pytuple_get_slice(PyObjectRef, UInt64, UInt64) -> PyObjectRef
 
 pub fn pytuple_new(UInt64) -> PyObjectRef
 
-pub fn pytuple_set_item(PyObjectRef, UInt64, PyObjectRef) -> Int
+pub fn pytuple_set_item(PyObjectRef, UInt64, PyObjectRef) -> Int32
 
 pub fn pytuple_size(PyObjectRef) -> UInt64
 
@@ -630,4 +630,3 @@ type PyTypeObjectRef
 // Type aliases
 
 // Traits
-

@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,12 +39,12 @@ pub fn PyInteger::create_by_ref(
   obj : @cpython.PyObjectRef,
 ) -> PyInteger raise PyRuntimeError {
   guard @cpython.py_int_check(obj) else { raise TypeMismatchError }
-  PyInteger::{ obj: PyObject::create(obj) }
+  PyInteger::{ obj: PyObject::create(obj), }
 }
 
 ///|
 fn PyInteger::create_by_ref_unchecked(obj : @cpython.PyObjectRef) -> PyInteger {
-  PyInteger::{ obj: PyObject::create(obj) }
+  PyInteger::{ obj: PyObject::create(obj), }
 }
 
 ///|
@@ -57,12 +57,12 @@ test {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let i = @python.PyInteger::from(42);
 /// inspect(i, content="42")
 /// ```
 pub fn PyInteger::from(value : Int64) -> PyInteger {
-  PyInteger::{ obj: PyObject::create(@cpython.py_long_from_long(value)) }
+  PyInteger::{ obj: PyObject::create(@cpython.py_long_from_long(value)), }
 }
 
 ///|
@@ -70,7 +70,7 @@ pub fn PyInteger::from(value : Int64) -> PyInteger {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let i = @python.PyInteger::from(42);
 /// assert_eq(i.to_int64(), 42);
 /// ```
@@ -83,7 +83,7 @@ pub fn PyInteger::to_int64(self : PyInteger) -> Int64 {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let i = @python.PyInteger::from(42);
 /// assert_eq(i.to_double(), 42.0);
 /// ```
@@ -92,7 +92,7 @@ pub fn PyInteger::to_double(self : PyInteger) -> Double {
 }
 
 ///|
-/// Print the PyInteger object direcly.
+/// Print the PyInteger object directly.
 ///
 /// Different from use `println`, `dump` means we made python interpreter
 /// print the object directly.
@@ -106,16 +106,16 @@ pub fn PyInteger::drop(self : PyInteger) -> Unit {
 }
 
 ///|
-pub impl IsPyObject for PyInteger with obj(self) {
+pub impl IsPyObject for PyInteger with fn obj(self) {
   self.obj
 }
 
 ///|
-pub impl Show for PyInteger with to_string(self) -> String {
+pub impl Show for PyInteger with fn to_string(self) -> String {
   self.obj.to_string()
 }
 
 ///|
-pub impl Show for PyInteger with output(self, logger) -> Unit {
+pub impl Show for PyInteger with fn output(self, logger) -> Unit {
   logger.write_string(self.to_string())
 }

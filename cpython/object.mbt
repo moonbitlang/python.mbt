@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ pub extern "C" fn py_object_bytes(a : PyObjectRef) -> PyObjectRef = "PyObject_By
 pub extern "C" fn py_object_rich_compare(
   a : PyObjectRef,
   b : PyObjectRef,
-  c : Int,
+  c : Int32,
 ) -> PyObjectRef = "PyObject_RichCompare"
 
 ///|
@@ -41,8 +41,8 @@ pub extern "C" fn py_object_rich_compare(
 pub extern "C" fn py_object_rich_compare_bool(
   a : PyObjectRef,
   b : PyObjectRef,
-  c : Int,
-) -> Int = "PyObject_RichCompareBool"
+  c : Int32,
+) -> Int32 = "PyObject_RichCompareBool"
 
 ///|
 #owned(a)
@@ -65,14 +65,14 @@ extern "C" fn __py_object_set_attr_string(
   a : PyObjectRef,
   b : Bytes,
   c : PyObjectRef,
-) -> Int = "PyObject_SetAttrString"
+) -> Int32 = "PyObject_SetAttrString"
 
 ///|
 pub fn py_object_set_attr_string(
   a : PyObjectRef,
   b : String,
   c : PyObjectRef,
-) -> Int {
+) -> Int32 {
   let b = ToCStr::to_cstr(b)
   __py_object_set_attr_string(a, b, c)
 }
@@ -80,10 +80,10 @@ pub fn py_object_set_attr_string(
 ///|
 #owned(a)
 #borrow(b)
-extern "C" fn __py_object_has_attr_string(a : PyObjectRef, b : Bytes) -> Int = "PyObject_HasAttrString"
+extern "C" fn __py_object_has_attr_string(a : PyObjectRef, b : Bytes) -> Int32 = "PyObject_HasAttrString"
 
 ///|
-pub fn py_object_has_attr_string(a : PyObjectRef, b : String) -> Int {
+pub fn py_object_has_attr_string(a : PyObjectRef, b : String) -> Int32 {
   let b = ToCStr::to_cstr(b)
   __py_object_has_attr_string(a, b)
 }
@@ -101,11 +101,11 @@ pub extern "C" fn py_object_set_attr(
   a : PyObjectRef,
   b : PyObjectRef,
   c : PyObjectRef,
-) -> Int = "PyObject_SetAttr"
+) -> Int32 = "PyObject_SetAttr"
 
 ///|
 #owned(a, b)
-pub extern "C" fn py_object_has_attr(a : PyObjectRef, b : PyObjectRef) -> Int = "PyObject_HasAttr"
+pub extern "C" fn py_object_has_attr(a : PyObjectRef, b : PyObjectRef) -> Int32 = "PyObject_HasAttr"
 
 ///|
 #owned(a)
@@ -124,14 +124,14 @@ pub extern "C" fn py_object_generic_set_attr(
   a : PyObjectRef,
   b : PyObjectRef,
   c : PyObjectRef,
-) -> Int = "PyObject_GenericSetAttr"
+) -> Int32 = "PyObject_GenericSetAttr"
 
 // pub extern "C" fn py_object_hash(a: PyObjectRef) -> Py_hash_t = "PyObject_Hash"
 // pub extern "C" fn py_object_hash_not_implemented(a: PyObjectRef) -> Py_hash_t = "PyObject_HashNotImplemented"
 
 ///|
 #owned(a)
-extern "C" fn __py_object_is_true(a : PyObjectRef) -> Int = "PyObject_IsTrue"
+extern "C" fn __py_object_is_true(a : PyObjectRef) -> Int32 = "PyObject_IsTrue"
 
 ///|
 pub fn py_object_is_true(a : PyObjectRef) -> Bool {
@@ -140,7 +140,7 @@ pub fn py_object_is_true(a : PyObjectRef) -> Bool {
 
 ///|
 #owned(a)
-pub extern "C" fn py_object_not(a : PyObjectRef) -> Int = "PyObject_Not"
+pub extern "C" fn py_object_not(a : PyObjectRef) -> Int32 = "PyObject_Not"
 
 ///|
 #owned(a)
@@ -152,7 +152,7 @@ pub extern "C" fn py_object_dir(a : PyObjectRef) -> PyObjectRef = "PyObject_Dir"
 
 ///|
 #owned(a)
-pub extern "C" fn py_repr_enter(a : PyObjectRef) -> Int = "Py_ReprEnter"
+pub extern "C" fn py_repr_enter(a : PyObjectRef) -> Int32 = "Py_ReprEnter"
 
 ///|
 #owned(a)
@@ -174,7 +174,7 @@ pub fn py_type_name(t : PyTypeObjectRef) -> String {
 
 ///|
 #owned(obj)
-extern "C" fn __py_tuple_check(obj : PyObjectRef) -> Int = "py_tuple_check"
+extern "C" fn __py_tuple_check(obj : PyObjectRef) -> Int32 = "py_tuple_check"
 
 ///|
 pub fn py_tuple_check(obj : PyObjectRef) -> Bool {
@@ -183,7 +183,7 @@ pub fn py_tuple_check(obj : PyObjectRef) -> Bool {
 
 ///|
 #owned(obj)
-extern "C" fn __py_list_check(obj : PyObjectRef) -> Int = "py_list_check"
+extern "C" fn __py_list_check(obj : PyObjectRef) -> Int32 = "py_list_check"
 
 ///|
 pub fn py_list_check(obj : PyObjectRef) -> Bool {
@@ -197,7 +197,7 @@ pub fn PyObjectRef::is_list(self : PyObjectRef) -> Bool {
 
 ///|
 #owned(obj)
-extern "C" fn __py_dict_check(obj : PyObjectRef) -> Int = "py_dict_check"
+extern "C" fn __py_dict_check(obj : PyObjectRef) -> Int32 = "py_dict_check"
 
 ///|
 pub fn py_dict_check(obj : PyObjectRef) -> Bool {
@@ -211,7 +211,7 @@ pub fn PyObjectRef::is_dict(self : PyObjectRef) -> Bool {
 
 ///|
 #owned(obj)
-extern "C" fn __py_set_check(obj : PyObjectRef) -> Int = "py_set_check"
+extern "C" fn __py_set_check(obj : PyObjectRef) -> Int32 = "py_set_check"
 
 ///|
 pub fn py_set_check(obj : PyObjectRef) -> Bool {
@@ -225,7 +225,7 @@ pub fn PyObjectRef::is_set(self : PyObjectRef) -> Bool {
 
 ///|
 #owned(obj)
-extern "C" fn __py_int_check(obj : PyObjectRef) -> Int = "py_int_check"
+extern "C" fn __py_int_check(obj : PyObjectRef) -> Int32 = "py_int_check"
 
 ///|
 pub fn py_int_check(obj : PyObjectRef) -> Bool {
@@ -239,7 +239,7 @@ pub fn PyObjectRef::is_int(self : PyObjectRef) -> Bool {
 
 ///|
 #owned(obj)
-extern "C" fn __py_float_check(obj : PyObjectRef) -> Int = "py_float_check"
+extern "C" fn __py_float_check(obj : PyObjectRef) -> Int32 = "py_float_check"
 
 ///|
 pub fn py_float_check(obj : PyObjectRef) -> Bool {
@@ -253,7 +253,7 @@ pub fn PyObjectRef::is_float(self : PyObjectRef) -> Bool {
 
 ///|
 #owned(obj)
-extern "C" fn __py_string_check(obj : PyObjectRef) -> Int = "py_string_check"
+extern "C" fn __py_string_check(obj : PyObjectRef) -> Int32 = "py_string_check"
 
 ///|
 pub fn py_string_check(obj : PyObjectRef) -> Bool {
@@ -267,7 +267,7 @@ pub fn PyObjectRef::is_string(self : PyObjectRef) -> Bool {
 
 ///|
 #owned(obj)
-extern "C" fn __py_bool_check(obj : PyObjectRef) -> Int = "py_bool_check"
+extern "C" fn __py_bool_check(obj : PyObjectRef) -> Int32 = "py_bool_check"
 
 ///|
 pub fn py_bool_check(obj : PyObjectRef) -> Bool {
@@ -281,7 +281,7 @@ pub fn PyObjectRef::is_bool(self : PyObjectRef) -> Bool {
 
 ///|
 #owned(obj)
-extern "C" fn __py_module_check(obj : PyObjectRef) -> Int = "py_module_check"
+extern "C" fn __py_module_check(obj : PyObjectRef) -> Int32 = "py_module_check"
 
 ///|
 pub fn py_module_check(obj : PyObjectRef) -> Bool {
@@ -295,7 +295,7 @@ pub fn PyObjectRef::is_module(self : PyObjectRef) -> Bool {
 
 ///|
 #owned(f)
-extern "C" fn __py_function_check(f : PyObjectRef) -> Int = "py_function_check"
+extern "C" fn __py_function_check(f : PyObjectRef) -> Int32 = "py_function_check"
 
 ///|
 pub fn py_function_check(f : PyObjectRef) -> Bool {
@@ -309,7 +309,7 @@ pub fn PyObjectRef::is_function(self : PyObjectRef) -> Bool {
 
 ///|
 #owned(a)
-pub extern "C" fn __py_callable_check(a : PyObjectRef) -> Int = "PyCallable_Check"
+pub extern "C" fn __py_callable_check(a : PyObjectRef) -> Int32 = "PyCallable_Check"
 
 ///|
 pub fn py_callable_check(a : PyObjectRef) -> Bool {
@@ -323,7 +323,7 @@ pub fn PyObjectRef::is_callable(self : PyObjectRef) -> Bool {
 
 ///|
 #owned(obj)
-extern "C" fn __py_none_check(obj : PyObjectRef) -> Int = "py_none_check"
+extern "C" fn __py_none_check(obj : PyObjectRef) -> Int32 = "py_none_check"
 
 ///|
 pub fn py_none_check(obj : PyObjectRef) -> Bool {

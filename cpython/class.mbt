@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ pub extern "C" fn py_method_function(a : PyObjectRef) -> PyObjectRef = "PyMethod
 pub extern "C" fn py_method_self(a : PyObjectRef) -> PyObjectRef = "PyMethod_Self"
 
 ///|
-pub extern "C" fn py_method_clear_free_list() -> Int = "PyMethod_ClearFreeList"
+pub extern "C" fn py_method_clear_free_list() -> Int32 = "PyMethod_ClearFreeList"
 
 ///|
 #owned(a)

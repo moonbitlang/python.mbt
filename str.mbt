@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,14 +41,14 @@ pub fn PyString::create_by_ref(
   obj_ref : @cpython.PyObjectRef,
 ) -> PyString raise PyRuntimeError {
   guard @cpython.py_string_check(obj_ref) else { raise TypeMismatchError }
-  PyString::{ obj: PyObject::create(obj_ref) }
+  PyString::{ obj: PyObject::create(obj_ref), }
 }
 
 ///|
 fn PyString::create_by_ref_unchecked(
   obj_ref : @cpython.PyObjectRef,
 ) -> PyString {
-  PyString::{ obj: PyObject::create(obj_ref) }
+  PyString::{ obj: PyObject::create(obj_ref), }
 }
 
 ///|
@@ -61,7 +61,7 @@ test {
 ///
 /// ## Example
 ///
-/// ```moonbit
+/// ```moonbit nocheck
 /// let s = @python.PyString::from("hello");
 /// inspect(s, content="hello");
 /// ```
@@ -72,7 +72,7 @@ pub fn PyString::from(s : String) -> PyString {
 }
 
 ///|
-/// Print the PyString object direcly.
+/// Print the PyString object directly.
 ///
 /// Different from use `println`, `dump` means we made python interpreter
 /// print the object directly.
@@ -86,16 +86,16 @@ pub fn PyString::drop(self : PyString) -> Unit {
 }
 
 ///|
-pub impl IsPyObject for PyString with obj(self) {
+pub impl IsPyObject for PyString with fn obj(self) {
   self.obj
 }
 
 ///|
-pub impl Show for PyString with to_string(self) {
+pub impl Show for PyString with fn to_string(self) {
   self.obj.to_string()
 }
 
 ///|
-pub impl Show for PyString with output(self : PyString, logger : &Logger) -> Unit {
+pub impl Show for PyString with fn output(self : PyString, logger : &Logger) -> Unit {
   logger.write_string(self.to_string())
 }

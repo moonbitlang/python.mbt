@@ -7,6 +7,8 @@ package "Kaida-Amethyst/python/tkinter"
 pub suberror TkinterError {
   LoadTkinterError
 }
+pub fn TkinterError::output(Self, &Logger) -> Unit
+pub fn TkinterError::to_string(Self) -> String
 pub impl Show for TkinterError
 
 // Types and methods
@@ -30,4 +32,3 @@ pub fn Window::set_title(Self, String) -> Unit
 // Type aliases
 
 // Traits
-

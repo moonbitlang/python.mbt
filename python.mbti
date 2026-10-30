@@ -14,7 +14,7 @@ fn strip_quot(String) -> String
 
 // Errors
 pub suberror PyRuntimeError {
-  TypeMisMatchError
+  TypeMismatchError
   IndexOutOfBoundsError
   KeyIsUnHashableError
   InVokeError

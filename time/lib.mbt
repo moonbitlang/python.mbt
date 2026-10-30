@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,14 @@ pub struct TimeModule {
 ///|
 pub suberror TurtleError {
   LoadTimeModuleError
-} derive(Show)
+}
+
+///|
+pub impl Show for TurtleError with fn output(self, logger) {
+  match self {
+    LoadTimeModuleError => logger.write_string("LoadTimeModuleError")
+  }
+}
 
 ///|
 fn new() -> TimeModule raise Error {
@@ -51,10 +58,10 @@ fn get_lib() -> () -> TimeModule {
 ///|
 pub fn sleep(seconds : Double) -> Unit {
   let lib = singleton()
-  guard lib.time.get_attr("sleep") is Some(PyCallable(f))
+  guard! lib.time.get_attr("sleep") is Some(PyCallable(f))
   let args = PyTuple::new(1)
-  args..set(0, PyFloat::from(seconds))
-  let _ = try? f.invoke(args~)
+  args.set(0, PyFloat::from(seconds))
+  let _ = Ok(f.invoke(args~)) catch { e => Err(e) }
   ()
 }
 
@@ -68,7 +75,7 @@ pub fn time() -> Double {
     println("Error: Could not get time.time function") // Placeholder error value
     return 0.0
   }
-  guard (try? f.invoke()).unwrap() is Some(PyFloat(t)) else {
+  guard (Ok(f.invoke()) catch { e => Err(e) }).unwrap() is Some(PyFloat(t)) else {
     println("Error: time.time did not return a float") // Placeholder error value
     return 0.0
   }
@@ -84,7 +91,7 @@ pub fn time_ns() -> Int64 {
     println("Error: Could not get time.time_ns function") // Placeholder error value
     return 0L
   }
-  guard (try? f.invoke()).unwrap() is Some(PyInteger(t)) else {
+  guard (Ok(f.invoke()) catch { e => Err(e) }).unwrap() is Some(PyInteger(t)) else {
     println("Error: time.time_ns did not return an integer") // Placeholder error value
     return 0L
   }
@@ -100,7 +107,7 @@ pub fn monotonic() -> Double {
     println("Error: Could not get time.monotonic function")
     return 0.0
   }
-  guard (try? f.invoke()).unwrap() is Some(PyFloat(t)) else {
+  guard (Ok(f.invoke()) catch { e => Err(e) }).unwrap() is Some(PyFloat(t)) else {
     println("Error: time.monotonic did not return a float")
     return 0.0
   }
@@ -116,7 +123,7 @@ pub fn monotonic_ns() -> Int64 {
     println("Error: Could not get time.monotonic_ns function")
     return 0L
   }
-  guard (try? f.invoke()).unwrap() is Some(PyInteger(t)) else {
+  guard (Ok(f.invoke()) catch { e => Err(e) }).unwrap() is Some(PyInteger(t)) else {
     println("Error: time.monotonic_ns did not return an integer")
     return 0L
   }
@@ -132,7 +139,7 @@ pub fn perf_counter() -> Double {
     println("Error: Could not get time.perf_counter function")
     return 0.0
   }
-  guard (try? f.invoke()).unwrap() is Some(PyFloat(t)) else {
+  guard (Ok(f.invoke()) catch { e => Err(e) }).unwrap() is Some(PyFloat(t)) else {
     println("Error: time.perf_counter did not return a float")
     return 0.0
   }
@@ -148,7 +155,7 @@ pub fn perf_counter_ns() -> Int64 {
     println("Error: Could not get time.perf_counter_ns function")
     return 0L
   }
-  guard (try? f.invoke()).unwrap() is Some(PyInteger(t)) else {
+  guard (Ok(f.invoke()) catch { e => Err(e) }).unwrap() is Some(PyInteger(t)) else {
     println("Error: time.perf_counter_ns did not return an integer")
     return 0L
   }
@@ -164,7 +171,7 @@ pub fn process_time() -> Double {
     println("Error: Could not get time.process_time function")
     return 0.0
   }
-  guard (try? f.invoke()).unwrap() is Some(PyFloat(t)) else {
+  guard (Ok(f.invoke()) catch { e => Err(e) }).unwrap() is Some(PyFloat(t)) else {
     println("Error: time.process_time did not return a float")
     return 0.0
   }
@@ -180,7 +187,7 @@ pub fn process_time_ns() -> Int64 {
     println("Error: Could not get time.process_time_ns function")
     return 0L
   }
-  guard (try? f.invoke()).unwrap() is Some(PyInteger(t)) else {
+  guard (Ok(f.invoke()) catch { e => Err(e) }).unwrap() is Some(PyInteger(t)) else {
     println("Error: time.process_time_ns did not return an integer")
     return 0L
   }
@@ -200,10 +207,10 @@ pub fn ctime(secs_option : Double?) -> String {
   let result = match secs_option {
     Some(secs) => {
       let args = PyTuple::new(1)
-      args..set(0, PyFloat::from(secs))
-      (try? f.invoke(args~)).unwrap()
+      args.set(0, PyFloat::from(secs))
+      (Ok(f.invoke(args~)) catch { e => Err(e) }).unwrap()
     }
-    None => (try? f.invoke()).unwrap() // Call without arguments
+    None => (Ok(f.invoke()) catch { e => Err(e) }).unwrap() // Call without arguments
   }
   guard result is Some(PyString(s)) else {
     println("Error: time.ctime did not return a string") // Placeholder error value

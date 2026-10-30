@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,24 +13,31 @@
 // limitations under the License.
 
 ///|
+#external
 type CStr // const char*
 
 ///|
+#external
 type CWStr // const wchar_t*
 
 ///|
+#external
 type PyObjectRef // PyObject*
 
 ///|
+#external
 type PyThreadStateRef // PyThreadState*
 
 ///|
+#external
 type PyCodeObjectRef // PyCodeObject*
 
 ///|
+#external
 type ArrayPyObjectRef // PyObject*[]
 
 ///|
+#external
 type PyTypeObjectRef
 
 ///|
@@ -43,7 +50,10 @@ extern "C" fn c_str_to_moonbit_str(s : CStr) -> String = "c_str_to_moonbit_str"
 
 ///|
 #owned(s)
-extern "C" fn c_str_to_moonbit_str_with_length(s : CStr, len : UInt) -> String = "c_str_to_moonbit_str_with_length"
+extern "C" fn c_str_to_moonbit_str_with_length(
+  s : CStr,
+  len : UInt32,
+) -> String = "c_str_to_moonbit_str_with_length"
 
 ///|
 //extern "C" fn moonbit_str_to_cw_str(s : String) -> CWStr = "moonbit_str_to_cw_str"
@@ -68,7 +78,7 @@ fn CStr::to_string(self : CStr) -> String {
 }
 
 ///|
-fn CStr::to_string_with_length(self : CStr, len : UInt) -> String {
+fn CStr::to_string_with_length(self : CStr, len : UInt32) -> String {
   c_str_to_moonbit_str_with_length(self, len)
 }
 
@@ -101,7 +111,7 @@ test {
 
 ///|
 #owned(obj)
-extern "C" fn py_object_is_null(obj : PyObjectRef) -> Int = "Moonbit_PyObjectRef_is_null"
+extern "C" fn py_object_is_null(obj : PyObjectRef) -> Int32 = "Moonbit_PyObjectRef_is_null"
 
 ///|
 pub fn PyObjectRef::is_null(self : PyObjectRef) -> Bool {

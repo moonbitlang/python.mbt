@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ pub extern "C" fn py_init() = "Py_Initialize"
 pub extern "C" fn py_finalize() = "Py_Finalize"
 
 ///|
-extern "C" fn __py_is_initialized() -> Int = "Py_IsInitialized"
+extern "C" fn __py_is_initialized() -> Int32 = "Py_IsInitialized"
 
 ///|
 pub fn py_is_initialized() -> Bool {

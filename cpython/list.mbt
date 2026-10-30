@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ pub extern "C" fn py_list_set_item(
   list : PyObjectRef,
   idx : Int64,
   item : PyObjectRef,
-) -> Int = "PyList_SetItem"
+) -> Int32 = "PyList_SetItem"
 
 ///|
 #owned(list, item)
@@ -42,11 +42,14 @@ pub extern "C" fn py_list_insert(
   list : PyObjectRef,
   idx : Int64,
   item : PyObjectRef,
-) -> Int = "PyList_Insert"
+) -> Int32 = "PyList_Insert"
 
 ///|
 #owned(list, item)
-pub extern "C" fn py_list_append(list : PyObjectRef, item : PyObjectRef) -> Int = "PyList_Append"
+pub extern "C" fn py_list_append(
+  list : PyObjectRef,
+  item : PyObjectRef,
+) -> Int32 = "PyList_Append"
 
 ///|
 #owned(list)
@@ -63,15 +66,15 @@ pub extern "C" fn py_list_set_slice(
   start : Int64,
   end : Int64,
   new_list : PyObjectRef,
-) -> Int = "PyList_SetSlice"
+) -> Int32 = "PyList_SetSlice"
 
 ///|
 #owned(list)
-pub extern "C" fn py_list_sort(list : PyObjectRef) -> Int = "PyList_Sort"
+pub extern "C" fn py_list_sort(list : PyObjectRef) -> Int32 = "PyList_Sort"
 
 ///|
 #owned(list)
-pub extern "C" fn py_list_reverse(list : PyObjectRef) -> Int = "PyList_Reverse"
+pub extern "C" fn py_list_reverse(list : PyObjectRef) -> Int32 = "PyList_Reverse"
 
 ///|
 #owned(list)

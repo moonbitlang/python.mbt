@@ -26,6 +26,8 @@ pub fn time_ns() -> Int64
 pub suberror TurtleError {
   LoadTimeModuleError
 }
+pub fn TurtleError::output(Self, &Logger) -> Unit
+pub fn TurtleError::to_string(Self) -> String
 pub impl Show for TurtleError
 
 // Types and methods
@@ -36,4 +38,3 @@ pub struct TimeModule {
 // Type aliases
 
 // Traits
-

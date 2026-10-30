@@ -1,4 +1,4 @@
-// Copyright 2025 International Digital Economy Academy
+// Copyright 2026 International Digital Economy Academy
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ pub struct PyObject {
 }
 
 ///|
-fn PyObject::obj_ref(self : PyObject) -> @cpython.PyObjectRef {
+pub fn PyObject::obj_ref(self : PyObject) -> @cpython.PyObjectRef {
   self.obj
 }
 
@@ -123,7 +123,7 @@ pub fn PyObject::type_name(self : PyObject) -> String {
 pub fn PyObject::get_attr(
   self : PyObject,
   attr : String,
-  print_err? : Bool = false,
+  print_err~ : Bool = false,
 ) -> PyObjectEnum? {
   let f = @cpython.py_object_get_attr_string(self.obj_ref(), attr)
   if f.is_null() {
@@ -138,16 +138,16 @@ pub fn PyObject::get_attr(
 }
 
 ///|
-pub impl IsPyObject for PyObject with obj(self) {
+pub impl IsPyObject for PyObject with fn obj(self) {
   self
 }
 
 ///|
-pub impl Show for PyObject with to_string(self : PyObject) -> String {
+pub impl Show for PyObject with fn to_string(self : PyObject) -> String {
   @cpython.py_object_moonbit_str(self.obj)
 }
 
 ///|
-pub impl Show for PyObject with output(self : PyObject, logger : &Logger) -> Unit {
+pub impl Show for PyObject with fn output(self : PyObject, logger : &Logger) -> Unit {
   logger.write_string(self.to_string())
 }
