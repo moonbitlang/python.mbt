@@ -57,7 +57,7 @@ fn init {
 /// ```
 pub fn strip_quot(s : String) -> String {
   if s.has_prefix("\'") && s.has_suffix("\'") {
-    return s.view(start_offset=1, end_offset=s.length() - 1).to_owned()
+    return s.exact_view(start=1, end=s.length() - 1).to_owned()
   }
   s
 }
